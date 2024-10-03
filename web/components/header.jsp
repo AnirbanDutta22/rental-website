@@ -5,12 +5,9 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%! String[] navitems = new String[]{"Home","About","Support"};
-    String[] navLinks = new String[]{"home","about","support"};
-%>
 <script src="https://kit.fontawesome.com/cb3d6578eb.js" crossorigin="anonymous"></script>
-<nav class="text-xl font-medium text-darkColor backdrop-blur-2xl bg-medium/10 shadow-md dark:bg-darkColor fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:bg-darkColor">
-  <div class="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-2">
+<nav class="text-xl font-medium text-darkColor backdrop-blur-2xl bg-medium/10 shadow-md dark:bg-darkColor fixed w-full z-40 top-0 start-0 border-b border-gray-200 dark:bg-darkColor">
+  <div class="max-w-screen-2xl flex items-center justify-between mx-auto p-2">
   <a href="/home" class="flex items-center space-x-3 rtl:space-x-reverse">
       <img src="../assets/images/logo.png" class="h-20" alt="Rentle Logo">
   </a>
@@ -24,13 +21,8 @@
         </svg>
     </button>
   </div>
-  <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
-    <ul class="flex flex-col p-4 md:p-0 mt-2 font-medium border md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
-      <%for ( int item = 0; item < navitems.length; item++){ %>
-         <li>
-        <a href="/<%= navLinks[item] %>" class="block py-2 px-3 rounded md:bg-transparent md:p-0"><%= navitems[item] %></a>
-      </li>
-      <%}%>
+  <div class="md:items-center md:justify-between hidden w-full md:flex md:w-auto" id="navbar-sticky">
+    <ul id="navbar" class="flex flex-col p-4 md:p-0 mt-2 font-medium border md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
     </ul>
   </div>
   </div>
@@ -57,7 +49,7 @@
 </div>
 </div>
         <div class="flex justify-center items-center gap-x-10 basis-[25%]">
-            <a href="/product-requests"><i class="fa-solid fa-list mr-2"></i>Requests</a>
+            <a href="/pages/requestDashboard.jsp"><i class="fa-solid fa-list mr-2"></i>Requests</a>
             <a href="/my-products"><i class="fa-solid fa-cart-shopping mr-2"></i>Cart</a>
 
         </div>
@@ -65,6 +57,53 @@
 </nav>
     
     <script>
+        
+        window.addEventListener("load",function(){
+            var navItems = [
+                {
+                    navItem:"Home",
+                    link:"/home"
+                },
+                {
+                    navItem:"About",
+                    link:"/about"
+                },
+                {
+                    navItem:"Support",
+                    link:"/support"
+                }
+            ];
+            
+            var navbar = document.getElementById("navbar");
+            var subNavbar = document.getElementById("subNav");
+            
+            if (window.location.pathname.includes("/pages/userDashboard.jsp")) {
+        navbar.innerHTML = "";
+        subNavbar.classList.add("hidden");
+    }else{
+        navbar.innerHTML = "";
+
+        navItems.forEach(function (item,index) {
+            var li = document.createElement("li");  // Create list item
+            var a = document.createElement("a");    // Create anchor tag
+
+            // Set attributes and text for the anchor tag
+            a.href = item.link;
+            a.textContent = item.navItem;
+            a.className = "block py-2 px-3 rounded md:bg-transparent md:p-0";
+            
+            if(a.href.includes(window.location.pathname)){
+                a.classList.add("text-primary");
+            }else{
+                a.classList.remove("text-primary");
+            }
+
+            li.appendChild(a);  // Append anchor to list item
+            navbar.appendChild(li);  // Append list item to navbar
+        });
+    }
+        });
+        
         window.addEventListener("scroll",function(){
             var subNav = document.getElementById("subNav");
             if(window.scrollY > 300){
