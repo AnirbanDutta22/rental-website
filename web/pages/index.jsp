@@ -29,19 +29,19 @@
     <body>
         <section class="font-lato">
             <jsp:include page="../components/header.jsp" />
-            <div class="pt-32 max-w-screen mx-auto">
+            <div class="pt-40 max-w-screen mx-auto">
                 <!--Sliders-->
                 <div class="w-full">
                     <div class="swiper mySwiper max-w-screen-2xl relative h-[40rem]">
             <div class="swiper-wrapper">
               <div class="swiper-slide">
-                <img src="../assets/images/slide1.jpg" alt="#" class="h-full w-full object-cover ">
+                <img src="../assets/images/slide1.jpg" alt="#" class="h-full w-full object-cover rounded-2xl">
               </div>
               <div class="swiper-slide">
-                <img src="../assets/images/slide2.jpg" alt="#" class="h-full w-full object-cover ">
+                <img src="../assets/images/slide2.jpg" alt="#" class="h-full w-full object-cover rounded-2xl">
               </div>
               <div class="swiper-slide">
-                <img src="../assets/images/slide3.jpg" alt="#" class="h-full w-full object-cover ">
+                <img src="../assets/images/slide3.jpg" alt="#" class="h-full w-full object-cover rounded-2xl">
               </div>
               
             </div>
@@ -63,10 +63,14 @@
                            if (products != null && !products.isEmpty()) {
                             for (Product product : products) {%>
                                 <div class="bg-white p-4 relative h-84 rounded shadow-md hover:shadow-lg transition-shadow">
-                                    <div class="absolute w-full top-2 left-[85%]">
+                                    <div class="absolute w-full top-2 left-[85%] z-30">
                                         <i class="fa-solid fa-heart text-primary text-2xl bg-white shadow border border-black rounded-full p-2 flex justify-end mr-10 cursor-pointer"></i>
                                     </div>
-                                    <a href="/pages/product.jsp"><img src="<%=product.getImageUrl()%>" alt="" class="w-full h-56 object-cover rounded-md"/></a>
+                                    <div class="w-full h-56 overflow-hidden">
+                                        <a href="/pages/product.jsp">
+                                        <img src="<%=product.getImageUrl()%>" alt="" class="w-full h-56 object-cover rounded-md hover:scale-110 transition-all ease-in-out duration-300"/>
+                                    </a>
+                                    </div>
                                     <h3 class="font-semibold text-2xl mt-2"><%= product.getName() %></h3>
                                     <p class="text-gray-600 text-lg">Description of Item 1.</p>
                                     <p class="text-blue-500 font-semibold text-md">Rs. <%= product.getPrice() %>/day</p>
@@ -92,13 +96,7 @@
                     <jsp:include page="../components/footer.jsp"/>
         </section>
         <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-        <script src="../scripts/script.js"></script>
-  
-            <script>
-                window.addEventListener('load', function () {
-    window.scrollTo(0, 0); // Scroll to top when the page is loaded
-});
-  </script>
+        <script src="../scripts/swiper-script.js"></script>
     </body>
 </html>
 
