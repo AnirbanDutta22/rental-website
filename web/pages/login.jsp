@@ -14,7 +14,7 @@
                  <img src="../assets/images/logo.png" alt="logo" class="h-24"/>
             </a>
             <div class="flex w-full">
-                <div class="w-2/5 h-screen bg-medium">
+                <div class="w-2/5 h-screen bg-medium/60">
                     
                 </div>
                 <div class="w-3/5 h-screen bg-white">
@@ -23,11 +23,11 @@
             </div>
 
             <div class="absolute inset-0 flex justify-center items-center ">
-                <div class="flex w-2/5 h-3/5 shadow-2xl">
-                    <div class="w-2/5 bg-primary">
-                        <img class="h-80 w-72 mt-28 m-auto" src="../assets/images/loginimg.png">
+                <div class="flex w-3/6 h-3/5 shadow-2xl">
+                    <div class="w-2/4 bg-primary">
+                        <img class="h-80 w-72 mt-28 m-auto transition-opacity duration-1000 opacity-100" id="loginimg" src="../assets/images/3d/tv.png">
                     </div>
-                    <div class="w-3/5  p-8 bg-white">
+                    <div class="w-2/4  p-8 bg-white">
                         <h2 class="text-3xl font-bold text-center mt-12 text-gray-800 mb-8">Login to Rental</h2>
                         <form>
                             <div class="mb-6">
@@ -53,5 +53,6 @@
                 </div>
             </div>
         </div>
+        <script src="../scripts/auth.js"></script>
     </body>
 </html>
