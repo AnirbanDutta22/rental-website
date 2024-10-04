@@ -72,9 +72,9 @@
                                     <h3 class="font-semibold text-2xl mt-2"><%= product.getName() %></h3>
                                     <p class="text-gray-600 text-lg">Description of Item 1.</p>
                                     <p class="text-blue-500 font-semibold text-md">Rs. <%= product.getPrice() %>/day</p>
-                                    <div class="flex justify-between items-center">
+                                    <div class="flex justify-between items-center mt-3">
                                         <a href="/pages/product.jsp">
-                                            <button class="primary-btn mt-3 rounded-md">Rent Now</button>
+                                            <button class="primary-btn rounded-md">Rent Now</button>
                                         </a>
                                         <p class="text-sm">Date: 09-09-2024</p>
                                     </div>
