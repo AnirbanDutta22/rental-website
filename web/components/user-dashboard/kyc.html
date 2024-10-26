@@ -1,0 +1,80 @@
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="../scripts/tailwind-config.js"></script>
+        <style type="text/tailwindcss">
+            @layer components {
+      .primary-btn {
+        @apply text-white bg-primary font-medium rounded-full text-base px-8 py-2 text-center dark:bg-light dark:text-darkColor;
+      }
+      .secondary-btn {
+        @apply text-black bg-white font-medium rounded-full text-base px-8 py-2 text-center border border-primary dark:bg-light dark:text-darkColor;
+      }
+}
+        </style>
+    <div class="container mx-auto font-lato">
+        <h1 class="text-2xl font-bold mb-4">KYC Document Upload</h1>
+        
+        <!-- Document Upload Section -->
+        <div class="space-y-4">
+
+            <!-- Document 1: ID Proof -->
+            <div class="flex items-center justify-between p-4 border rounded-lg bg-gray-50">
+                <div>
+                    <h2 class="text-lg font-medium">ID Proof (e.g., Passport, Driver's License)</h2>
+                    <p class="text-sm text-gray-500">Mandatory</p>
+                </div>
+                <div id="idProofStatus" class="flex items-center space-x-2">
+                    <button onclick="uploadDocument('idProof')" class="primary-btn">
+                        <i class="fa-solid fa-upload mr-2"></i><span>Upload</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Document 2: Address Proof -->
+            <div class="flex items-center justify-between p-4 border rounded-lg bg-gray-50">
+                <div>
+                    <h2 class="text-lg font-medium">Address Proof (e.g., Utility Bill)</h2>
+                    <p class="text-sm text-gray-500">Mandatory</p>
+                </div>
+                <div id="addressProofStatus" class="flex items-center space-x-2">
+                    <button onclick="uploadDocument('addressProof')" class="primary-btn">
+                        <i class="fa-solid fa-upload mr-2"></i><span>Upload</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Document 3: Bank Statement -->
+            <div class="flex items-center justify-between p-4 border rounded-lg bg-gray-50">
+                <div>
+                    <h2 class="text-lg font-medium">Bank Statement</h2>
+                    <p class="text-sm text-gray-500">Mandatory</p>
+                </div>
+                <div id="bankStatementStatus" class="flex items-center space-x-2">
+                    <button onclick="uploadDocument('bankStatement')" class="primary-btn">
+                        <i class="fa-solid fa-upload mr-2"></i><span>Upload</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Simulate document upload
+        function uploadDocument(documentId) {
+            const statusDiv = document.getElementById(`${documentId}Status`);
+            statusDiv.innerHTML = `
+                <span class="text-green-600 flex items-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>Uploaded</span>
+                </span>
+            `;
+        }
+    </script>
+
