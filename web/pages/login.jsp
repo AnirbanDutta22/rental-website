@@ -1,3 +1,9 @@
+<%-- 
+    Document   : login
+    Created on : 27 Oct, 2024, 1:29:09 PM
+    Author     : HP
+--%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -11,32 +17,32 @@
     <body>
         <div class="relative">
             <a href="/home" class="h-24 fixed w-28 m-10 z-50">
-                 <img src="../assets/images/logo.png" alt="logo" class="h-24"/>
+                <img src="../assets/images/logo.png" alt="logo" class="h-24"/>
             </a>
             <div class="flex w-full">
                 <div class="w-2/5 h-screen bg-medium/60">
-                    
+
                 </div>
                 <div class="w-3/5 h-screen bg-white">
-                    
+
                 </div>
             </div>
 
             <div class="absolute inset-0 flex justify-center items-center ">
                 <div class="flex w-3/6 h-3/5 shadow-2xl">
                     <div class="w-2/4 bg-primary">
-                        <img class="h-80 w-72 mt-28 m-auto transition-opacity duration-1000 opacity-100" id="loginimg" src="../assets/images/3d/tv.png">
+                        <img class="h-80 w-72 mt-28 m-auto transition-opacity duration-1000" id="loginimg" src="../assets/images/3d/tv.png">
                     </div>
                     <div class="w-2/4  p-8 bg-white">
                         <h2 class="text-3xl font-bold text-center mt-12 text-gray-800 mb-8">Login to Rental</h2>
                         <form>
                             <div class="mb-6">
                                 <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Username/Email</label>
-                                <input type="text" id="username" name="username" placeholder="Enter your username or email" class="w-full px-3 py-2 placeholder-gray-400 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300 transition duration-200" required aria-required="true">
+                                <input type="text" id="username" name="username" placeholder="Enter your username or email" class="w-full px-3 py-2 placeholder-gray-400 border rounded-lg focus:outline-none transition duration-200" required aria-required="true">
                             </div>
                             <div class="mb-6">
                                 <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
-                                <input type="password" id="password" name="password" placeholder="Enter your password" class="w-full px-3 py-2 placeholder-gray-400 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300 transition duration-200" required aria-required="true">
+                                <input type="password" id="password" name="password" placeholder="Enter your password" class="w-full px-3 py-2 placeholder-gray-400 border rounded-lg focus:outline-none transition duration-200" required aria-required="true">
                             </div>
                             <div class="flex items-center justify-between mb-6">
                                 <div class="flex items-center">
@@ -45,14 +51,14 @@
                                 </div>
                                 <a href="#" class="text-sm text-blue-500 hover:underline">Forgot Password?</a>
                             </div>
-                            <button type="submit" class="primary-btn w-full"><a href="index.jsp">Login</a></button>
+                            <button type="submit" class="primary-btn hover:bg-primary-100 transition-all ease-in-out duration-300 w-full"><a href="index.jsp">Login</a></button>
                         </form>
                         <p class="mt-6 text-center text-sm text-gray-600">Don't have an account? <a href="signup.jsp" class="text-blue-500 hover:underline">Sign up</a></p>
                     </div>
-                    
                 </div>
             </div>
         </div>
         <script src="../scripts/auth.js"></script>
     </body>
 </html>
+
