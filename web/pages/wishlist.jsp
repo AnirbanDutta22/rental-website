@@ -26,14 +26,14 @@
         }</style>
         <title>Wishlist</title>
     </head>
-    <body>
+    <body class="font-lato">
         <!-- Loader -->
     <div id="loader" class="fixed inset-0 flex items-center justify-center bg-white z-50">
-        <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>
+        <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-primary"></div>
     </div>
         <!--header-->
             <jsp:include page="../components/header.jsp" />
-            <div class="pt-20 max-w-4xl mx-auto font-lato">
+            <div class="pt-20 max-w-4xl mx-auto">
                 <h1 class="font-semibold text-3xl text-center my-10"><i class="fa-solid fa-heart mr-2 text-primary"></i>My Wishlist (5)</h1>
                 <div class="flex flex-col gap-y-5 w-full my-10">
                 <div class="w-full flex flex-col gap-y-3">
