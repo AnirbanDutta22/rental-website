@@ -16,9 +16,6 @@
       .primary-btn {
         @apply text-white bg-primary font-medium rounded-full text-base px-8 py-2 text-center dark:bg-light dark:text-darkColor;
       }
-      .secondary-btn {
-        @apply text-black bg-white font-medium rounded-full text-base px-8 py-2 text-center border border-primary dark:bg-light dark:text-darkColor;
-      }
 }
         </style>
     <div class="container mx-auto font-lato">
@@ -41,20 +38,20 @@
             <!-- Score, Achievements, Total Rent, Total Borrowed -->
             <div class="p-4 border rounded-lg row-span-3 flex flex-col gap-y-5">
                 <h2 class="text-lg font-semibold">Statistics</h2>
-                <div class="grid grid-cols-2 gap-4 flex-grow">
-                    <div class="text-center p-4 bg-gray-100 rounded-lg">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="text-center p-4 bg-gray-100 max-h-36 rounded-lg">
                         <p class="text-sm text-gray-600">Score</p>
                         <p class="text-xl font-bold">85</p>
                     </div>
-                    <div class="text-center p-4 bg-gray-100 rounded-lg">
+                    <div class="text-center p-4 bg-gray-100 max-h-36 rounded-lg">
                         <p class="text-sm text-gray-600">Achievements</p>
                         <p class="text-xl font-bold">12</p>
                     </div>
-                    <div class="text-center p-4 bg-gray-100 rounded-lg">
+                    <div class="text-center p-4 bg-gray-100 max-h-36 rounded-lg">
                         <p class="text-sm text-gray-600">Total Rent</p>
                         <p class="text-xl font-bold">15</p>
                     </div>
-                    <div class="text-center p-4 bg-gray-100 rounded-lg">
+                    <div class="text-center p-4 bg-gray-100 max-h-36 rounded-lg">
                         <p class="text-sm text-gray-600">Total Borrowed</p>
                         <p class="text-xl font-bold">8</p>
                     </div>
@@ -77,7 +74,7 @@
                 <label class="block mb-2 text-sm font-medium text-gray-600">Phone Number</label>
                 <input type="tel" id="userPhone" class="w-full p-2 mb-4 border rounded" placeholder="Enter your phone number" value="123-456-7890">
                 <label class="block mb-2 text-sm font-medium text-gray-600">Address</label>
-                <input type="text" id="address" class="w-full p-2 border rounded" placeholder="Your address" value="Kolkata">
+                <textarea type="text" id="address" rows="5" class="w-full p-2 border rounded">Kolkata</textarea>
             </div>
         </div>
     </div>
