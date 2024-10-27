@@ -12,6 +12,7 @@ tailwind.config = {
                                 light:"#FFF5E1",
                                 medium:"#FF6969",
                                 primary:"#C80036",
+                                "primary-100":"#8F0028",
                                 darkColor:"#0C1844"
                             },
                             fontFamily:{
