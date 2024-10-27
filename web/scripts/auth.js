@@ -20,28 +20,30 @@ window.addEventListener("load",function(){
                 ];
                 
                 var currentIndex = 0;
-                var loginImg = document.getElementById("loginimg");
-                var signupImg = document.getElementById("signupimg");
-                var page = window.location.pathname === "/pages/login.jsp" ? "login" : "signup";
+                var page = window.location.pathname.includes('login.html') ? "login" : "signup";
+                console.log(page);
 
                 setInterval(function(){
-          
-                    if (page === "login"){
+                    
+                    var loginImg,signupImg;
+                    if (page === 'login'){
+                        loginImg = document.getElementById("loginimg");
                         loginImg.classList.add("opacity-0");
-                    }else{
+                    }else if(page === 'signup'){
+                        signupImg = document.getElementById("signupimg");
                         signupImg.classList.add("opacity-0");
                     }
                     
           
                     setTimeout(function(){
                     
-                    if (page === "login"){
+                    if (page === "login" && loginImg){
                         currentIndex = (currentIndex + 1) % login_images.length;
                         loginImg.src = login_images[currentIndex];
 
                     
                         loginImg.classList.remove("opacity-0");
-                    } else{
+                    } else if(page === "signup" && signupImg){
                         currentIndex = (currentIndex + 1) % signup_images.length;
                         signupImg.src = signup_images[currentIndex];
 
