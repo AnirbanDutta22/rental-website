@@ -12,10 +12,18 @@
     <!-- Servlet configuration -->
     <servlet>
         <servlet-name>ProductServlet</servlet-name>
-        <servlet-class>controllers.product.ProductServlet</servlet-class>
+        <servlet-class>controllers.ProductServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SignupServlet</servlet-name>
+        <servlet-class>controllers.SignupServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ProductServlet</servlet-name>
         <url-pattern>/home</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SignupServlet</servlet-name>
+        <url-pattern>/pages/SignupServlet</url-pattern>
     </servlet-mapping>
 </web-app>
