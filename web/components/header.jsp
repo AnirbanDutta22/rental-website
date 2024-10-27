@@ -73,8 +73,8 @@
             </div>
         </div>
         <div class="flex justify-end items-center gap-x-8 basis-[30%]">
-            <a href="/pages/requestDashboard.jsp"><i class="fa-solid fa-list mr-2"></i>Requests</a>
-            <a href="/pages/wishlist.jsp"><i class="fa-solid fa-heart mr-2"></i>Wishlist</a>
+            <a href="/pages/requestDashboard.jsp" class="hover:text-primary transition-all ease-in-out duration-300"><i class="fa-solid fa-list mr-2"></i>Requests</a>
+            <a href="/pages/wishlist.jsp" class="hover:text-primary transition-all ease-in-out duration-300"><i class="fa-solid fa-heart mr-2"></i>Wishlist</a>
             <a href="/pages/userDashboard.jsp?page=lendProduct"><button type="button" class="text-white bg-primary font-medium rounded-full text-base px-8 whitespace-nowrap py-2 text-center dark:bg-light dark:text-darkColor">Lend +</button></a>
         </div>
     </div>
@@ -90,18 +90,18 @@
             },
             {
                 navItem: "About",
-                link: "/about"
+                link: "/pages/about.html"
             },
             {
                 navItem: "Support",
-                link: "/support"
+                link: "/pages/support.jsp"
             }
         ];
 
         var navbar = document.getElementById("navbar");
         var subNavbar = document.getElementById("subNav");
 
-        if (window.location.pathname.includes("/pages/userDashboard.jsp") || window.location.pathname.includes("/pages/wishlist.jsp")) {
+        if (window.location.pathname.includes("/pages/userDashboard.jsp") || window.location.pathname.includes("/pages/wishlist.jsp") || window.location.pathname.includes("/pages/support.jsp")) {
             subNavbar.classList.add("hidden");
         } else {
             //navbar on scroll behaviour
@@ -122,7 +122,7 @@
             // Set attributes and text for the anchor tag
             a.href = item.link;
             a.textContent = item.navItem;
-            a.className = "block py-2 px-3 rounded md:bg-transparent md:p-0 hover:text-primary";
+            a.className = "block py-2 px-3 rounded md:bg-transparent md:p-0 hover:text-primary hover:text-primary transition-all ease-in-out duration-300";
 
             if (a.href.includes(window.location.pathname)) {
                 a.classList.add("text-primary");
@@ -133,17 +133,6 @@
             li.appendChild(a);  // Append anchor to list item
             navbar.appendChild(li);  // Append list item to navbar
         });
-    });
-
-    //navbar on scroll behaviour
-    window.addEventListener("scroll", function () {
-        var subNav = document.getElementById("subNav");
-        if (window.scrollY > 300) {
-            console.log("Hello");
-            subNav.classList.add("hidden");
-        } else {
-            subNav.classList.remove("hidden");
-        }
     });
 
     //profile dropdown open
