@@ -17,5 +17,15 @@ and open the template in the editor.
     line-height: 1rem;
     text-align: center;
     padding: 0.5rem 2rem;
-    
+}
+.secondary-btn{
+    color:black;
+    background-color: white;
+    font-weight: bold;
+    border-radius: 9999px;
+    font-size: 1rem;
+    line-height: 1rem;
+    text-align: center;
+    padding: 0.5rem 2rem;
+    border: 2px solid #C80036;
 }
