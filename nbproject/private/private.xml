@@ -3,13 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/ratna/OneDrive/Documents/Desktop/rental-website/web/pages/signup.jsp</file>
             <file>file:/C:/Users/ratna/OneDrive/Documents/Desktop/rental-website/web/pages/index.jsp</file>
-            <file>file:/C:/Users/ratna/OneDrive/Documents/Desktop/rental-website/web/pages/requestDashboard.jsp</file>
             <file>file:/C:/Users/ratna/OneDrive/Documents/Desktop/rental-website/web/components/header.jsp</file>
-            <file>file:/C:/Users/ratna/OneDrive/Documents/Desktop/rental-website/web/pages/borrowRequest.jsp</file>
-            <file>file:/C:/Users/ratna/OneDrive/Documents/Desktop/rental-website/web/pages/userDashboard.jsp</file>
-            <file>file:/C:/Users/ratna/OneDrive/Documents/Desktop/rental-website/web/pages/product.jsp</file>
-            <file>file:/C:/Users/ratna/OneDrive/Documents/Desktop/rental-website/web/components/categories.jsp</file>
+            <file>file:/C:/Users/ratna/OneDrive/Documents/Desktop/rental-website/src/java/controllers/signup/SignupServlet.java</file>
         </group>
     </open-files>
 </project-private>
