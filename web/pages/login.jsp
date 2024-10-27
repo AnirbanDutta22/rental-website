@@ -35,14 +35,14 @@
                     </div>
                     <div class="w-2/4  p-8 bg-white">
                         <h2 class="text-3xl font-bold text-center mt-12 text-gray-800 mb-8">Login to Rental</h2>
-                        <form>
+                        <form name="Login" method="POST" action="LoginServlet">
                             <div class="mb-6">
                                 <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Username/Email</label>
-                                <input type="text" id="username" name="username" placeholder="Enter your username or email" class="w-full px-3 py-2 placeholder-gray-400 border rounded-lg focus:outline-none transition duration-200" required aria-required="true">
+                                <input type="text" id="username" name="username" placeholder="Enter your username or email" required class="w-full px-3 py-2 placeholder-gray-400 border rounded-lg focus:outline-none transition duration-200" required aria-required="true">
                             </div>
                             <div class="mb-6">
                                 <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
-                                <input type="password" id="password" name="password" placeholder="Enter your password" class="w-full px-3 py-2 placeholder-gray-400 border rounded-lg focus:outline-none transition duration-200" required aria-required="true">
+                                <input type="password" id="password" name="password" placeholder="Enter your password" required class="w-full px-3 py-2 placeholder-gray-400 border rounded-lg focus:outline-none transition duration-200" required aria-required="true">
                             </div>
                             <div class="flex items-center justify-between mb-6">
                                 <div class="flex items-center">
@@ -51,7 +51,12 @@
                                 </div>
                                 <a href="#" class="text-sm text-blue-500 hover:underline">Forgot Password?</a>
                             </div>
-                            <button type="submit" class="primary-btn hover:bg-primary-100 transition-all ease-in-out duration-300 w-full"><a href="index.jsp">Login</a></button>
+                            <% if (request.getAttribute("errorMessage") != null) {%>
+                            <div class="my-2 font-medium text-red-500">
+                                <%= request.getAttribute("errorMessage")%>
+                            </div>
+                            <% }%>
+                            <button type="submit" class="primary-btn hover:bg-primary-100 transition-all ease-in-out duration-300 w-full">Login</button>
                         </form>
                         <p class="mt-6 text-center text-sm text-gray-600">Don't have an account? <a href="signup.jsp" class="text-blue-500 hover:underline">Sign up</a></p>
                     </div>
