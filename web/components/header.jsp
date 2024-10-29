@@ -4,7 +4,9 @@
     Author     : HP
 --%>
 
+<%@page import="models.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<% User user = (User) session.getAttribute("user"); %>
 <script src="https://kit.fontawesome.com/cb3d6578eb.js" crossorigin="anonymous"></script>
 <nav class="text-xl font-medium text-darkColor backdrop-blur-2xl bg-white/80 shadow-md dark:bg-darkColor fixed w-full z-40 top-0 start-0 border-b border-gray-200 dark:bg-darkColor">
     <div class="max-w-screen-2xl flex items-center justify-between mx-auto p-2">
@@ -12,17 +14,27 @@
             <img src="../assets/images/logo.png" class="h-20" alt="Rentle Logo">
         </a>
         <div class="relative flex items-center md:order-2 space-x-3 md:space-x-4 rtl:space-x-reverse">
-            <!--<a href="/pages/login.jsp"><button type="button" class="text-white bg-primary font-medium rounded-full text-base px-8 py-2 text-center dark:bg-light dark:text-darkColor">Login</button></a>-->
-            <%--<jsp:include page="./theme-toggle.jsp"/>--%>
+            <jsp:include page="./theme-toggle.jsp"/>
+
+            <%
+                if (user != null) {
+            %>
 
             <img id="avatarButton" type="button" onclick="openProfileDropdown()" class="p-1 w-12 h-12 rounded-full cursor-pointer ring-2 ring-primary dark:ring-gray-500" src="../assets/images/profile.jpg" alt="User dropdown">
+                <%
+                } else {
+                %>
+                <a href="/pages/login.jsp"><button type="button" class="text-white bg-primary font-medium rounded-full text-base px-8 py-2 text-center dark:bg-light dark:text-darkColor">Login</button></a>
+                <%
+                    }%>
 
                 <!-- Profile Dropdown menu -->
                 <div id="profileDropdown" class="absolute top-14 -right-0 z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
                     <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
-                        <div>Amit Baba</div>
-                        <div class="font-medium truncate">name@gmail.com</div>
+                        <div><% if (user != null) {%><%= user.getName()%><% } %></div>
+                        <div class="font-medium truncate"><% if (user != null) {%><%= user.getEmail()%><% }%></div>
                     </div>
+
                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
                         <li>
                             <a href="/pages/userDashboard.jsp" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
@@ -35,7 +47,9 @@
                         </li>
                     </ul>
                     <div class="py-1">
-                        <a href="/pages/login.jsp" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+                        <form name="Logout" action="/pages/LogoutServlet" method="POST">
+                            <button type="submit" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</button>
+                        </form>
                     </div>
                 </div>
                 <button type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">

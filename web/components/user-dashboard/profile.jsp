@@ -4,7 +4,9 @@
     Author     : HP
 --%>
 
+<%@page import="models.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<% User user = (User) session.getAttribute("user");%>
     <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
@@ -41,19 +43,19 @@
                 <div class="grid grid-cols-2 gap-4">
                     <div class="text-center p-4 bg-gray-100 max-h-36 rounded-lg">
                         <p class="text-sm text-gray-600">Score</p>
-                        <p class="text-xl font-bold">85</p>
+                        <p class="text-xl font-bold">00</p>
                     </div>
                     <div class="text-center p-4 bg-gray-100 max-h-36 rounded-lg">
                         <p class="text-sm text-gray-600">Achievements</p>
-                        <p class="text-xl font-bold">12</p>
+                        <p class="text-xl font-bold">00</p>
                     </div>
                     <div class="text-center p-4 bg-gray-100 max-h-36 rounded-lg">
                         <p class="text-sm text-gray-600">Total Rent</p>
-                        <p class="text-xl font-bold">15</p>
+                        <p class="text-xl font-bold">00</p>
                     </div>
                     <div class="text-center p-4 bg-gray-100 max-h-36 rounded-lg">
                         <p class="text-sm text-gray-600">Total Borrowed</p>
-                        <p class="text-xl font-bold">8</p>
+                        <p class="text-xl font-bold">00</p>
                     </div>
                 </div>
                 <!-- Get Premium and Register as Org Buttons -->
@@ -68,13 +70,13 @@
             <div class="p-4 border rounded-lg row-span-2">
                 <h2 class="text-lg font-semibold mb-4">User Information</h2>
                 <label class="block mb-2 text-sm font-medium text-gray-600">Name</label>
-                <input type="text" id="userName" class="w-full p-2 mb-4 border rounded" placeholder="Enter your name" value="Amit Baba">
+                <input type="text" id="userName" class="w-full p-2 mb-4 border rounded" placeholder="Enter your name" value="<%=user.getName()%>">
                 <label class="block mb-2 text-sm font-medium text-gray-600">Email</label>
-                <input type="email" id="userEmail" class="w-full p-2 mb-4 border rounded" placeholder="Enter your email" value="name@gmail.com">
+                <input type="email" id="userEmail" class="w-full p-2 mb-4 border rounded" placeholder="Enter your email" value="<%=user.getEmail()%>">
                 <label class="block mb-2 text-sm font-medium text-gray-600">Phone Number</label>
-                <input type="tel" id="userPhone" class="w-full p-2 mb-4 border rounded" placeholder="Enter your phone number" value="123-456-7890">
+                <input type="tel" id="userPhone" class="w-full p-2 mb-4 border rounded" placeholder="Enter your phone number" value="<%=user.getPhno()%>">
                 <label class="block mb-2 text-sm font-medium text-gray-600">Address</label>
-                <textarea type="text" id="address" rows="5" class="w-full p-2 border rounded">Kolkata</textarea>
+                <textarea type="text" id="address" rows="5" class="w-full p-2 border rounded"><%=user.getAddress()%></textarea>
             </div>
         </div>
     </div>
