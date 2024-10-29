@@ -1,9 +1,8 @@
 package controllers;
 
+import dao.SignupDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,8 +11,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import models.User;
 import oracle.jdbc.OracleConnection;
 import oracle.jdbc.OraclePreparedStatement;
+import responses.ResponseHandler;
 
 public class SignupServlet extends HttpServlet {
 
@@ -54,59 +55,19 @@ public class SignupServlet extends HttpServlet {
             username = email.replace(".com", "rentle");
             out.println(username);
 
-            // REGISTERING THE ORACLE DRIVER WITH THIS SERVLEt
-            DriverManager.registerDriver(new oracle.jdbc.OracleDriver());
-            out.println("<h2>Step 2 : Registering oracle driver done</h2>");
+            // CREATING USER OBJECT WITH SIGNUP DATA
+            User user = new User(name, email, phone_no, password, agreement, username, "");
 
-            // INSTANTIATING THE ORACLE CONNECTION OBJECT
-            oconn = (OracleConnection) DriverManager.getConnection("jdbc:oracle:thin:@Ami-Anirban:1522:orcl", "MINOR", "PROJECT");
-            out.println("<h2>Step 3 : Instantiating oracle connection object done</h2>");
+            // USING SignupDAO TO ADD USER
+            SignupDAO signupDAO = new SignupDAO();
+            ResponseHandler res = signupDAO.signupUser(user);
 
-            // CHECKING IF USER ALREADY EXISTS
-            String checkUserQuery = "SELECT COUNT(*) FROM USER1 WHERE EMAIL = ? OR PHONE_NO = ? OR USERNAME = ?";
-            try (OraclePreparedStatement checkStmt = (OraclePreparedStatement) oconn.prepareStatement(checkUserQuery)) {
-                checkStmt.setString(1, email);
-                checkStmt.setLong(2, phone_no);
-                checkStmt.setString(3, username);
-                try (ResultSet rs = checkStmt.executeQuery()) {
-                    if (rs.next() && rs.getInt(1) > 0) {
-                        request.setAttribute("errorMessage", "User already exists with these credentials");
-                        RequestDispatcher rd = request.getRequestDispatcher("/pages/signup.jsp");
-                        rd.forward(request, response);
-                        return;
-                    }
-                }
-            }
-
-            // INSTANTIATING THE ORACLE PREPARED STATEMENT OBJECT
-            ops = (OraclePreparedStatement) oconn.prepareCall("INSERT INTO USER1(USER_ID,NAME,EMAIL,PHONE_NO,PASSWORD,AGREEMENT,USERNAME) values(?,?,?,?,?,?,?)");
-            out.println("<h2>Step 4 : Instantiation of oracle prepared statement object done.</h2>");
-
-            // FILLING UP THE BLANK QUERY PARAMETERS (?)
-            ops.setInt(1, 3);
-            ops.setString(2, name);
-            ops.setString(3, email);
-            ops.setLong(4, phone_no);
-            ops.setString(5, password);
-            ops.setString(6, agreement);
-            ops.setString(7, username);
-            out.println("<h2>Step 5 : Filling blank queries done.</h2>");
-
-            // EXECUTING THE QUERY
-            int x = ops.executeUpdate();
-
-            if (x > 0) {
-                // CLOSING THE ORACLE OBJECTS
-                ops.close();
-                oconn.close();
-                request.getSession().setAttribute("successMessage", "User registration done successfully!");
+            // GENERATING RESPONSE
+            if (res.isSuccess()) {
+                request.getSession().setAttribute("successMessage", res.getMessage());
                 response.sendRedirect("/pages/login.jsp");
-
             } else {
-                // CLOSING THE ORACLE OBJECTS
-                ops.close();
-                oconn.close();
-                request.setAttribute("errorMessage", "User registration failed !");
+                request.setAttribute("errorMessage", res.getMessage());
                 RequestDispatcher rd = request.getRequestDispatcher("/pages/signup.jsp");
                 rd.forward(request, response);
             }
