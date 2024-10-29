@@ -4,7 +4,9 @@
     Author     : Srikanta
 --%>
 
+<%@page import="models.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<% User user = (User) session.getAttribute("user");%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -33,11 +35,13 @@
                         <li class="pb-8"><a href="userDashboard.jsp?page=kyc"><i class="fa-solid fa-id-card mr-4"></i>KYC</a></li>
                         <li class="pb-8"><a href="/pages/support.jsp"><i class="fa-solid fa-circle-info mr-4"></i>Help & Support</a></li>
                     </ul>
-                    <button class=" " type="submit"><a href="/pages/login.jsp"><i class="fa-solid fa-right-from-bracket mr-4"></i>Logout</a></button>
+                    <form name="Logout" action="LogoutServlet" method="POST">
+                        <button class="" type="submit"><i class="fa-solid fa-right-from-bracket mr-4"></i>Logout</button>
+                    </form>
                 </div>
                 <div class="flex w-full flex-col pl-[18rem]">
                     <div class="w-full flex justify-end items-center gap-x-10 bg-gray-50 h-16 p-10 shadow-md">
-                        <span class="text-lg">Welcome, Amit Baba !</span>
+                        <span class="text-lg">Welcome, <%= user.getName()%> !</span>
                         <i class="fa-regular fa-bell text-2xl"></i>
                         <img id="avatarButton" type="button" class="p-1 w-12 h-12 rounded-full ring-2 ring-primary dark:ring-gray-500" src="../assets/images/profile.jpg" alt=user-profile>
                     </div>
