@@ -52,8 +52,8 @@ public class LoginServlet extends HttpServlet {
                 if (res.getUser() != null) {
                     // If user is found, store it in session
                     request.getSession().setAttribute("user", res.getUser()); // Store entire User object
+                    response.sendRedirect("/home");
                 }
-                response.sendRedirect("/home");
             } else {
                 request.setAttribute("errorMessage", res.getMessage());
                 RequestDispatcher rd = request.getRequestDispatcher("/pages/login.jsp");
