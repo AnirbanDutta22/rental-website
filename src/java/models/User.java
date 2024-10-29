@@ -1,27 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package models;
 
-/**
- *
- * @author HP
- */
 public class User {
-    private String name,username,email,password,address;
-    private int phno;
 
-    public User(String name, String username, String email, String password, String address, int phno) {
+    private String name, username, email, password, address, agreement;
+    private long phno;
+
+    public User(){
+        
+    }
+    
+    public User(String name, String email, long phno, String password, String agreement, String username, String address) {
         this.name = name;
         this.username = username;
         this.email = email;
         this.password = password;
         this.address = address;
         this.phno = phno;
+        this.agreement = agreement;
     }
-    
+
     public String getName() {
         return name;
     }
@@ -62,11 +59,19 @@ public class User {
         this.address = address;
     }
 
-    public int getPhno() {
+    public String getAgreement() {
+        return agreement;
+    }
+
+    public void setAgreement(String agreement) {
+        this.agreement = agreement;
+    }
+
+    public long getPhno() {
         return phno;
     }
 
-    public void setPhno(int phno) {
+    public void setPhno(long phno) {
         this.phno = phno;
     }
 }
