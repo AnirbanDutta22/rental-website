@@ -3,10 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/ratna/OneDrive/Documents/Desktop/rental-website/web/pages/signup.jsp</file>
-            <file>file:/C:/Users/ratna/OneDrive/Documents/Desktop/rental-website/web/pages/index.jsp</file>
-            <file>file:/C:/Users/ratna/OneDrive/Documents/Desktop/rental-website/web/components/header.jsp</file>
-            <file>file:/C:/Users/ratna/OneDrive/Documents/Desktop/rental-website/src/java/controllers/signup/SignupServlet.java</file>
+            <file>file:/D:/All%20about%20MInor/Development/github-%20pulls/28-10-2024/web/pages/index.jsp</file>
+            <file>file:/D:/All%20about%20MInor/Development/github-%20pulls/28-10-2024/web/pages/login.jsp</file>
+            <file>file:/D:/All%20about%20MInor/Development/github-%20pulls/28-10-2024/web/pages/admin.jsp</file>
+            <file>file:/D:/All%20about%20MInor/Development/github-%20pulls/28-10-2024/src/java/controllers/LoginServlet.java</file>
+            <file>file:/D:/All%20about%20MInor/Development/github-%20pulls/28-10-2024/src/java/controllers/ProductServlet.java</file>
+            <file>file:/D:/All%20about%20MInor/Development/github-%20pulls/28-10-2024/src/java/controllers/SignupServlet.java</file>
         </group>
     </open-files>
 </project-private>

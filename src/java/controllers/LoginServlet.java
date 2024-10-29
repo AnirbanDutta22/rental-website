@@ -47,7 +47,7 @@ public class LoginServlet extends HttpServlet {
             out.println("<h2>Step 2 : Registering oracle driver done</h2>");
 
             // INSTANTIATING THE ORACLE CONNECTION OBJECT
-            oconn = (OracleConnection) DriverManager.getConnection("jdbc:oracle:thin:@Ami-Anirban:1522:orcl", "MINOR", "PROJECT");
+            oconn = (OracleConnection) DriverManager.getConnection("jdbc:oracle:thin:@Srikanta:1521:orcl", "MINOR", "PROJECT");
             out.println("<h2>Step 3 : Instantiating oracle connection object done</h2>");
 
             // CHECKING IF USER EXISTS

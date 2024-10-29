@@ -59,7 +59,7 @@ public class SignupServlet extends HttpServlet {
             out.println("<h2>Step 2 : Registering oracle driver done</h2>");
 
             // INSTANTIATING THE ORACLE CONNECTION OBJECT
-            oconn = (OracleConnection) DriverManager.getConnection("jdbc:oracle:thin:@Ami-Anirban:1522:orcl", "MINOR", "PROJECT");
+            oconn = (OracleConnection) DriverManager.getConnection("jdbc:oracle:thin:@Srikanta:1521:orcl", "MINOR", "PROJECT");
             out.println("<h2>Step 3 : Instantiating oracle connection object done</h2>");
 
             // CHECKING IF USER ALREADY EXISTS
@@ -83,7 +83,7 @@ public class SignupServlet extends HttpServlet {
             out.println("<h2>Step 4 : Instantiation of oracle prepared statement object done.</h2>");
 
             // FILLING UP THE BLANK QUERY PARAMETERS (?)
-            ops.setInt(1, 3);
+            ops.setInt(1, 6);
             ops.setString(2, name);
             ops.setString(3, email);
             ops.setLong(4, phone_no);
