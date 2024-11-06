@@ -2,25 +2,43 @@ package models;
 
 public class User {
 
-    private String name, username, email, password, address, agreement;
+    private String name, username, email, password, address, agreement,avatar_image;
     private long phno;
 
+    //default constructor
     public User(){
         
     }
     
-    public User(String name, String email, long phno, String password, String agreement, String username, String address) {
+    //signup constructor
+    public User(String name, String email, String password, String agreement, String username) {
         this.name = name;
         this.username = username;
         this.email = email;
         this.password = password;
-        this.address = address;
-        this.phno = phno;
         this.agreement = agreement;
+    }
+    
+    //update user constructor
+    public User(String name, String email, long phno, String address, String username) {
+        this.name = name;
+        this.username = username;
+        this.email = email;
+        this.phno = phno;
+        this.address = address;
+        this.username = username;
     }
 
     public String getName() {
         return name;
+    }
+
+    public String getAvatar_image() {
+        return avatar_image;
+    }
+
+    public void setAvatar_image(String avatar_image) {
+        this.avatar_image = avatar_image;
     }
 
     public void setName(String name) {
