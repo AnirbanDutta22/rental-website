@@ -28,7 +28,7 @@
             <div class="p-4 border rounded-lg text-center max-h-72">
                 <h2 class="text-lg font-semibold mb-4">Profile Picture</h2>
                 <div class="relative flex">
-                    <img id="avatarImg" src="<%= user.getAvatar_image()!= null ? user.getAvatar_image(): "../assets/images/profile.jpg" %>" alt="User Avatar Image" class="w-32 h-32 object-cover rounded-full mx-auto mb-4">
+                    <img id="avatarImg" src="<%= user.getAvatar_image()!= null ? "../" + user.getAvatar_image(): "../assets/images/profile.jpg" %>" alt="User Avatar Image" class="w-32 h-32 object-cover rounded-full mx-auto mb-4">
                     <input type="file" accept="image/*" id="avatar" name="avatar" class="hidden" onchange="previewProfileImage(event)">
                 </div>
                     <button type="button" onclick="document.getElementById('avatar').click()" class="primary-btn">

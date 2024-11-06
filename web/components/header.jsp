@@ -21,7 +21,7 @@
                 if (user != null) {
             %>
 
-            <img id="avatarButton" type="button" onclick="openProfileDropdown()" class="p-1 w-12 h-12 rounded-full cursor-pointer ring-2 ring-primary dark:ring-gray-500" src="<%= user.getAvatar_image()!= null ? user.getAvatar_image(): "../assets/images/profile.jpg" %>" alt="User dropdown">
+            <img src="<%= user.getAvatar_image()!= null ? "../" + user.getAvatar_image(): "../assets/images/profile.jpg" %>" id="avatarButton" type="button" onclick="openProfileDropdown()" class="p-1 w-12 h-12 rounded-full cursor-pointer ring-2 ring-primary dark:ring-gray-500" alt="User dropdown">
                 <%
                 } else {
                 %>

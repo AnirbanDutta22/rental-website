@@ -43,7 +43,7 @@
                     <div class="w-full flex justify-end items-center gap-x-10 bg-gray-50 h-16 p-10 shadow-md">
                         <span class="text-lg">Welcome, <%= user.getName()%> !</span>
                         <i class="fa-regular fa-bell text-2xl"></i>
-                        <img id="avatarButton" type="button" class="p-1 w-12 h-12 rounded-full ring-2 ring-primary dark:ring-gray-500" src="<%= user.getAvatar_image()!= null ? user.getAvatar_image(): "../assets/images/profile.jpg" %>" alt=user-profile>
+                        <img id="avatarButton" type="button" class="p-1 w-12 h-12 rounded-full ring-2 ring-primary dark:ring-gray-500" src="<%= user.getAvatar_image()!= null ? "../" + user.getAvatar_image(): "../assets/images/profile.jpg" %>" alt=user-profile>
                     </div>
                     <div class="w-full p-16">
                         <jsp:include page="${param.page == 'lendProduct' ? '/components/user-dashboard/lendProduct.jsp' : param.page == 'editProduct' ? '/components/user-dashboard/lendProduct.jsp' : param.page == 'allProducts' ? '/components/user-dashboard/allProducts.jsp' : param.page == 'transactions' ? '/components/user-dashboard/transactions.jsp' : param.page == 'transactionDetail' ? '/components/user-dashboard/transactionDetail.jsp' :  param.page == 'support' ? '/pages/support.jsp' :  param.page == 'kyc' ? '/components/user-dashboard/kyc.html' :  '/components/user-dashboard/profile.jsp'}" />
