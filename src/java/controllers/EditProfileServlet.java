@@ -43,28 +43,30 @@ public class EditProfileServlet extends HttpServlet {
             Part avatar_image = request.getPart("avatar");
             out.println(avatar_image);
 
-            // CHECKING IF ANY FIELD IS EMPTY
-            if (email == null || email.isEmpty()
-                    || name == null || name.isEmpty()
-                    || phone == null || phone.isEmpty()) {
-                request.setAttribute("errorMessage", "All Fields are required");
-                RequestDispatcher rd = request.getRequestDispatcher("/pages/userDashboard.jsp");
-                rd.forward(request, response);
-                return;
-            }
-
-            //parsing phone number to long
-            phno = Long.parseLong(phone);
-            out.println(phno);
-
             //fetching currenr user's username
             HttpSession session = request.getSession();
             User curruser = (User) session.getAttribute("user");
             String username = curruser.getUsername();
             out.println("username" + username);
 
+            //parsing phone number to long
+            phno = Long.parseLong(phone);
+            out.println(phno);
+
             // updating user data
             User user;
+
+            // CHECKING IF ANY FIELD IS EMPTY
+            if (email == null || email.isEmpty()) {
+                email = curruser.getEmail();
+            }
+            if (name == null || name.isEmpty()) {
+                name = curruser.getEmail();
+            }
+            if (phone == null || phone.isEmpty()) {
+                phno = curruser.getPhno();
+            }
+
             user = new User(name, email, phno, address, username);
             out.println(user);
 
@@ -97,6 +99,8 @@ public class EditProfileServlet extends HttpServlet {
                 String avatarPath = uploadDir + "/" + avatarFileName;
                 user.setAvatar_image(avatarPath);
                 out.println("path for db : " + user.getAvatar_image());
+            } else {
+                user.setAvatar_image(curruser.getAvatar_image());
             }
             out.println(user.getAvatar_image());
 
