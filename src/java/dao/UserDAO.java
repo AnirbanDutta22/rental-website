@@ -34,6 +34,7 @@ public class UserDAO {
                                     user.setPhno(rs2.getLong("PHONE_NO"));
                                     user.setAddress(rs2.getString("ADDRESS"));
                                     user.setUsername(rs2.getString("USERNAME"));
+                                    user.setAvatar_image(rs2.getString("AVATAR_IMAGE"));
 
                                     return new ResponseHandler(true, "Logged in successfully", user);
                                 } else {
