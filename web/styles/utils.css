@@ -17,6 +17,10 @@ and open the template in the editor.
     line-height: 1rem;
     text-align: center;
     padding: 0.5rem 2rem;
+    transition: all ease-in-out 0.3s;
+}
+.primary-btn:hover{
+    background-color: #8F0028;
 }
 .secondary-btn{
     color:black;

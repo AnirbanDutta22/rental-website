@@ -20,7 +20,8 @@ window.addEventListener("load",function(){
                 ];
                 
                 var currentIndex = 0;
-                var page = window.location.pathname.includes('login.html') ? "login" : "signup";
+                var page = window.location.pathname === '/pages/login.jsp' ? "login" : "signup";
+//                console.log(window.location.pathname);
                 console.log(page);
 
                 setInterval(function(){
