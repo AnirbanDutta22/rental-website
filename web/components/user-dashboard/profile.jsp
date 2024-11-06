@@ -22,19 +22,18 @@
         </style>
     <div class="container mx-auto font-lato">
         <h1 class="text-2xl font-bold mb-6">Profile Dashboard</h1>
-        <div class="grid grid-cols-1 md:grid-cols-2 grid-rows-3 gap-6">
+        <form  name="EditProfile" method="POST" action="EditProfileServlet" enctype="multipart/form-data" class="grid grid-cols-1 md:grid-cols-2 grid-rows-3 gap-6">
 
-            <!-- Image of User with Upload and Edit Button -->
+            <!-- Avatar of User with Upload Button -->
             <div class="p-4 border rounded-lg text-center max-h-72">
                 <h2 class="text-lg font-semibold mb-4">Profile Picture</h2>
                 <div class="relative flex">
-                    <img id="profileImage" src="../assets/images/profile.jpg" alt="User Image" class="w-32 h-32 object-cover rounded-full mx-auto mb-4">
-                    <input type="file" id="uploadImage" class="hidden" onchange="previewProfileImage()">
+                    <img id="avatarImg" src="<%= user.getAvatar_image()!= null ? user.getAvatar_image(): "../assets/images/profile.jpg" %>" alt="User Avatar Image" class="w-32 h-32 object-cover rounded-full mx-auto mb-4">
+                    <input type="file" accept="image/*" id="avatar" name="avatar" class="hidden" onchange="previewProfileImage(event)">
                 </div>
-                    <button onclick="document.getElementById('uploadImage').click()" class="primary-btn">
+                    <button type="button" onclick="document.getElementById('avatar').click()" class="primary-btn">
                         <i class="fa-solid fa-upload"></i>
                     </button>
-                <button class="primary-btn" onclick="editProfileImage()">Edit</button>
             </div>
 
             <!-- Score, Achievements, Total Rent, Total Borrowed -->
@@ -69,37 +68,34 @@
             <!-- User Information -->
             <div class="p-4 border rounded-lg row-span-2">
                 <h2 class="text-lg font-semibold mb-4">User Information</h2>
-                <label class="block mb-2 text-sm font-medium text-gray-600">Name</label>
-                <input type="text" id="userName" class="w-full p-2 mb-4 border rounded" placeholder="Enter your name" value="<%=user.getName()%>">
-                <label class="block mb-2 text-sm font-medium text-gray-600">Email</label>
-                <input type="email" id="userEmail" class="w-full p-2 mb-4 border rounded" placeholder="Enter your email" value="<%=user.getEmail()%>">
-                <label class="block mb-2 text-sm font-medium text-gray-600">Phone Number</label>
-                <input type="tel" id="userPhone" class="w-full p-2 mb-4 border rounded" placeholder="Enter your phone number" value="<%=user.getPhno()%>">
-                <label class="block mb-2 text-sm font-medium text-gray-600">Address</label>
-                <textarea type="text" id="address" rows="5" class="w-full p-2 border rounded"><%=user.getAddress()%></textarea>
+                <label class="block mb-2 text-sm font-medium text-gray-600" id="name">Name</label>
+                <input type="text" id="userName" class="w-full p-2 mb-4 border rounded" name="name" id="name" placeholder="Enter your name" value="<%=user.getName()%>">
+                <label class="block mb-2 text-sm font-medium text-gray-600" id="email">Email</label>
+                <input type="email" id="userEmail" class="w-full p-2 mb-4 border rounded" name="email" id="email" placeholder="Enter your email" value="<%=user.getEmail()%>">
+                <label class="block mb-2 text-sm font-medium text-gray-600" id="phone">Phone Number</label>
+                <input type="tel" id="userPhone" class="w-full p-2 mb-4 border rounded" name="phone" id="phone" placeholder="Enter your phone number" value="<%=user.getPhno()%>">
+                <label class="block mb-2 text-sm font-medium text-gray-600" id="address">Address</label>
+                <textarea type="text" id="address" rows="5" class="w-full p-2 border rounded" name="address" id="address"><%=user.getAddress()%></textarea>
+                <button type="submit" class="primary-btn">Save</button>
             </div>
-        </div>
+        </form>
     </div>
 
     <script>
         // Function to preview the profile image when uploaded
-        function previewProfileImage() {
-            const fileInput = document.getElementById('uploadImage');
-            const profileImage = document.getElementById('profileImage');
+        function previewProfileImage(event) {
+            event.preventDefault();
+            const fileInput = document.getElementById('avatar');
+            const avatarImage = document.getElementById('avatarImg');
             const file = fileInput.files[0];
 
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function (e) {
-                    profileImage.src = e.target.result;
+                    avatarImage.src = e.target.result;
                 };
                 reader.readAsDataURL(file);
             }
-        }
-
-        // Placeholder function for Edit button
-        function editProfileImage() {
-            alert("Edit functionality not yet implemented.");
         }
     </script>
 
