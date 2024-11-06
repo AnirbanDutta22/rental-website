@@ -2,7 +2,9 @@ package controllers;
 
 import dao.UserDAO;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -20,11 +22,7 @@ import oracle.jdbc.OracleConnection;
 import oracle.jdbc.OraclePreparedStatement;
 import responses.ResponseHandler;
 
-@MultipartConfig(
-        fileSizeThreshold = 1024 * 1024, // 1 MB
-        maxFileSize = 1024 * 1024 * 5, // 5 MB
-        maxRequestSize = 1024 * 1024 * 10 // 10 MB
-)
+@MultipartConfig
 public class EditProfileServlet extends HttpServlet {
 
     String name, email, phone, address;
@@ -73,11 +71,13 @@ public class EditProfileServlet extends HttpServlet {
             //avatar image upload
             if (avatar_image != null && avatar_image.getSize() > 0) {
                 // Defining the upload path
-                String uploadDir = "/uploads";
+                String uploadDir = "uploads";
                 String avatarFileName = username + "_avatar" + getFileExtension(avatar_image.getSubmittedFileName());
 
                 // Ensuring the upload directory exists
+//                String uploadPath = "C:\\Users\\ratna\\OneDrive\\Documents\\Desktop\\rental-website\\web\\" + uploadDir;
                 String uploadPath = getServletContext().getRealPath("") + File.separator + uploadDir;
+                out.println("uploads path : " + uploadPath);
                 File uploadDirectory = new File(uploadPath);
                 if (!uploadDirectory.exists()) {
                     uploadDirectory.mkdir();
@@ -85,10 +85,18 @@ public class EditProfileServlet extends HttpServlet {
 
                 // Full path to save the file
                 String fullPath = uploadPath + File.separator + avatarFileName;
-                avatar_image.write(fullPath);
+                try {
+                    avatar_image.write(fullPath);
+                    out.println("File written successfully to: " + fullPath);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    out.println("File write failed: " + e.getMessage());
+                }
+                out.println("Full path : " + fullPath);
 
                 String avatarPath = uploadDir + "/" + avatarFileName;
                 user.setAvatar_image(avatarPath);
+                out.println("path for db : " + user.getAvatar_image());
             }
             out.println(user.getAvatar_image());
 
