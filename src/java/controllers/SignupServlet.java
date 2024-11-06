@@ -18,8 +18,7 @@ import responses.ResponseHandler;
 
 public class SignupServlet extends HttpServlet {
 
-    String name, phno, email, password, agreement, username;
-    long phone_no;
+    String name, email, password, agreement, username;
 
     // DECLARING ORACLE OBJECTS
     OracleConnection oconn;
@@ -33,14 +32,12 @@ public class SignupServlet extends HttpServlet {
             //FETCHING VALUES FROM SIGNUP FORM
             email = request.getParameter("email");
             name = request.getParameter("name");
-            phno = request.getParameter("phno");
             password = request.getParameter("password");
             agreement = request.getParameter("agreement");
 
             // CHECKING IF ANY FIELD IS EMPTY
             if (email == null || email.isEmpty()
                     || name == null || name.isEmpty()
-                    || phno == null || phno.isEmpty()
                     || password == null || password.isEmpty()
                     || agreement == null || agreement.isEmpty()) {
                 request.setAttribute("errorMessage", "All Fields are required");
@@ -49,14 +46,12 @@ public class SignupServlet extends HttpServlet {
                 return;
             }
 
-            // PARSING PHONE NUMBER TO LONG FORMAT AND GENERATING USERNAME
-            phone_no = Long.parseLong(phno);
-            out.println(phone_no);
+            // GENERATING USERNAME
             username = email.replace(".com", "rentle");
             out.println(username);
 
             // CREATING USER OBJECT WITH SIGNUP DATA
-            User user = new User(name, email, phone_no, password, agreement, username, "");
+            User user = new User(name, email, password, agreement, username);
 
             // USING SignupDAO TO ADD USER
             SignupDAO signupDAO = new SignupDAO();
@@ -65,7 +60,7 @@ public class SignupServlet extends HttpServlet {
             // GENERATING RESPONSE
             if (res.isSuccess()) {
                 request.getSession().setAttribute("successMessage", res.getMessage());
-                response.sendRedirect("/pages/login.jsp");
+                response.sendRedirect("/pages/signup.jsp");
             } else {
                 request.setAttribute("errorMessage", res.getMessage());
                 RequestDispatcher rd = request.getRequestDispatcher("/pages/signup.jsp");
@@ -77,6 +72,19 @@ public class SignupServlet extends HttpServlet {
             request.setAttribute("errorMessage", ex.getMessage());
             RequestDispatcher rd = request.getRequestDispatcher("/pages/signup.jsp");
             rd.forward(request, response);
+        } finally {
+
+            // Ensuring Oracle resources are closed properly
+            try {
+                if (ops != null) {
+                    ops.close();
+                }
+                if (oconn != null) {
+                    oconn.close();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 }
