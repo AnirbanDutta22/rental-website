@@ -10,6 +10,7 @@ import utils.DBConnect;
 
 public class UserDAO {
 
+    //method for user login
     public ResponseHandler loginUser(String emailOrUsername, String password) throws SQLException {
         try (OracleConnection oconn = DBConnect.getConnection()) {
             // CHECKING IF USER EXISTS
@@ -33,8 +34,8 @@ public class UserDAO {
                                     user.setPhno(rs2.getLong("PHONE_NO"));
                                     user.setAddress(rs2.getString("ADDRESS"));
                                     user.setUsername(rs2.getString("USERNAME"));
-                                    
-                                    return new ResponseHandler(true, "Logged in successfully",user);
+
+                                    return new ResponseHandler(true, "Logged in successfully", user);
                                 } else {
                                     return new ResponseHandler(false, "Invalid password !");
                                 }
@@ -43,6 +44,31 @@ public class UserDAO {
                     } else {
                         return new ResponseHandler(false, "User doesn't exist !");
                     }
+                }
+            }
+        }
+    }
+
+    //method for user profile edit/update
+    public ResponseHandler editUser(User user) throws SQLException {
+        try (OracleConnection oconn = DBConnect.getConnection()) {
+            String checkUserQuery;
+            checkUserQuery = "UPDATE USER1 SET NAME = ?, EMAIL = ?, PHONE_NO = ?, ADDRESS = ?, AVATAR_IMAGE = ? WHERE USERNAME = ?";
+            try (OraclePreparedStatement ops = (OraclePreparedStatement) oconn.prepareCall(checkUserQuery)) {
+                ops.setString(1, user.getName());
+                ops.setString(2, user.getEmail());
+                ops.setLong(3, user.getPhno());
+                ops.setString(4, user.getAddress());
+
+                ops.setString(5, user.getAvatar_image());
+                ops.setString(6, user.getUsername());
+
+                // Execute update
+                int rowsUpdated = ops.executeUpdate();
+                if (rowsUpdated > 0) {
+                    return new ResponseHandler(true, "User data updated successfully!", user);
+                } else {
+                    return new ResponseHandler(false, "User data updatation failed!");
                 }
             }
         }
