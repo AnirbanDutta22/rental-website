@@ -7,6 +7,7 @@
 <%@page import="models.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <% User user = (User) session.getAttribute("user"); %>
+<link href="../styles/utils.css" rel="stylesheet">
 <script src="https://kit.fontawesome.com/cb3d6578eb.js" crossorigin="anonymous"></script>
 <nav class="text-xl font-medium text-darkColor backdrop-blur-2xl bg-white/80 shadow-md dark:bg-darkColor fixed w-full z-40 top-0 start-0 border-b border-gray-200 dark:bg-darkColor">
     <div class="max-w-screen-2xl flex items-center justify-between mx-auto p-2">
@@ -20,11 +21,11 @@
                 if (user != null) {
             %>
 
-            <img id="avatarButton" type="button" onclick="openProfileDropdown()" class="p-1 w-12 h-12 rounded-full cursor-pointer ring-2 ring-primary dark:ring-gray-500" src="../assets/images/profile.jpg" alt="User dropdown">
+            <img id="avatarButton" type="button" onclick="openProfileDropdown()" class="p-1 w-12 h-12 rounded-full cursor-pointer ring-2 ring-primary dark:ring-gray-500" src="<%= user.getAvatar_image()!= null ? user.getAvatar_image(): "../assets/images/profile.jpg" %>" alt="User dropdown">
                 <%
                 } else {
                 %>
-                <a href="/pages/login.jsp"><button type="button" class="text-white bg-primary font-medium rounded-full text-base px-8 py-2 text-center dark:bg-light dark:text-darkColor">Login</button></a>
+                <a href="/pages/login.jsp"><button type="button" class="text-white bg-primary hover:bg-primary-100 transition-all ease-in-out duration-300 font-medium rounded-full text-base px-8 whitespace-nowrap py-2 text-center dark:bg-light dark:text-darkColor">Login</button></a>
                 <%
                     }%>
 
@@ -89,7 +90,7 @@
         <div class="flex justify-end items-center gap-x-8 basis-[30%]">
             <a href="/pages/requestDashboard.jsp" class="hover:text-primary transition-all ease-in-out duration-300"><i class="fa-solid fa-list mr-2"></i>Requests</a>
             <a href="/pages/wishlist.jsp" class="hover:text-primary transition-all ease-in-out duration-300"><i class="fa-solid fa-heart mr-2"></i>Wishlist</a>
-            <a href="/pages/userDashboard.jsp?page=lendProduct"><button type="button" class="text-white bg-primary font-medium rounded-full text-base px-8 whitespace-nowrap py-2 text-center dark:bg-light dark:text-darkColor">Lend +</button></a>
+            <a href="/pages/userDashboard.jsp?page=lendProduct"><button type="button" class="text-white bg-primary hover:bg-primary-100 transition-all ease-in-out duration-300 font-medium rounded-full text-base px-8 whitespace-nowrap py-2 text-center dark:bg-light dark:text-darkColor">Lend +</button></a>
         </div>
     </div>
 </nav>
