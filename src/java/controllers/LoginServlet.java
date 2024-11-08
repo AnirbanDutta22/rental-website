@@ -49,10 +49,10 @@ public class LoginServlet extends HttpServlet {
             // GENERATING RESPONSE
             if (res.isSuccess()) {
                 request.getSession().setAttribute("successMessage", res.getMessage());
-                if (res.getUser() != null) {
+                if (res.getData() != null) {
                     // If user is found, store it in session
-                    request.getSession().setAttribute("user", res.getUser()); // Store entire User object
-                    response.sendRedirect("/home");
+                    request.getSession().setAttribute("user", res.getData()); // Store entire User object
+                    response.sendRedirect("/pages/index.jsp");
                 }
             } else {
                 request.setAttribute("errorMessage", res.getMessage());
