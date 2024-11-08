@@ -20,7 +20,7 @@
         <section>
             <div class="flex font-lato">
                 <div class="w-[18rem] fixed top-0 left-0 bg-gray-50 h-screen px-10 py-4 text-xl font-medium shadow-md">
-                    <a href="/home" class="flex items-center space-x-3 rtl:space-x-reverse">
+                    <a href="/pages/index.jsp" class="flex items-center space-x-3 rtl:space-x-reverse">
                         <img src="../assets/images/logo.png" class="h-20" alt="Rentle Logo">
                     </a>
                     <ul class="my-10">

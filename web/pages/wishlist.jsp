@@ -4,7 +4,9 @@
     Author     : HP
 --%>
 
+<%@page import="models.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<% User user = (User) session.getAttribute("user"); %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -16,97 +18,98 @@
         <script src="../scripts/tailwind-config.js"></script>
         <style type="text/tailwindcss">
             @layer components {
-      .primary-btn {
-        @apply text-white bg-primary font-medium rounded-full text-base px-8 py-2 text-center dark:bg-light dark:text-darkColor;
-      }
-}</style>
+                .primary-btn {
+                    @apply text-white bg-primary font-medium rounded-full text-base px-8 py-2 text-center dark:bg-light dark:text-darkColor;
+                }
+            }</style>
         <style>
-        body.loaded #loader {
-            display: none;
-        }</style>
+            body.loaded #loader {
+                display: none;
+            }</style>
         <title>Wishlist</title>
     </head>
     <body class="font-lato">
         <!-- Loader -->
-    <div id="loader" class="fixed inset-0 flex items-center justify-center bg-white z-50">
-        <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-primary"></div>
-    </div>
+        <div id="loader" class="fixed inset-0 flex items-center justify-center bg-white z-50">
+            <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-primary"></div>
+        </div>
         <!--header-->
-            <jsp:include page="../components/header.jsp" />
-            <div class="pt-20 max-w-4xl mx-auto">
-                <h1 class="font-semibold text-3xl text-center my-10"><i class="fa-solid fa-heart mr-2 text-primary"></i>My Wishlist (5)</h1>
-                <div class="flex flex-col gap-y-5 w-full my-10">
+        <jsp:include page="../components/header.jsp" />
+        <div class="pt-20 max-w-4xl mx-auto">
+            <h1 class="font-semibold text-3xl text-center my-10"><i class="fa-solid fa-heart mr-2 text-primary"></i>My Wishlist ()</h1>
+            <div class="flex flex-col gap-y-5 w-full my-10">
+                <% if (user != null) {%>
                 <div class="w-full flex flex-col gap-y-3">
                     <div class="flex w-full justify-between items-center px-3 gap-x-10">
                         <div class="w-28 h-20">
-                        <img src="../assets/images/fur/SOFA/sofa1.jpeg" alt="item1" class="w-full h-20"/>
-                    </div>
-                    <span>Fancy Sofa</span>
-                    <span>Rs. 1000/month</span>
-                    <a href="/pages/product.jsp">
-                    <button class="primary-btn px-4">Rent Now</button>
-                    </a>
-                    <button class="primary-btn px-4">Remove</button>
+                            <img src="../assets/images/fur/SOFA/sofa1.jpeg" alt="item1" class="w-full h-20"/>
+                        </div>
+                        <span>Fancy Sofa</span>
+                        <span>Rs. 1000/month</span>
+                        <a href="/pages/product.jsp">
+                            <button class="primary-btn px-4">Rent Now</button>
+                        </a>
+                        <button class="primary-btn px-4">Remove</button>
                     </div>
                 </div>
-                    <div class="w-full flex flex-col gap-y-3">
+                <div class="w-full flex flex-col gap-y-3">
                     <div class="flex w-full justify-between items-center px-3 gap-x-10">
                         <div class="w-28 h-20">
-                        <img src="../assets/images/fur/SOFA/sofa1.jpeg" alt="item1" class="w-full h-20"/>
-                    </div>
-                    <span>Fancy Sofa</span>
-                    <span>Rs. 1000/month</span>
-                    <a href="/pages/product.jsp">
-                    <button class="primary-btn px-4">Rent Now</button>
-                    </a>
-                    <button class="primary-btn px-4">Remove</button>
+                            <img src="../assets/images/fur/SOFA/sofa1.jpeg" alt="item1" class="w-full h-20"/>
+                        </div>
+                        <span>Fancy Sofa</span>
+                        <span>Rs. 1000/month</span>
+                        <a href="/pages/product.jsp">
+                            <button class="primary-btn px-4">Rent Now</button>
+                        </a>
+                        <button class="primary-btn px-4">Remove</button>
                     </div>
                 </div>
-                    <div class="w-full flex flex-col gap-y-3">
+                <div class="w-full flex flex-col gap-y-3">
                     <div class="flex w-full justify-between items-center px-3 gap-x-10">
                         <div class="w-28 h-20">
-                        <img src="../assets/images/fur/SOFA/sofa1.jpeg" alt="item1" class="w-full h-20"/>
-                    </div>
-                    <span>Fancy Sofa</span>
-                    <span>Rs. 1000/month</span>
-                    <a href="/pages/product.jsp">
-                        <button class="primary-btn px-4">Rent Now</button>
-                    </a>
-                    <button class="primary-btn px-4">Remove</button>
+                            <img src="../assets/images/fur/SOFA/sofa1.jpeg" alt="item1" class="w-full h-20"/>
+                        </div>
+                        <span>Fancy Sofa</span>
+                        <span>Rs. 1000/month</span>
+                        <a href="/pages/product.jsp">
+                            <button class="primary-btn px-4">Rent Now</button>
+                        </a>
+                        <button class="primary-btn px-4">Remove</button>
                     </div>
                 </div>
-                    <div class="w-full flex flex-col gap-y-3">
+                <div class="w-full flex flex-col gap-y-3">
                     <div class="flex w-full justify-between items-center px-3 gap-x-10">
                         <div class="w-28 h-20">
-                        <img src="../assets/images/fur/SOFA/sofa1.jpeg" alt="item1" class="w-full h-20"/>
-                    </div>
-                    <span>Fancy Sofa</span>
-                    <span>Rs. 1000/month</span>
-                    <a href="/pages/product.jsp">
-                        <button class="primary-btn px-4">Rent Now</button>
-                    </a>
-                    <button class="primary-btn px-4">Remove</button>
+                            <img src="../assets/images/fur/SOFA/sofa1.jpeg" alt="item1" class="w-full h-20"/>
+                        </div>
+                        <span>Fancy Sofa</span>
+                        <span>Rs. 1000/month</span>
+                        <a href="/pages/product.jsp">
+                            <button class="primary-btn px-4">Rent Now</button>
+                        </a>
+                        <button class="primary-btn px-4">Remove</button>
                     </div>
                 </div>
-                    <div class="w-full flex flex-col gap-y-3">
+                <div class="w-full flex flex-col gap-y-3">
                     <div class="flex w-full justify-between items-center px-3 gap-x-10">
                         <div class="w-28 h-20">
-                        <img src="../assets/images/fur/SOFA/sofa1.jpeg" alt="item1" class="w-full h-20"/>
+                            <img src="../assets/images/fur/SOFA/sofa1.jpeg" alt="item1" class="w-full h-20"/>
+                        </div>
+                        <span>Fancy Sofa</span>
+                        <span>Rs. 1000/month</span>
+                        <a href="/pages/product.jsp">
+                            <button class="primary-btn px-4">Rent Now</button>
+                        </a>
+                        <button class="primary-btn px-4">Remove</button>
                     </div>
-                    <span>Fancy Sofa</span>
-                    <span>Rs. 1000/month</span>
-                    <a href="/pages/product.jsp">
-                        <button class="primary-btn px-4">Rent Now</button>
-                    </a>
-                    <button class="primary-btn px-4">Remove</button>
-                    </div>
-                </div>
-                </div>
+                </div><%}%><%else {%><p class="text-center">No items found. <a href="/pages/index.jsp" class="text-blue-700">Add from here</a></p><%}%>
             </div>
-            <!--footer-->
+        </div>
+        <!--footer-->
         <jsp:include page="../components/footer.jsp"/>
         <script>
-            window.addEventListener("load",function(){
+            window.addEventListener("load", function () {
                 document.body.classList.add('loaded');
             });
         </script>
