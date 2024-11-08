@@ -2,14 +2,11 @@ package controllers;
 
 import dao.UserDAO;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
@@ -112,9 +109,9 @@ public class EditProfileServlet extends HttpServlet {
             // GENERATING RESPONSE
             if (res.isSuccess()) {
                 request.getSession().setAttribute("successMessage", res.getMessage());
-                if (res.getUser() != null) {
+                if (res.getData() != null) {
                     // If user is found, update it in session
-                    request.getSession().setAttribute("user", res.getUser());
+                    request.getSession().setAttribute("user", res.getData());
                     response.sendRedirect("/pages/userDashboard.jsp");
                 }
             } else {
