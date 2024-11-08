@@ -1,6 +1,6 @@
 package controllers;
 
-import dao.SignupDAO;
+import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -53,8 +53,8 @@ public class SignupServlet extends HttpServlet {
             // CREATING USER OBJECT WITH SIGNUP DATA
             User user = new User(name, email, password, agreement, username);
 
-            // USING SignupDAO TO ADD USER
-            SignupDAO signupDAO = new SignupDAO();
+            // USING UserDAO TO signup USER
+            UserDAO signupDAO = new UserDAO();
             ResponseHandler res = signupDAO.signupUser(user);
 
             // GENERATING RESPONSE
