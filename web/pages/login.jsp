@@ -10,8 +10,13 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script src="https://cdn.tailwindcss.com"></script>
-        <link href="../styles/utils.css" rel="stylesheet">
         <script src="../scripts/tailwind-config.js"></script>
+        <style type="text/tailwindcss">
+            @layer components {
+                .primary-btn {
+                    @apply text-white bg-primary transition-all ease-in-out duration-300 font-medium rounded-full text-base px-8 py-2 text-center dark:bg-light dark:text-darkColor;
+                }
+            }</style>
         <title>Login Page</title>
     </head>
     <body>
@@ -28,13 +33,13 @@
                 </div>
             </div>
 
-            <div class="absolute inset-0 flex justify-center items-center ">
-                <div class="flex w-3/6 h-3/5 shadow-2xl">
+            <div class="absolute inset-0 flex justify-center items-center">
+                <div class="flex w-3/6 h-auto shadow-2xl">
                     <div class="w-2/4 bg-primary">
                         <img class="h-80 w-72 mt-28 m-auto transition-opacity duration-1000" id="loginimg" src="../assets/images/3d/tv.png">
                     </div>
                     <div class="w-2/4  p-8 bg-white">
-                        <h2 class="text-3xl font-bold text-center mt-12 text-gray-800 mb-8">Login to Rental</h2>
+                        <h2 class="text-3xl font-bold text-center mt-4 text-gray-800 mb-8">Login to Rental</h2>
                         <form name="Login" method="POST" action="LoginServlet">
                             <div class="mb-6">
                                 <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Username/Email</label>
@@ -56,8 +61,10 @@
                                 <%= request.getAttribute("errorMessage")%>
                             </div>
                             <% }%>
-                            <button type="submit" class="primary-btn hover:bg-primary-100 transition-all ease-in-out duration-300 w-full">Login</button>
+                            <button type="submit" class="primary-btn w-full">Login</button>
                         </form>
+                        <p class="w-full text-center my-4">OR</p>
+                        <p class="w-full text-center text-primary font-semibold underline"><a href="#">Login with Phone number</a></p>
                         <p class="mt-6 text-center text-sm text-gray-600">Don't have an account? <a href="signup.jsp" class="text-blue-500 hover:underline">Sign up</a></p>
                     </div>
                 </div>
