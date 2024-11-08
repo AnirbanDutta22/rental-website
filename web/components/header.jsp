@@ -11,7 +11,7 @@
 <script src="https://kit.fontawesome.com/cb3d6578eb.js" crossorigin="anonymous"></script>
 <nav class="text-xl font-medium text-darkColor backdrop-blur-2xl bg-white/80 shadow-md dark:bg-darkColor fixed w-full z-40 top-0 start-0 border-b border-gray-200 dark:bg-darkColor">
     <div class="max-w-screen-2xl flex items-center justify-between mx-auto p-2">
-        <a href="/home" class="flex items-center space-x-3 rtl:space-x-reverse">
+        <a href="/pages/index.jsp" class="flex items-center space-x-3 rtl:space-x-reverse">
             <img src="../assets/images/logo.png" class="h-20" alt="Rentle Logo">
         </a>
         <div class="relative flex items-center md:order-2 space-x-3 md:space-x-4 rtl:space-x-reverse">
@@ -101,7 +101,7 @@
         var navItems = [
             {
                 navItem: "Home",
-                link: "/home"
+                link: "/pages/index.jsp"
             },
             {
                 navItem: "About",
