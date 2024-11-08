@@ -1,16 +1,14 @@
 package responses;
 
-import models.User;
-
 public class ResponseHandler {
     private boolean success;
     private String message;
-    private User user;
+    private Object data;
 
-    public ResponseHandler(boolean success, String message,User user) {
+    public ResponseHandler(boolean success, String message,Object data) {
         this.success = success;
         this.message = message;
-        this.user = user;
+        this.data = data;
     }
     
     public ResponseHandler(boolean success, String message) {
@@ -19,5 +17,5 @@ public class ResponseHandler {
 
     public boolean isSuccess() { return success; }
     public String getMessage() { return message; }
-    public User getUser() { return user; }
+    public Object getData() { return data; }
 }
