@@ -42,7 +42,7 @@
     void fetchData(String tableName) {
         try {
             DriverManager.registerDriver(new oracle.jdbc.OracleDriver());
-            oconn = (OracleConnection) DriverManager.getConnection("jdbc:oracle:thin:@Srikanta:1521:ORCL", "minor", "project");
+            oconn = (OracleConnection) DriverManager.getConnection("jdbc:oracle:thin:@Ami-Anirban:1522:orcl", "minor", "project");
             query = "SELECT * FROM " + tableName;
             ops = (OraclePreparedStatement) oconn.prepareStatement(query);
             ors = (OracleResultSet) ops.executeQuery();
@@ -54,7 +54,7 @@
     void fetchRowCount(String tableName){
         try {
             DriverManager.registerDriver(new oracle.jdbc.OracleDriver());
-            oconn = (OracleConnection) DriverManager.getConnection("jdbc:oracle:thin:@Srikanta:1521:ORCL", "minor", "project");
+            oconn = (OracleConnection) DriverManager.getConnection("jdbc:oracle:thin:@Ami-Anirban:1522:orcl", "minor", "project");
             query = "SELECT COUNT(*) FROM " + tableName;
             ops = (OraclePreparedStatement) oconn.prepareStatement(query);
             ors = (OracleResultSet) ops.executeQuery();
