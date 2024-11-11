@@ -127,9 +127,9 @@ public class Product {
     // PriceTenure Model
     public static class PriceTenure {
         private double price;
-        private String tenure;
+        private int tenure;
 
-        public PriceTenure(double price, String tenure) {
+        public PriceTenure(double price, int tenure) {
             this.price = price;
             this.tenure = tenure;
         }
@@ -142,11 +142,11 @@ public class Product {
             this.price = price;
         }
 
-        public String getTenure() {
+        public int getTenure() {
             return tenure;
         }
 
-        public void setTenure(String tenure) {
+        public void setTenure(int tenure) {
             this.tenure = tenure;
         }
     }

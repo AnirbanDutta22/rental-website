@@ -2,14 +2,23 @@ package models;
 
 public class User {
 
-    private String name, username, email, password, address, agreement,avatar_image;
+    private String name, username, email, password, address, agreement, avatar_image;
+    private int id;
     private long phno;
 
     //default constructor
-    public User(){
-        
+    public User() {
+
     }
-    
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     //signup constructor
     public User(String name, String email, String password, String agreement, String username) {
         this.name = name;
@@ -18,7 +27,7 @@ public class User {
         this.password = password;
         this.agreement = agreement;
     }
-    
+
     //update user constructor
     public User(String name, String email, long phno, String address, String username) {
         this.name = name;
