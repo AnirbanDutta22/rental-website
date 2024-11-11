@@ -21,7 +21,7 @@
     </head>
     <body>
         <div class="relative">
-            <a href="/home" class="h-24 fixed w-28 m-10 z-50">
+            <a href="/pages/index.jsp" class="h-24 fixed w-28 m-10 z-50">
                 <img src="../assets/images/logo.png" alt="logo" class="h-24"/>
             </a>
             <div class="flex w-full">
