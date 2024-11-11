@@ -112,6 +112,70 @@ public class ProductDAO {
         }
     }
 
+    //method for fetching wishlist products
+    public ResponseHandler getWishlist(int user_id) throws SQLException {
+        List<Product> wl = new ArrayList<>();
+        try (OracleConnection oconn = DBConnect.getConnection()) {
+            String getWishlistQuery = "SELECT PRODUCT_ID,NAME,SPEC FROM PRODUCT WHERE PRODUCT_ID IN (SELECT PRODUCT_ID FROM USER_WISHLIST WHERE USER_ID = ?)";
+            try (OraclePreparedStatement ops = (OraclePreparedStatement) oconn.prepareCall(getWishlistQuery)) {
+                ops.setInt(1, user_id);
+
+                try (ResultSet wishlistResult = ops.executeQuery()) {
+                    while (wishlistResult.next()) {
+                        Product product = new Product();
+                        product.setId(wishlistResult.getInt("PRODUCT_ID"));
+                        product.setName(wishlistResult.getString("NAME"));
+                        product.setSpec(wishlistResult.getString("SPEC"));
+
+                        // USING UTILITY METHOD FOR FETCHING PRODUCT PRICE,IMAGES
+                        fetchPriceAndTenure(wishlistResult, product);
+                        fetchProductImages(wishlistResult, product);
+                        //ADDING EACH PRODUCT TO WISHLIST ARRAY
+                        wl.add(product);
+                    }
+                }
+            }
+        }
+        //checking if wishlist is empty
+        if (!wl.isEmpty()) {
+            return new ResponseHandler(true, "All Wishlist Products fetched successfully!", wl);
+        } else {
+            return new ResponseHandler(false, "No Products found!");
+        }
+    }
+    
+    //method fot fetching products lent by specific user
+    public ResponseHandler getAllProductsLent(int user_id) throws SQLException{
+        List<Product> wl = new ArrayList<>();
+        try (OracleConnection oconn = DBConnect.getConnection()) {
+            String getWishlistQuery = "SELECT PRODUCT_ID,NAME,SPEC FROM PRODUCT WHERE PRODUCT_ID IN (SELECT PRODUCT_ID FROM USER_WISHLIST WHERE USER_ID = ?)";
+            try (OraclePreparedStatement ops = (OraclePreparedStatement) oconn.prepareCall(getWishlistQuery)) {
+                ops.setInt(1, user_id);
+
+                try (ResultSet wishlistResult = ops.executeQuery()) {
+                    while (wishlistResult.next()) {
+                        Product product = new Product();
+                        product.setId(wishlistResult.getInt("PRODUCT_ID"));
+                        product.setName(wishlistResult.getString("NAME"));
+                        product.setSpec(wishlistResult.getString("SPEC"));
+
+                        // USING UTILITY METHOD FOR FETCHING PRODUCT PRICE,IMAGES
+                        fetchPriceAndTenure(wishlistResult, product);
+                        fetchProductImages(wishlistResult, product);
+                        //ADDING EACH PRODUCT TO WISHLIST ARRAY
+                        wl.add(product);
+                    }
+                }
+            }
+        }
+        //checking if wishlist is empty
+        if (!wl.isEmpty()) {
+            return new ResponseHandler(true, "All Wishlist Products fetched successfully!", wl);
+        } else {
+            return new ResponseHandler(false, "No Products found!");
+        }
+    }
+
     // Utility method for fetching product details (price, tenure, and images)
     public static void getProductDetailsUtil(ResultSet productResult, Product product) throws SQLException {
         // Fetch price and tenure details
@@ -143,7 +207,7 @@ public class ProductDAO {
                 List<Product.PriceTenure> priceTenures = new ArrayList<>();
                 while (priceResult.next()) {
                     double price = priceResult.getDouble("PRICE");
-                    String tenure = priceResult.getString("TENURE");
+                    int tenure = priceResult.getInt("TENURE");
                     priceTenures.add(new Product.PriceTenure(price, tenure));
                 }
                 product.setPriceTenures(priceTenures);
