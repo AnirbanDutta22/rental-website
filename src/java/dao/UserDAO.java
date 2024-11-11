@@ -26,14 +26,14 @@ public class UserDAO {
             }
 
             // INSERTING USER DATA TO DATABASE
-            String query = "INSERT INTO USER1 (USER_ID, NAME, EMAIL, PASSWORD, AGREEMENT, USERNAME) VALUES (?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO USER1 (USER_ID, NAME, EMAIL, PASSWORD, AGREEMENT, USERNAME) VALUES (user_id_sequence.NEXTVAL, ?, ?, ?, ?, ?)";
             try (OraclePreparedStatement ops = (OraclePreparedStatement) oconn.prepareCall(query)) {
-                ops.setInt(1, 15);
-                ops.setString(2, user.getName());
-                ops.setString(3, user.getEmail());
-                ops.setString(4, user.getPassword());
-                ops.setString(5, user.getAgreement());
-                ops.setString(6, user.getUsername());
+//                ops.setInt(1, 15);
+                ops.setString(1, user.getName());
+                ops.setString(2, user.getEmail());
+                ops.setString(3, user.getPassword());
+                ops.setString(4, user.getAgreement());
+                ops.setString(5, user.getUsername());
 
                 int rowsInserted = ops.executeUpdate();
                 if (rowsInserted > 0) {
@@ -44,7 +44,7 @@ public class UserDAO {
             }
         }
     }
-    
+
     //method for user login
     public ResponseHandler loginUser(String emailOrUsername, String password) throws SQLException {
         try (OracleConnection oconn = DBConnect.getConnection()) {
@@ -65,6 +65,7 @@ public class UserDAO {
                                 if (rs2.next()) {
                                     User user = new User();
                                     user.setName(rs2.getString("NAME"));
+                                    user.setId(rs2.getInt("USER_ID"));
                                     user.setEmail(rs2.getString("EMAIL"));
                                     user.setPhno(rs2.getLong("PHONE_NO"));
                                     user.setAddress(rs2.getString("ADDRESS"));
@@ -105,6 +106,43 @@ public class UserDAO {
                     return new ResponseHandler(true, "User data updated successfully!", user);
                 } else {
                     return new ResponseHandler(false, "User data updatation failed!");
+                }
+            }
+        }
+    }
+
+    //method for adding product to wishlist
+    public ResponseHandler addToWishlist(int product_id, int user_id) throws SQLException {
+        String addToWishlistQuery = "INSERT INTO USER_WISHLIST (WISHLIST_ID,PRODUCT_ID,USER_ID) VALUES (id_sequence.NEXTVAL,?,?)";
+        try (OracleConnection oconn = DBConnect.getConnection()) {
+            try (OraclePreparedStatement ops = (OraclePreparedStatement) oconn.prepareCall(addToWishlistQuery)) {
+//                ops.setInt(1, 4);
+                ops.setInt(1, product_id);
+                ops.setInt(2, user_id);
+
+                int rowsInserted = ops.executeUpdate();
+                if (rowsInserted > 0) {
+                    return new ResponseHandler(true, "Product added to wishlist successfully !");
+                } else {
+                    return new ResponseHandler(false, "Product add to wishlist failed !");
+                }
+            }
+        }
+    }
+    
+    //method for removing product from wishlist
+    public ResponseHandler removeFromWishlist(int product_id, int user_id) throws SQLException {
+        String addToWishlistQuery = "DELETE FROM USER_WISHLIST WHERE PRODUCT_ID = ? AND USER_ID = ?";
+        try (OracleConnection oconn = DBConnect.getConnection()) {
+            try (OraclePreparedStatement ops = (OraclePreparedStatement) oconn.prepareCall(addToWishlistQuery)) {
+                ops.setInt(1, product_id);
+                ops.setInt(2, user_id);
+
+                int rowsInserted = ops.executeUpdate();
+                if (rowsInserted > 0) {
+                    return new ResponseHandler(true, "Product removed from wishlist successfully !");
+                } else {
+                    return new ResponseHandler(false, "Product remove failed !");
                 }
             }
         }
