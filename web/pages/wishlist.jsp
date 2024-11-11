@@ -4,9 +4,32 @@
     Author     : HP
 --%>
 
+<%@page import="responses.ResponseHandler"%>
+<%@page import="dao.ProductDAO"%>
+<%@page import="models.Product"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
 <%@page import="models.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<% User user = (User) session.getAttribute("user"); %>
+<% User user = (User) session.getAttribute("user");
+    ProductDAO productDAO = new ProductDAO();
+    ResponseHandler wishlistRes;
+    List<Product> wishlist;
+
+    if (user != null) {
+        wishlistRes = productDAO.getWishlist(user.getId());
+
+        if (wishlistRes.isSuccess()) {
+            wishlist = (List<Product>) wishlistRes.getData();
+            session.setAttribute("wishlist",wishlist);
+        } else {
+            wishlist = new ArrayList<Product>();
+        }
+    } else {
+        wishlist = new ArrayList<Product>();
+    }
+
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -36,76 +59,55 @@
         <!--header-->
         <jsp:include page="../components/header.jsp" />
         <div class="pt-20 max-w-4xl mx-auto">
-            <h1 class="font-semibold text-3xl text-center my-10"><i class="fa-solid fa-heart mr-2 text-primary"></i>My Wishlist ()</h1>
+            <h1 class="font-semibold text-3xl text-center my-10">
+                <i class="fa-solid fa-heart mr-2 text-primary"></i>My Wishlist (<%=wishlist.size()%>)
+            </h1>
+
             <div class="flex flex-col gap-y-5 w-full my-10">
-                <% if (user != null) {%>
-                <div class="w-full flex flex-col gap-y-3">
-                    <div class="flex w-full justify-between items-center px-3 gap-x-10">
-                        <div class="w-28 h-20">
-                            <img src="../assets/images/fur/SOFA/sofa1.jpeg" alt="item1" class="w-full h-20"/>
-                        </div>
-                        <span>Fancy Sofa</span>
-                        <span>Rs. 1000/month</span>
-                        <a href="/pages/product.jsp">
-                            <button class="primary-btn px-4">Rent Now</button>
+                <% if (user != null && wishlist.size() != 0) {
+                        for (Product product : wishlist) {
+                            List<Product.PriceTenure> priceTenures = product.getPriceTenures();
+                            if (!priceTenures.isEmpty()) {
+                                double firstPrice = priceTenures.get(0).getPrice();
+                                int firstTenure = priceTenures.get(0).getTenure();
+                %>     
+                <div class="wishlist-item flex flex-wrap items-center bg-white rounded-lg gap-x-6 gap-y-3">
+
+                    <!-- Image Section -->
+                    <div class="image-container w-28 h-20 flex-shrink-0">
+                        <img src="../<%= product.getImageUrl()[0]%>" alt="<%= product.getName()%>" class="w-full h-full object-cover rounded-md"/>
+                    </div>
+
+                    <!-- Product Details Section -->
+                    <div class="flex-grow text-left">
+                        <h2 class="text-lg font-semibold"><%= product.getName()%></h2>
+                        <p class="text-sm text-gray-600"><%= product.getSpec()%></p>
+                    </div>
+
+                    <!-- Price Section -->
+                    <div class="text-md font-semibold text-blue-500">
+                        Rs. <%= firstPrice%>/<%= firstTenure%>
+                    </div>
+
+                    <!-- Action Buttons Section -->
+                    <div class="flex gap-3">
+                        <a href="/pages/product.jsp?productId=<%= product.getId()%>" class="primary-btn px-4 py-2 rounded-md">
+                            Rent Now
                         </a>
-                        <button class="primary-btn px-4">Remove</button>
+                        <form name="RemoveProduct" action="/RemoveWishlistServlet?productId=<%=product.getId()%>" method="POST" class="remove-btn primary-btn px-4 py-2 rounded-md">
+                            <button type="submit">Remove</button>
+                        </form>
                     </div>
                 </div>
-                <div class="w-full flex flex-col gap-y-3">
-                    <div class="flex w-full justify-between items-center px-3 gap-x-10">
-                        <div class="w-28 h-20">
-                            <img src="../assets/images/fur/SOFA/sofa1.jpeg" alt="item1" class="w-full h-20"/>
-                        </div>
-                        <span>Fancy Sofa</span>
-                        <span>Rs. 1000/month</span>
-                        <a href="/pages/product.jsp">
-                            <button class="primary-btn px-4">Rent Now</button>
-                        </a>
-                        <button class="primary-btn px-4">Remove</button>
-                    </div>
-                </div>
-                <div class="w-full flex flex-col gap-y-3">
-                    <div class="flex w-full justify-between items-center px-3 gap-x-10">
-                        <div class="w-28 h-20">
-                            <img src="../assets/images/fur/SOFA/sofa1.jpeg" alt="item1" class="w-full h-20"/>
-                        </div>
-                        <span>Fancy Sofa</span>
-                        <span>Rs. 1000/month</span>
-                        <a href="/pages/product.jsp">
-                            <button class="primary-btn px-4">Rent Now</button>
-                        </a>
-                        <button class="primary-btn px-4">Remove</button>
-                    </div>
-                </div>
-                <div class="w-full flex flex-col gap-y-3">
-                    <div class="flex w-full justify-between items-center px-3 gap-x-10">
-                        <div class="w-28 h-20">
-                            <img src="../assets/images/fur/SOFA/sofa1.jpeg" alt="item1" class="w-full h-20"/>
-                        </div>
-                        <span>Fancy Sofa</span>
-                        <span>Rs. 1000/month</span>
-                        <a href="/pages/product.jsp">
-                            <button class="primary-btn px-4">Rent Now</button>
-                        </a>
-                        <button class="primary-btn px-4">Remove</button>
-                    </div>
-                </div>
-                <div class="w-full flex flex-col gap-y-3">
-                    <div class="flex w-full justify-between items-center px-3 gap-x-10">
-                        <div class="w-28 h-20">
-                            <img src="../assets/images/fur/SOFA/sofa1.jpeg" alt="item1" class="w-full h-20"/>
-                        </div>
-                        <span>Fancy Sofa</span>
-                        <span>Rs. 1000/month</span>
-                        <a href="/pages/product.jsp">
-                            <button class="primary-btn px-4">Rent Now</button>
-                        </a>
-                        <button class="primary-btn px-4">Remove</button>
-                    </div>
-                </div><%}%><%else {%><p class="text-center">No items found. <a href="/pages/index.jsp" class="text-blue-700">Add from here</a></p><%}%>
+
+                <%}
+                    }
+                } else { %>
+                <p class="text-center">No items found. <a href="/pages/index.jsp" class="text-blue-700">Add from here</a></p>
+                <% }%>
             </div>
         </div>
+
         <!--footer-->
         <jsp:include page="../components/footer.jsp"/>
         <script>
