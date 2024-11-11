@@ -41,6 +41,30 @@
         <servlet-name>EditProfileServlet</servlet-name>
         <url-pattern>/pages/EditProfileServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>AddToWishlistServlet</servlet-name>
+        <servlet-class>controllers.AddToWishlistServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddToWishlistServlet</servlet-name>
+        <url-pattern>/AddToWishlistServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>RemoveWishlistServlet</servlet-name>
+        <servlet-class>controllers.RemoveWishlistServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RemoveWishlistServlet</servlet-name>
+        <url-pattern>/RemoveWishlistServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ProcessBorrowServlet</servlet-name>
+        <servlet-class>controllers.ProcessBorrowServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ProcessBorrowServlet</servlet-name>
+        <url-pattern>/ProcessBorrowServlet</url-pattern>
+    </servlet-mapping>
     <filter>
         <filter-name>AuthFilter</filter-name>
         <filter-class>filters.AuthFilter</filter-class>
