@@ -60,7 +60,7 @@ public class SignupServlet extends HttpServlet {
             // GENERATING RESPONSE
             if (res.isSuccess()) {
                 request.getSession().setAttribute("successMessage", res.getMessage());
-                response.sendRedirect("/pages/signup.jsp");
+                response.sendRedirect("/pages/login.jsp");
             } else {
                 request.setAttribute("errorMessage", res.getMessage());
                 RequestDispatcher rd = request.getRequestDispatcher("/pages/signup.jsp");
