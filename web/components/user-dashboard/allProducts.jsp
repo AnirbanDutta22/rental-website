@@ -4,6 +4,31 @@
     Author     : HP
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
+<%@page import="models.Product"%>
+<%@page import="responses.ResponseHandler"%>
+<%@page import="dao.ProductDAO"%>
+<%@page import="models.User"%>
+<%
+    User user = (User) session.getAttribute("user");
+    ProductDAO productDAO = new ProductDAO();
+    ResponseHandler wishlistRes;
+    List<Product> wishlist;
+
+    if (user != null) {
+        wishlistRes = productDAO.getWishlist(user.getId());
+
+        if (wishlistRes.isSuccess()) {
+            wishlist = (List<Product>) wishlistRes.getData();
+            session.setAttribute("wishlist", wishlist);
+        } else {
+            wishlist = new ArrayList<Product>();
+        }
+    } else {
+        wishlist = new ArrayList<Product>();
+    }
+%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -43,15 +68,20 @@
                 </tr>
             </thead>
             <tbody class="text-gray-600 text-sm font-light">
-
-                <!-- Sample Row 1 -->
+                <% if (user != null && wishlist.size() != 0) {
+                        for (Product product : wishlist) {
+                            List<Product.PriceTenure> priceTenures = product.getPriceTenures();
+                            if (!priceTenures.isEmpty()) {
+                                double firstPrice = priceTenures.get(0).getPrice();
+                                int firstTenure = priceTenures.get(0).getTenure();
+                %>     
                 <tr class="border-b border-gray-200">
-                    <td class="py-3 px-6 text-left">#0001</td>
+                    <td class="py-3 px-6 text-left"><%=product.getId()%></td>
                     <td class="py-3 px-6 text-center">
-                        <img src="https://via.placeholder.com/50" alt="Product Image" class="w-12 h-12 rounded">
+                        <img src="../<%=product.getImageUrl()[0] %>" alt="Product Image" class="w-12 h-12 rounded">
                     </td>
-                    <td class="py-3 px-6 text-left">Product Name 1</td>
-                    <td class="py-3 px-6 text-left">1000/month</td>
+                    <td class="py-3 px-6 text-left"><%=product.getName()%> (<%=product.getSpec()%>)</td>
+                    <td class="py-3 px-6 text-left"><%=firstPrice%>/month upto <%=firstTenure%> month</td>
                     <td class="py-3 px-6 text-left">Furniture</td>
                     <td class="py-3 px-6 text-left"><span class="text-green-700 bg-green-200 px-1.5 py-1 text-center">Added</span></td>
                     <td class="py-3 px-6 text-right">
@@ -61,43 +91,11 @@
                         <a href="userDashboard.jsp?page=editProduct" class="primary-btn px-6 py-1.5">Edit</a>
                     </td>
                 </tr>
-
-                <!-- Sample Row 2 -->
-                <tr class="border-b border-gray-200">
-                    <td class="py-3 px-6 text-left">#0001</td>
-                    <td class="py-3 px-6 text-center">
-                        <img src="https://via.placeholder.com/50" alt="Product Image" class="w-12 h-12 rounded">
-                    </td>
-                    <td class="py-3 px-6 text-left">Product Name 1</td>
-                    <td class="py-3 px-6 text-left">1000/month</td>
-                    <td class="py-3 px-6 text-left">Furniture</td>
-                    <td class="py-3 px-6 text-left"><span class="text-green-700 bg-green-200 px-1.5 py-1 text-center">Added</span></td>
-                    <td class="py-3 px-6 text-right">
-                        <button onclick="openModal()" class="primary-btn px-6 py-1">
-                            <i class="fa-solid fa-eye"></i>
-                        </button>
-                        <a href="userDashboard.jsp?page=editProduct" class="primary-btn px-6 py-1.5">Edit</a>
-                    </td>
-                </tr>
-
-                <!-- Sample Row 3 -->
-                <tr class="border-b border-gray-200">
-                    <td class="py-3 px-6 text-left">#0001</td>
-                    <td class="py-3 px-6 text-center">
-                        <img src="https://via.placeholder.com/50" alt="Product Image" class="w-12 h-12 rounded">
-                    </td>
-                    <td class="py-3 px-6 text-left">Product Name 1</td>
-                    <td class="py-3 px-6 text-left">1000/month</td>
-                    <td class="py-3 px-6 text-left">Furniture</td>
-                    <td class="py-3 px-6 text-left"><span class="text-yellow-700 bg-yellow-200 px-1.5 py-1 text-center">Drafted</span></td>
-                    <td class="py-3 px-6 text-right">
-                        <button onclick="openModal()" class="primary-btn px-6 py-1">
-                            <i class="fa-solid fa-eye"></i>
-                        </button>
-                        <a href="userDashboard.jsp?page=editProduct" class="primary-btn px-6 py-1.5">Edit</a>
-                    </td>
-                </tr>
-
+                <%
+                            }
+                        }
+                    }
+                %>
             </tbody>
         </table>
     </div>
