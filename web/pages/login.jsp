@@ -40,7 +40,7 @@
                     </div>
                     <div class="w-2/4  p-8 bg-white">
                         <h2 class="text-3xl font-bold text-center mt-4 text-gray-800 mb-8">Login to Rental</h2>
-                        <form name="Login" method="POST" action="LoginServlet">
+                        <form name="Login" method="POST" action="/LoginServlet">
                             <div class="mb-6">
                                 <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Username/Email</label>
                                 <input type="text" id="username" name="username" placeholder="Enter your username or email" required class="w-full px-3 py-2 placeholder-gray-400 border rounded-lg focus:outline-none transition duration-200" required aria-required="true">

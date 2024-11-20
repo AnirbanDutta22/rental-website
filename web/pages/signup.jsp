@@ -69,7 +69,7 @@
 
                         <% } else { %>
                         <!-- Sign-up Form -->
-                        <form name="Signup" method="POST" action="SignupServlet">
+                        <form name="Signup" method="POST" action="/SignupServlet">
                             <div class="mb-6">
                                 <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Full Name</label>
                                 <input type="text" id="name" name="name" placeholder="Your Full Name" required class="w-full px-3 py-2 placeholder-gray-400 border rounded-lg focus:outline-none transition duration-200">
