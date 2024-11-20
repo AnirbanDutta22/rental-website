@@ -13,20 +13,20 @@
 <%
     User user = (User) session.getAttribute("user");
     ProductDAO productDAO = new ProductDAO();
-    ResponseHandler wishlistRes;
-    List<Product> wishlist;
+    ResponseHandler allProductsLentRes;
+    List<Product> lentProducts;
 
     if (user != null) {
-        wishlistRes = productDAO.getWishlist(user.getId());
+        allProductsLentRes = productDAO.getAllProductsLent(user.getId());
 
-        if (wishlistRes.isSuccess()) {
-            wishlist = (List<Product>) wishlistRes.getData();
-            session.setAttribute("wishlist", wishlist);
+        if (allProductsLentRes.isSuccess()) {
+            lentProducts = (List<Product>) allProductsLentRes.getData();
+            session.setAttribute("allLentProducts", lentProducts);
         } else {
-            wishlist = new ArrayList<Product>();
+            lentProducts = new ArrayList<Product>();
         }
     } else {
-        wishlist = new ArrayList<Product>();
+        lentProducts = new ArrayList<Product>();
     }
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -68,8 +68,8 @@
                 </tr>
             </thead>
             <tbody class="text-gray-600 text-sm font-light">
-                <% if (user != null && wishlist.size() != 0) {
-                        for (Product product : wishlist) {
+                <% if (user != null && lentProducts.size() != 0) {
+                        for (Product product : lentProducts) {
                             List<Product.PriceTenure> priceTenures = product.getPriceTenures();
                             if (!priceTenures.isEmpty()) {
                                 double firstPrice = priceTenures.get(0).getPrice();
@@ -78,17 +78,18 @@
                 <tr class="border-b border-gray-200">
                     <td class="py-3 px-6 text-left"><%=product.getId()%></td>
                     <td class="py-3 px-6 text-center">
-                        <img src="../<%=product.getImageUrl()[0] %>" alt="Product Image" class="w-12 h-12 rounded">
+                        <img src="../<%=product.getImageUrl()[0]%>" alt="Product Image" class="w-12 h-12 rounded">
                     </td>
                     <td class="py-3 px-6 text-left"><%=product.getName()%> (<%=product.getSpec()%>)</td>
                     <td class="py-3 px-6 text-left"><%=firstPrice%>/month upto <%=firstTenure%> month</td>
-                    <td class="py-3 px-6 text-left">Furniture</td>
+                    <td class="py-3 px-6 text-left"><%=product.getCategory()%></td>
                     <td class="py-3 px-6 text-left"><span class="text-green-700 bg-green-200 px-1.5 py-1 text-center">Added</span></td>
-                    <td class="py-3 px-6 text-right">
-                        <button onclick="openModal()" class="primary-btn px-6 py-1">
-                            <i class="fa-solid fa-eye"></i>
+                    <td class="py-3 px-6 text-right flex text-base items-center">
+                        <button class="primary-btn px-4 py-1"><a href="/pages/product.jsp?productId=<%=product.getId()%>">
+                                <i class="fa-solid fa-eye"></i></a>
                         </button>
-                        <a href="userDashboard.jsp?page=editProduct" class="primary-btn px-6 py-1.5">Edit</a>
+                        <button class="primary-btn px-4 py-1 ml-2"><a href="userDashboard.jsp?page=editProduct">Edit</a></button>
+                        <form name="RemoveProductServlet" action="/RemoveProductServlet?product_id=<%=product.getId()%>&lender_id=<%=product.getLenderUsername()%>" method="POST"><button type="submit" class="primary-btn hover:bg-primary-100 transition-all ease-in-out duration-300 px-4 py-1 ml-2">Remove</button></form>
                     </td>
                 </tr>
                 <%
