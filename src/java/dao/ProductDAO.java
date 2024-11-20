@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import models.Product;
+import models.SelectedProduct;
 import oracle.jdbc.OracleConnection;
 import oracle.jdbc.OraclePreparedStatement;
 import responses.ResponseHandler;
@@ -28,16 +29,19 @@ public class ProductDAO {
                         product.setName(productResult.getString("NAME"));
                         product.setDescription(productResult.getString("DESCRIPTION"));
                         product.setSpec(productResult.getString("SPEC"));
+                        product.setPostdate(productResult.getDate("POST_DATE"));
 
                         // USING UTILITY METHOD FOR FETCHING PRODUCT PRICE,IMAGES
                         fetchPriceAndTenure(productResult, product);
                         fetchProductImages(productResult, product);
+                        fetchProductLender(productResult, product);
                         //ADDING EACH PRODUCT TO PRODUCTLIST ARRAY
                         productList.add(product);
                     }
                 }
             }
         }
+        
         //checking if productList is empty
         if (!productList.isEmpty()) {
             return new ResponseHandler(true, "All Products fetched successfully!", productList);
@@ -62,10 +66,12 @@ public class ProductDAO {
                         product.setId(productResult.getInt("PRODUCT_ID"));
                         product.setName(productResult.getString("NAME"));
                         product.setDescription(productResult.getString("DESCRIPTION"));
+                        product.setPostdate(productResult.getDate("POST_DATE"));
 
                         //USING UTILITY METHOD FOR FETCHING PRODUCT PRICE,IMAGES,CATEGORY
                         fetchPriceAndTenure(productResult, product);
                         fetchProductImages(productResult, product);
+                        fetchProductLender(productResult, product);
                         //ADDING EACH PRODUCT TO PRODUCTLIST ARRAY
                         productList.add(product);
 
@@ -99,6 +105,7 @@ public class ProductDAO {
                         product.setName(rs.getString("NAME"));
                         product.setDescription(rs.getString("DESCRIPTION"));
                         product.setSpec(rs.getString("SPEC"));
+                        product.setPostdate(rs.getDate("POST_DATE"));
 
                         //USING UTILITY METHOD FOR FETCHING PRODUCT DETAILS
                         getProductDetailsUtil(rs, product);
@@ -143,39 +150,122 @@ public class ProductDAO {
             return new ResponseHandler(false, "No Products found!");
         }
     }
-    
-    //method fot fetching products lent by specific user
-    public ResponseHandler getAllProductsLent(int user_id) throws SQLException{
-        List<Product> wl = new ArrayList<>();
+
+    //method for fetching products lent by specific user
+    public ResponseHandler getAllProductsLent(int user_id) throws SQLException {
+        List<Product> allLentProducts = new ArrayList<>();
         try (OracleConnection oconn = DBConnect.getConnection()) {
-            String getWishlistQuery = "SELECT PRODUCT_ID,NAME,SPEC FROM PRODUCT WHERE PRODUCT_ID IN (SELECT PRODUCT_ID FROM USER_WISHLIST WHERE USER_ID = ?)";
-            try (OraclePreparedStatement ops = (OraclePreparedStatement) oconn.prepareCall(getWishlistQuery)) {
+            String getLentProductQuery = "SELECT * FROM PRODUCT WHERE LENDER_ID = ?";
+            try (OraclePreparedStatement ops = (OraclePreparedStatement) oconn.prepareCall(getLentProductQuery)) {
                 ops.setInt(1, user_id);
 
-                try (ResultSet wishlistResult = ops.executeQuery()) {
-                    while (wishlistResult.next()) {
+                try (ResultSet productResult = ops.executeQuery()) {
+                    while (productResult.next()) {
                         Product product = new Product();
-                        product.setId(wishlistResult.getInt("PRODUCT_ID"));
-                        product.setName(wishlistResult.getString("NAME"));
-                        product.setSpec(wishlistResult.getString("SPEC"));
+                        product.setId(productResult.getInt("PRODUCT_ID"));
+                        product.setName(productResult.getString("NAME"));
+                        product.setSpec(productResult.getString("SPEC"));
 
-                        // USING UTILITY METHOD FOR FETCHING PRODUCT PRICE,IMAGES
-                        fetchPriceAndTenure(wishlistResult, product);
-                        fetchProductImages(wishlistResult, product);
+                        // USING UTILITY METHOD FOR FETCHING PRODUCT DETAILS
+                        getProductDetailsUtil(productResult, product);
                         //ADDING EACH PRODUCT TO WISHLIST ARRAY
-                        wl.add(product);
+                        allLentProducts.add(product);
                     }
                 }
             }
         }
-        //checking if wishlist is empty
-        if (!wl.isEmpty()) {
-            return new ResponseHandler(true, "All Wishlist Products fetched successfully!", wl);
+        //checking if lent product list is empty
+        if (!allLentProducts.isEmpty()) {
+            return new ResponseHandler(true, "All Lent Products fetched successfully!", allLentProducts);
         } else {
             return new ResponseHandler(false, "No Products found!");
         }
     }
 
+    //method for fetching all borrow requests (borrower side)
+    public ResponseHandler getOwnBorrowRequests(int user_id) throws SQLException {
+        List<SelectedProduct> ownBorrowRequests = new ArrayList<>();
+        try (OracleConnection oconn = DBConnect.getConnection()) {
+            String getOwnBRQuery = "SELECT P.*,RR.* FROM PRODUCT P JOIN RENTAL_REQUEST RR ON P.PRODUCT_ID = RR.PRODUCT_ID WHERE RR.BORROWER_ID = ?";
+            try (OraclePreparedStatement ops = (OraclePreparedStatement) oconn.prepareCall(getOwnBRQuery)) {
+                ops.setInt(1, user_id);
+
+                try (ResultSet productResult = ops.executeQuery()) {
+                    while (productResult.next()) {
+                        SelectedProduct selectedProduct = new SelectedProduct();
+                        Product product = new Product();
+                        selectedProduct.setSelectedPrice(productResult.getDouble("PRODUCT_PRICE"));
+                        selectedProduct.setSelectedTenure(productResult.getInt("TENURE"));
+                        selectedProduct.setOfferedPrice(productResult.getDouble("OFFERED_PRICE"));
+                        selectedProduct.setStatus(productResult.getString("STATUS"));
+                        selectedProduct.setDate(productResult.getDate("REQUEST_DATE"));
+                        selectedProduct.setRequestId(productResult.getInt("REQUEST_ID"));
+                        product.setId(productResult.getInt("PRODUCT_ID"));
+                        product.setName(productResult.getString("NAME"));
+                        product.setSpec(productResult.getString("SPEC"));
+
+                        selectedProduct.setProduct(product);
+
+                        // USING UTILITY METHOD FOR FETCHING PRODUCT DETAILS
+                        fetchPriceAndTenure(productResult, product);
+                        fetchProductImages(productResult, product);
+                        fetchProductLender(productResult, product);
+                        //ADDING EACH PRODUCT TO OWN BORROW REQUEST ARRAY
+                        ownBorrowRequests.add(selectedProduct);
+                    }
+                }
+            }
+        }
+        //checking if own borrow list is empty
+        if (!ownBorrowRequests.isEmpty()) {
+            return new ResponseHandler(true, "Borrower own requests fetched successfully!", ownBorrowRequests);
+        } else {
+            return new ResponseHandler(false, "No requests found!");
+        }
+    }
+
+    //method for fetching all borrow requests (lender side)
+    public ResponseHandler getBorrowRequests(int user_id) throws SQLException {
+        List<SelectedProduct> borrowRequests = new ArrayList<>();
+        try (OracleConnection oconn = DBConnect.getConnection()) {
+            String getBRQuery = "SELECT P.*,RR.* FROM PRODUCT P JOIN RENTAL_REQUEST RR ON P.PRODUCT_ID = RR.PRODUCT_ID WHERE RR.LENDER_ID = ?";
+            try (OraclePreparedStatement ops = (OraclePreparedStatement) oconn.prepareCall(getBRQuery)) {
+                ops.setInt(1, user_id);
+
+                try (ResultSet productResult = ops.executeQuery()) {
+                    while (productResult.next()) {
+                        SelectedProduct selectedProduct = new SelectedProduct();
+                        Product product = new Product();
+                        selectedProduct.setSelectedPrice(productResult.getDouble("PRODUCT_PRICE"));
+                        selectedProduct.setSelectedTenure(productResult.getInt("TENURE"));
+                        selectedProduct.setOfferedPrice(productResult.getDouble("OFFERED_PRICE"));
+                        selectedProduct.setMessage(productResult.getString("MESSAGE"));
+                        selectedProduct.setDate(productResult.getDate("REQUEST_DATE"));
+                        selectedProduct.setRequestId(productResult.getInt("REQUEST_ID"));
+                        product.setId(productResult.getInt("PRODUCT_ID"));
+                        product.setName(productResult.getString("NAME"));
+                        product.setSpec(productResult.getString("SPEC"));
+
+                        selectedProduct.setProduct(product);
+
+                        // USING UTILITY METHOD FOR FETCHING PRODUCT DETAILS
+                        fetchPriceAndTenure(productResult, product);
+                        fetchProductImages(productResult, product);
+                        fetchProductLender(productResult, product);
+                        //ADDING EACH PRODUCT TO OWN BORROW REQUEST ARRAY
+                        borrowRequests.add(selectedProduct);
+                    }
+                }
+            }
+        }
+        //checking if borrow request list is empty
+        if (!borrowRequests.isEmpty()) {
+            return new ResponseHandler(true, "Borrow requests fetched successfully!", borrowRequests);
+        } else {
+            return new ResponseHandler(false, "No requests found!");
+        }
+    }
+    
     // Utility method for fetching product details (price, tenure, and images)
     public static void getProductDetailsUtil(ResultSet productResult, Product product) throws SQLException {
         // Fetch price and tenure details
@@ -284,7 +374,7 @@ public class ProductDAO {
     }
 
     private static void fetchProductLender(ResultSet productResult, Product product) throws SQLException {
-        String fetchProductLenderQuery = "SELECT NAME,ADDRESS FROM USER1 WHERE USER_ID = (SELECT LENDER_ID FROM PRODUCT WHERE PRODUCT_ID = ?)";
+        String fetchProductLenderQuery = "SELECT NAME,ADDRESS,USERNAME FROM USER1 WHERE USER_ID = (SELECT LENDER_ID FROM PRODUCT WHERE PRODUCT_ID = ?)";
         try (OracleConnection oconn = DBConnect.getConnection();
                 OraclePreparedStatement ops = (OraclePreparedStatement) oconn.prepareStatement(fetchProductLenderQuery)) {
 
@@ -293,6 +383,7 @@ public class ProductDAO {
                 if (lenderResult.next()) {
                     product.setLenderName(lenderResult.getString("NAME"));
                     product.setLenderAddress(lenderResult.getString("ADDRESS"));
+                    product.setLenderUsername(lenderResult.getString("USERNAME"));
                 }
             }
         }
