@@ -1,3 +1,4 @@
+<%@page import="utils.DateFormatter"%>
 <%@page import="models.User"%>
 <%@page import="dao.UserDAO"%>
 <%@page import="java.util.ArrayList"%>
@@ -6,6 +7,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="models.Product" %>
 <% User user = (User) session.getAttribute("user");
+    List<Product> wishlist = (List<Product>) session.getAttribute("wishlist");
 
     UserDAO userDAO = new UserDAO();
     ResponseHandler userRes;
@@ -53,7 +55,7 @@
 
         <div class="bg-white p-4 relative h-84 rounded shadow-md hover:shadow-lg transition-shadow flex flex-col">
 
-            <!-- Heart Icon at the Top Right -->
+            <!-- Heart Icon for wishlist-->
             <form name="WishListButton" method="POST" action="/AddToWishlistServlet?product_id=<%=product.getId()%>" class="absolute w-full top-2 left-[85%] z-20">
                 <button type="submit">
                     <i class="fa-solid fa-heart text-gray-500 text-2xl bg-white shadow border border-black rounded-full p-2 flex justify-end mr-10 cursor-pointer"></i>
@@ -75,11 +77,12 @@
             </div>
 
             <!-- Footer with Button and Date, Stays at the Bottom -->
+            <p class="text-gray-900 text-base"><%=product.getLenderAddress()%></p>
             <div class="flex justify-between items-center mt-3">
                 <a href="/pages/product.jsp?productId=<%= product.getId()%>">
                     <button class="primary-btn rounded-md">Rent Now</button>
                 </a>
-                <p class="text-sm">Date: 09/09/2024</p>
+                <p class="text-sm">posted <%=DateFormatter.getRelativeDate(product.getPostdate())%></p>
             </div>
         </div>
 
