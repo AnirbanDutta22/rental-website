@@ -1,24 +1,71 @@
 package models;
 
-public class SelectedProduct extends Product {
+import java.util.Date;
 
-    private double selected_price;
-    private int selected_tenure,prev_tenure;
+public class SelectedProduct {
+
+    private double selected_price, offered_price;
+    private int selected_tenure,prev_tenure,requestId;
+
+    private String status,message;
+    private Date date;
+    
+    private Product product;
+    private User user;
+    
+    public SelectedProduct(){
+        
+    }
     
     public SelectedProduct(Product product) {
-        this.setId(product.getId());
-        this.setName(product.getName());
-        this.setDescription(product.getDescription());
-        this.setImageUrl(product.getImageUrl());
-        this.setTags(product.getTags());
-        this.setCategory(product.getCategory());
-        this.setSpec(product.getSpec());
-        this.setLenderName(product.getLenderName());
-        this.setLenderAddress(product.getLenderAddress());
-        this.setPriceTenures(product.getPriceTenures());
-        this.setDetails(product.getDetails());
+        this.product = product;
+    }
+    
+    public SelectedProduct(Product product,User user) {
+        this.product = product;
+        this.user = user;
     }
 
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public double getOfferedPrice() {
+        return offered_price;
+    }
+
+    public void setOfferedPrice(double offered_price) {
+        this.offered_price = offered_price;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
     public double getSelectedPrice() {
         return selected_price;
     }
@@ -42,5 +89,20 @@ public class SelectedProduct extends Product {
     public void setPrevTenure(int prev_tenure) {
         this.prev_tenure = prev_tenure;
     }
+    
+    public Date getDate() {
+        return date;
+    }
 
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public int getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(int requestId) {
+        this.requestId = requestId;
+    }
 }

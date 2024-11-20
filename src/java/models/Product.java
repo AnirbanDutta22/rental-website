@@ -1,23 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package models;
 
+import java.util.Date;
 import java.util.List;
 
 public class Product {
-    private int id;
-    private String name;
-    private String description;
-    private String[] imageUrl;
-    private String[] tags;
-    private String category;
-    private String spec;
-    private String lenderName;
-    private String lenderAddress;
-    
+    private int id,categoryId;
+    private String name,description,spec,category,lenderName,lenderAddress,lenderUsername;
+    private String[] imageUrl,tags;
+    private Date postdate;
+
     // List of price and tenure combinations
     private List<PriceTenure> priceTenures;
 
@@ -39,6 +30,17 @@ public class Product {
         this.name = name;
         this.description = description;
         this.category = category;
+        this.imageUrl = imageUrl;
+        this.priceTenures = priceTenures;
+        this.details = details;
+    }
+    //constructor for adding product
+    public Product(String name, String description,String spec, String[] tags, int categoryId, String[] imageUrl,List<Details> details,List<PriceTenure> priceTenures) {
+        this.name = name;
+        this.description = description;
+        this.spec = spec;
+        this.tags = tags;
+        this.categoryId = categoryId;
         this.imageUrl = imageUrl;
         this.priceTenures = priceTenures;
         this.details = details;
@@ -67,6 +69,14 @@ public class Product {
     public void setCategory(String category) {
         this.category = category;
     }
+    
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
 
     public String getSpec() {
         return spec;
@@ -92,6 +102,14 @@ public class Product {
         return imageUrl;
     }
 
+    public Date getPostdate() {
+        return postdate;
+    }
+
+    public void setPostdate(Date postdate) {
+        this.postdate = postdate;
+    }
+    
     public List<PriceTenure> getPriceTenures() {
         return priceTenures;
     }
@@ -114,6 +132,14 @@ public class Product {
 
     public void setLenderName(String lenderName) {
         this.lenderName = lenderName;
+    }
+        
+    public String getLenderUsername() {
+        return lenderUsername;
+    }
+
+    public void setLenderUsername(String lenderUsername) {
+        this.lenderUsername = lenderUsername;
     }
 
     public String getLenderAddress() {
