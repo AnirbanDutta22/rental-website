@@ -11,16 +11,14 @@
 <script src="https://kit.fontawesome.com/cb3d6578eb.js" crossorigin="anonymous"></script>
 <nav class="text-xl font-medium text-darkColor backdrop-blur-2xl bg-white/80 shadow-md dark:bg-darkColor fixed w-full z-40 top-0 start-0 border-b border-gray-200 dark:bg-darkColor">
     <div class="max-w-screen-2xl flex items-center justify-between mx-auto p-2">
-        <a href="/pages/index.jsp" class="flex items-center space-x-3 rtl:space-x-reverse">
+        <a href="/pages/index.jsp" class="basis-[10%] flex items-center space-x-3 rtl:space-x-reverse">
             <img src="../assets/images/logo.png" class="h-20" alt="Rentle Logo">
         </a>
-        <div class="relative flex items-center md:order-2 space-x-3 md:space-x-4 rtl:space-x-reverse">
-            <jsp:include page="./theme-toggle.jsp"/>
-
+        <div class="relative flex items-center md:order-2 space-x-3 md:space-x-6 rtl:space-x-reverse">
             <%
                 if (user != null) {
             %>
-
+            <i class="fa-regular fa-bell text-2xl mr-7"></i>
             <img src="<%= user.getAvatar_image()!= null ? "../" + user.getAvatar_image(): "../assets/images/profile.jpg" %>" id="avatarButton" type="button" onclick="openProfileDropdown()" class="p-1 w-12 h-12 rounded-full cursor-pointer ring-2 ring-primary dark:ring-gray-500" alt="User dropdown">
                 <%
                 } else {
@@ -44,11 +42,14 @@
                             <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
                         </li>
                         <li>
+                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex justify-start items-center">Mode <jsp:include page="./theme-toggle.jsp"/></a>
+                        </li>
+                        <li>
                             <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
                         </li>
                     </ul>
                     <div class="py-1">
-                        <form name="Logout" action="/pages/LogoutServlet" method="POST">
+                        <form name="Logout" action="/LogoutServlet" method="POST">
                             <button type="submit" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</button>
                         </form>
                     </div>
@@ -90,7 +91,7 @@
         <div class="flex justify-end items-center gap-x-8 basis-[30%]">
             <a href="/pages/requestDashboard.jsp" class="hover:text-primary transition-all ease-in-out duration-300"><i class="fa-solid fa-list mr-2"></i>Requests</a>
             <a href="/pages/wishlist.jsp" class="hover:text-primary transition-all ease-in-out duration-300"><i class="fa-solid fa-heart mr-2"></i>Wishlist</a>
-            <a href="/pages/userDashboard.jsp?page=lendProduct"><button type="button" class="text-white bg-primary hover:bg-primary-100 transition-all ease-in-out duration-300 font-medium rounded-full text-base px-8 whitespace-nowrap py-2 text-center dark:bg-light dark:text-darkColor">Lend +</button></a>
+            <a href="/pages/userDashboard.jsp?page=lendProduct"><button type="button" class="secondary-btn">Lend +</button></a>
         </div>
     </div>
 </nav>
