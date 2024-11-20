@@ -9,67 +9,10 @@
     <welcome-file-list>
         <welcome-file>/pages/index.jsp</welcome-file>
     </welcome-file-list>
-    <servlet>
-        <servlet-name>SignupServlet</servlet-name>
-        <servlet-class>controllers.SignupServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>SignupServlet</servlet-name>
-        <url-pattern>/pages/SignupServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>controllers.LoginServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>LoginServlet</servlet-name>
-        <url-pattern>/pages/LoginServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>LogoutServlet</servlet-name>
-        <servlet-class>controllers.LogoutServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>LogoutServlet</servlet-name>
-        <url-pattern>/pages/LogoutServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>EditProfileServlet</servlet-name>
-        <servlet-class>controllers.EditProfileServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>EditProfileServlet</servlet-name>
-        <url-pattern>/pages/EditProfileServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>AddToWishlistServlet</servlet-name>
-        <servlet-class>controllers.AddToWishlistServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AddToWishlistServlet</servlet-name>
-        <url-pattern>/AddToWishlistServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>RemoveWishlistServlet</servlet-name>
-        <servlet-class>controllers.RemoveWishlistServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>RemoveWishlistServlet</servlet-name>
-        <url-pattern>/RemoveWishlistServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>ProcessBorrowServlet</servlet-name>
-        <servlet-class>controllers.ProcessBorrowServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ProcessBorrowServlet</servlet-name>
-        <url-pattern>/ProcessBorrowServlet</url-pattern>
-    </servlet-mapping>
     <filter>
         <filter-name>AuthFilter</filter-name>
         <filter-class>filters.AuthFilter</filter-class>
     </filter>
-
     <filter-mapping>
         <filter-name>AuthFilter</filter-name>
         <url-pattern>/pages/userDashboard.jsp</url-pattern>
@@ -77,6 +20,10 @@
     <filter-mapping>
         <filter-name>AuthFilter</filter-name>
         <url-pattern>/pages/borrowRequest.jsp</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/pages/requestDashboard.jsp</url-pattern>
     </filter-mapping>
 
 </web-app>
