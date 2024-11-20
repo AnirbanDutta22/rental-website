@@ -31,11 +31,11 @@
                                 <li class="mt-2"><a href="userDashboard.jsp?page=allProducts">All Products</a></li>
                             </ul>
                         </li>
-                        <li class="pb-8"><a href="userDashboard.jsp?page=transactions"><i class="fa-solid fa-wallet mr-4"></i>Transactions</a></li>
+                        <li class="pb-8"><a href="userDashboard.jsp?page=rentals"><i class="fa-solid fa-wallet mr-4"></i>Transactions</a></li>
                         <li class="pb-8"><a href="userDashboard.jsp?page=kyc"><i class="fa-solid fa-id-card mr-4"></i>KYC</a></li>
                         <li class="pb-8"><a href="/pages/support.jsp"><i class="fa-solid fa-circle-info mr-4"></i>Help & Support</a></li>
                     </ul>
-                    <form name="Logout" action="LogoutServlet" method="POST">
+                    <form name="Logout" action="/LogoutServlet" method="POST">
                         <button class="" type="submit"><i class="fa-solid fa-right-from-bracket mr-4"></i>Logout</button>
                     </form>
                 </div>
@@ -46,7 +46,7 @@
                         <img id="avatarButton" type="button" class="p-1 w-12 h-12 rounded-full ring-2 ring-primary dark:ring-gray-500" src="<%= user.getAvatar_image()!= null ? "../" + user.getAvatar_image(): "../assets/images/profile.jpg" %>" alt=user-profile>
                     </div>
                     <div class="w-full p-16">
-                        <jsp:include page="${param.page == 'lendProduct' ? '/components/user-dashboard/lendProduct.jsp' : param.page == 'editProduct' ? '/components/user-dashboard/lendProduct.jsp' : param.page == 'allProducts' ? '/components/user-dashboard/allProducts.jsp' : param.page == 'transactions' ? '/components/user-dashboard/transactions.jsp' : param.page == 'transactionDetail' ? '/components/user-dashboard/transactionDetail.jsp' :  param.page == 'support' ? '/pages/support.jsp' :  param.page == 'kyc' ? '/components/user-dashboard/kyc.html' :  '/components/user-dashboard/profile.jsp'}" />
+                        <jsp:include page="${param.page == 'lendProduct' ? '/components/user-dashboard/lendProduct.jsp' : param.page == 'editProduct' ? '/components/user-dashboard/lendProduct.jsp' : param.page == 'allProducts' ? '/components/user-dashboard/allProducts.jsp' : param.page == 'rentals' ? '/components/user-dashboard/rentals.jsp' : param.page == 'rentalDetail' ? '/components/user-dashboard/rentalDetail.jsp' :  param.page == 'support' ? '/pages/support.jsp' :  param.page == 'kyc' ? '/components/user-dashboard/kyc.html' :  '/components/user-dashboard/profile.jsp'}" />
                     </div>
                 </div>
             </div>

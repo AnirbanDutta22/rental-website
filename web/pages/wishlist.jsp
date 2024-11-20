@@ -85,8 +85,8 @@
                     </div>
 
                     <!-- Price Section -->
-                    <div class="text-md font-semibold text-blue-500">
-                        Rs. <%= firstPrice%>/<%= firstTenure%>
+                    <div class="text-md">
+                        <span class="font-semibold text-blue-500">Rs. <%= firstPrice%>/month</span> upto <%=firstTenure%> months
                     </div>
 
                     <!-- Action Buttons Section -->
