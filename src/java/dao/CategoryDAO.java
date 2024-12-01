@@ -50,5 +50,36 @@ public class CategoryDAO {
             return new ResponseHandler(false, "No Category found!");
         }
     }
+     
+    public ResponseHandler addCategory(Category category) throws SQLException {
+        String addCategoryQuery = "INSERT INTO CATEGORY (CATEGORY_ID,NAME) VALUES (?,?)";
+        try (OracleConnection oconn = DBConnect.getConnection()) {
+            try (OraclePreparedStatement ops = (OraclePreparedStatement) oconn.prepareCall(addCategoryQuery)) {
+                ops.setInt(1, category.getId());
+                ops.setString(2, category.getName());
+
+                int rowsInserted = ops.executeUpdate();
+                if (rowsInserted > 0) {
+                    return new ResponseHandler(true, "Category added successfully !");
+                } else {
+                    return new ResponseHandler(false, "Failed to add category!");
+                }
+            }
+        }
+    }
+    public ResponseHandler removeCategory(int categoryId) throws SQLException {
+        String removeCategoryQuery = "DELETE FROM CATEGORY WHERE CATEGORY_ID= ?";
+        try (OracleConnection oconn = DBConnect.getConnection()) {
+            try (OraclePreparedStatement ops = (OraclePreparedStatement) oconn.prepareCall(removeCategoryQuery)) {
+                ops.setInt(1, categoryId);
+                int rowsDeleted = ops.executeUpdate();
+                if (rowsDeleted > 0) {
+                    return new ResponseHandler(true, "Category removed successfully !");
+                } else {
+                    return new ResponseHandler(false, "Failed to remove category!");
+                }
+            }
+        }
+    }
     
 }
