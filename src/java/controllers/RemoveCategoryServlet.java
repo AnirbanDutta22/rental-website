@@ -15,27 +15,24 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import models.Category;
 import responses.ResponseHandler;
 
 /**
  *
  * @author Srikanta
  */
-@WebServlet(name = "AddCategoryServlet", urlPatterns = {"/AddCategoryServlet"})
-public class AddCategoryServlet extends HttpServlet{
-    
+@WebServlet(name = "RemoveCategoryServlet", urlPatterns = {"/RemoveCategoryServlet"})
+public class RemoveCategoryServlet extends HttpServlet {
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
+
         try {
             int categoryId = Integer.parseInt(request.getParameter("categoryId"));
-            String name = request.getParameter("category_name");
-            Category category = new Category(categoryId, name);
             CategoryDAO CategoryDAO = new CategoryDAO();
-            ResponseHandler res = CategoryDAO.addCategory(category);
+            ResponseHandler res = CategoryDAO.removeCategory(categoryId);
             if (res.isSuccess()) {
-                request.getSession().setAttribute("successMessage", "Category added successfully!");
+                request.getSession().setAttribute("successMessage", "Category removed successfully!");
                 response.sendRedirect("/pages/admin.jsp?page=category");
             } else {
                 request.setAttribute("errorMessage", res.getMessage());
@@ -45,5 +42,4 @@ public class AddCategoryServlet extends HttpServlet{
             Logger.getLogger(AddCategoryServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
 }
