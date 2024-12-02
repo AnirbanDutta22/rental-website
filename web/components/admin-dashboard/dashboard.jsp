@@ -42,7 +42,7 @@
                     <td class="py-2 px-4 text-center"><%= AdminDAO.getRowCount("USER1")%></td>
                     <td class="py-2 px-4 text-center">25/09/2024</td>
                     <td class="py-2 px-4 text-center">
-                        <a href="#" onclick="showSection('manage-users')"><button class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">view</button></a> 
+                        <a href="admin.jsp?page=user"><button class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">view</button></a> 
                     </td>
                 </tr>
                 <tr class="border-t">
@@ -50,7 +50,7 @@
                     <td class="py-2 px-4 text-center"><%= AdminDAO.getRowCount("PRODUCT")%></td>
                     <td class="py-2 px-4 text-center">24/09/2024</td>
                     <td class="py-2 px-4 text-center">
-                        <a href="#" onclick="showSection('manage-products')"><button class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">view</button></a> 
+                        <a href="admin.jsp?page=products"><button class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">view</button></a> 
                     </td>
                 </tr>
             </tbody>

@@ -13,8 +13,6 @@ import models.Product;
 import models.User;
 import oracle.jdbc.OracleConnection;
 import oracle.jdbc.OraclePreparedStatement;
-import oracle.jdbc.OracleResultSet;
-import oracle.jdbc.OracleResultSetMetaData;
 import responses.ResponseHandler;
 import utils.DBConnect;
 import utils.FetchData;
@@ -136,11 +134,12 @@ public class AdminDAO {
                         product.setId(productResult.getInt("PRODUCT_ID"));
                         product.setName(productResult.getString("NAME"));
                         product.setPostdate(productResult.getDate("POST_DATE"));
-                        product.setLenderId(productResult.getInt("LENDER_ID"));
-                        product.setCategoryId(productResult.getInt("Category_id"));
                         product.setStatus(productResult.getString("STATUS"));
-
-                       
+                        product.setSpec(productResult.getString("SPEC"));
+                        int categoryId =productResult.getInt("Category_id");
+                        int lenderId =productResult.getInt("LENDER_ID");
+                        getCategoryName(categoryId, product);
+                        getLenderName(lenderId, product);
                         productList.add(product);
                     }
                 }
@@ -154,5 +153,42 @@ public class AdminDAO {
             return new ResponseHandler(false, "No Products found!");
         }
     }
+    
+    public void getCategoryName(int categoryId, Product product ) throws SQLException {
+
+       try (OracleConnection oconn = DBConnect.getConnection()) {
+
+            //QUERY FOR FETCHING ALL PRODUCTS
+            String fetchCategoryName = "SELECT NAME FROM CATEGORY WHERE CATEGORY_ID=?";
+            try (OraclePreparedStatement ops = (OraclePreparedStatement) oconn.prepareStatement(fetchCategoryName)) {
+                ops.setInt(1, categoryId);
+                try (ResultSet rs = ops.executeQuery()) {
+                    while (rs.next()) {
+                         product.setCategory(rs.getString("NAME"));
+                    }
+                }
+            }
+        }
+    }
+    public void getLenderName(int lenderId, Product product ) throws SQLException {
+
+       try (OracleConnection oconn = DBConnect.getConnection()) {
+
+            //QUERY FOR FETCHING ALL PRODUCTS
+            String fetchCategoryName = "SELECT NAME FROM USER1 WHERE USER_ID=?";
+            try (OraclePreparedStatement ops = (OraclePreparedStatement) oconn.prepareStatement(fetchCategoryName)) {
+                ops.setInt(1, lenderId);
+                try (ResultSet rs = ops.executeQuery()) {
+                    while (rs.next()) {
+                         product.setLenderName(rs.getString("NAME"));
+                    }
+                }
+            }
+        }
+    }
+    
+
+     
+      
     
 }

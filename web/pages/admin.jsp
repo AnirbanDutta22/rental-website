@@ -61,34 +61,8 @@
             <div class="flex-1 p-6">
                 <jsp:include page="${param.page == 'dashboard' ? '/components/admin-dashboard/dashboard.jsp' : param.page == 'user' ? '/components/admin-dashboard/fetchUser.jsp' : param.page == 'products' ? '/components/admin-dashboard/fetchProduct.jsp' : param.page == 'category' ? '/components/admin-dashboard/fetchCategory.jsp' : '/components/admin-dashboard/dashboard.jsp'}" />
                     
-                <!-- Dashboard Overview -->
-                        <%--<jsp:include page="../components/admin-dashboard/dashboard.jsp" />--%>
-                <!-- Manage Users  -->
-                
-                        <%--<jsp:include page="../components/admin-dashboard/fetchUser.jsp" />--%>
-                    
-                 <!--Manage Products-->  
-                
-                        <%--<jsp:include page="../components/admin-dashboard/fetchProduct.jsp" />--%>
-                   
-                 <!--Manage category-->  
-                
-                        <%--<jsp:include page="../components/admin-dashboard/fetchCategory.jsp" />--%>
-                    
             </div>
         </div>
     </div>
-
-    <!-- JavaScript for handling section visibility -->
-<!--    <script>
-    function showSection(sectionId) {
-        // Hide all sections
-        document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
-
-        // Show the selected section
-        document.getElementById(sectionId).classList.add('active');
-        
-    }
-</script>-->
 
 </html>

@@ -37,8 +37,10 @@
                 <th class="py-2 px-4">EMAIL</th>
                 <th class="py-2 px-4">PHONE NO</th>
                 <th class="py-2 px-4">ADDRESS</th>
-                <th class="py-2 px-4">AGREEMENT</th>
+                <th class="py-2 px-4">IS_VERIFIED</th>
                 <th class="py-2 px-4">USERNAME</th>
+                <th class="py-2 px-4">TOTAL_BORROW</th>
+                <th class="py-2 px-4">TOTAL_LEND</th>
                 <th class="py-2 px-4">ACTION</th>
             </tr>
         </thead>
@@ -53,12 +55,14 @@
                 <td class="py-2 px-4 text-center"><%=user.getEmail()%></td>
                 <td class="py-2 px-4 text-center"><%=user.getPhno()%></td>
                 <td class="py-2 px-4 text-center"><%=user.getAddress()%></td>
-                <td class="py-2 px-4 text-center"><%=user.getAgreement()%></td>
+                <td class="py-2 px-4 text-center">null</td>
                 <td class="py-2 px-4 text-center"><%=user.getUsername()%></td>
+                <td class="py-2 px-4 text-center">00</td>
+                <td class="py-2 px-4 text-center">00</td>
                 <td class="py-2 px-4 text-center">
-
-                    <!--<form name="RemoveProduct" action="RemoveCategoryServlet?categoryId=<category.getId()%>" method="POST">-->
+                <!--<form name="RemoveProduct" action="RemoveCategoryServlet?categoryId=<category.getId()%>" method="POST">-->
                     <button class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">Delete User</button>
+                    <a href="#"><button class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">view</button></a>
                     <!--</form>-->
 
                 </td>

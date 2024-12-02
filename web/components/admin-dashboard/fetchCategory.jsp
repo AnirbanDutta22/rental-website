@@ -52,7 +52,7 @@
             </tr>
         </thead>
         <tbody>
-            <%        int sl_no = 0;
+            <%  int sl_no = 0;
                 for (Category category : categoryList) {
                     sl_no++;
             %>
