@@ -20,7 +20,7 @@ public class ProductDAO {
         try (OracleConnection oconn = DBConnect.getConnection()) {
 
             //QUERY FOR FETCHING ALL PRODUCTS
-            String fetchAllProductsQuery = "SELECT * FROM PRODUCT";
+            String fetchAllProductsQuery = "SELECT * FROM PRODUCT WHERE STATUS='APPROVED'";
             try (OraclePreparedStatement checkStmt = (OraclePreparedStatement) oconn.prepareStatement(fetchAllProductsQuery)) {
                 try (ResultSet productResult = checkStmt.executeQuery()) {
                     while (productResult.next()) {
@@ -30,6 +30,7 @@ public class ProductDAO {
                         product.setDescription(productResult.getString("DESCRIPTION"));
                         product.setSpec(productResult.getString("SPEC"));
                         product.setPostdate(productResult.getDate("POST_DATE"));
+                        product.setStatus(productResult.getString("STATUS"));
 
                         // USING UTILITY METHOD FOR FETCHING PRODUCT PRICE,IMAGES
                         fetchPriceAndTenure(productResult, product);
