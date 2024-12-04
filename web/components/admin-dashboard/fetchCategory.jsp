@@ -29,14 +29,13 @@
 %>
 <section id="manage-category">
     <h2 class="text-2xl font-semibold mb-6">Manage Category</h2>
-    <button onlcick="showAddCategory()" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 mb-5">Add new category</button>
-    <form action="/AddCategoryServlet" method="post" id="add-category" class="mb-4 flex " style="display: flex;">
-        <div>
-            <label for="category_id" class="block text-sm font-medium text-gray-600 mb-2">Category ID</label>
+    <form action="/CategoryServlet?type=add" method="post" id="add-category" class="mb-4 flex " style="display: flex;">
+<!--        <div>
+            <label for="category_id" class="block text-sm font-medium text-gray-800 mb-2">Category ID</label>
             <input type="text" id="category_id" name="categoryId" class="w-48 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Enter Category ID" required/>
-        </div>
+        </div>-->
         <div class="ml-7">
-            <label for="category_name" class="block text-sm font-medium text-gray-600 mb-2">Name</label>
+            <label for="category_name" class="block text-sm font-medium text-gray-800 mb-2">Name</label>
             <input type="text" id="category_id" name="category_name" class="w-48 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Enter Category Name" required/>
         </div>
         <button type="submit"  class="px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 mt-8 mb-1 ml-7">Add</button>
@@ -61,7 +60,7 @@
                 <td class="py-2 px-4 text-center"><%=category.getId()%></td>
                 <td class="py-2 px-4 text-center"><%=category.getName()%></td>
                 <td class="py-2 px-4 text-center">
-                    <form name="RemoveProduct" action="/RemoveCategoryServlet?categoryId=<%=category.getId()%>" method="POST">
+                    <form name="RemoveProduct" action="/CategoryServlet?categoryId=<%=category.getId()%>&type=remove" method="POST">
                         <button class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">Remove</button>
                     </form>
                 </td>
