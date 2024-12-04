@@ -20,7 +20,7 @@ public class ProductDAO {
         try (OracleConnection oconn = DBConnect.getConnection()) {
 
             //QUERY FOR FETCHING ALL PRODUCTS
-            String fetchAllProductsQuery = "SELECT * FROM PRODUCT";
+            String fetchAllProductsQuery = "SELECT * FROM PRODUCT WHERE STATUS='APPROVED'";
             try (OraclePreparedStatement checkStmt = (OraclePreparedStatement) oconn.prepareStatement(fetchAllProductsQuery)) {
                 try (ResultSet productResult = checkStmt.executeQuery()) {
                     while (productResult.next()) {
@@ -57,7 +57,7 @@ public class ProductDAO {
         try (OracleConnection oconn = DBConnect.getConnection()) {
 
             //QUERY FOR FETCHING PRODUCTS FROM SPECIFIC CATEGORY
-            String fetchAllProductsQuery = "SELECT * FROM PRODUCT WHERE CATEGORY_ID = (SELECT CATEGORY_ID FROM CATEGORY WHERE NAME = ?)";
+            String fetchAllProductsQuery = "SELECT * FROM PRODUCT WHERE STATUS='APPROVED' AND CATEGORY_ID = (SELECT CATEGORY_ID FROM CATEGORY WHERE NAME = ?)";
             try (OraclePreparedStatement checkStmt = (OraclePreparedStatement) oconn.prepareStatement(fetchAllProductsQuery)) {
                 checkStmt.setString(1, category);
                 try (ResultSet productResult = checkStmt.executeQuery()) {
@@ -66,6 +66,7 @@ public class ProductDAO {
                         product.setId(productResult.getInt("PRODUCT_ID"));
                         product.setName(productResult.getString("NAME"));
                         product.setDescription(productResult.getString("DESCRIPTION"));
+                        product.setSpec(productResult.getString("SPEC"));
                         product.setPostdate(productResult.getDate("POST_DATE"));
 
                         //USING UTILITY METHOD FOR FETCHING PRODUCT PRICE,IMAGES,CATEGORY
@@ -165,6 +166,7 @@ public class ProductDAO {
                         product.setId(productResult.getInt("PRODUCT_ID"));
                         product.setName(productResult.getString("NAME"));
                         product.setSpec(productResult.getString("SPEC"));
+                        product.setStatus(productResult.getString("STATUS"));
 
                         // USING UTILITY METHOD FOR FETCHING PRODUCT DETAILS
                         getProductDetailsUtil(productResult, product);
@@ -186,7 +188,7 @@ public class ProductDAO {
     public ResponseHandler getOwnBorrowRequests(int user_id) throws SQLException {
         List<SelectedProduct> ownBorrowRequests = new ArrayList<>();
         try (OracleConnection oconn = DBConnect.getConnection()) {
-            String getOwnBRQuery = "SELECT P.*,RR.* FROM PRODUCT P JOIN RENTAL_REQUEST RR ON P.PRODUCT_ID = RR.PRODUCT_ID WHERE RR.BORROWER_ID = ?";
+            String getOwnBRQuery = "SELECT P.PRODUCT_ID,P.NAME,P.SPEC,RR.* FROM PRODUCT P JOIN RENTAL_REQUEST RR ON P.PRODUCT_ID = RR.PRODUCT_ID WHERE RR.BORROWER_ID = ?";
             try (OraclePreparedStatement ops = (OraclePreparedStatement) oconn.prepareCall(getOwnBRQuery)) {
                 ops.setInt(1, user_id);
 
@@ -228,7 +230,7 @@ public class ProductDAO {
     public ResponseHandler getBorrowRequests(int user_id) throws SQLException {
         List<SelectedProduct> borrowRequests = new ArrayList<>();
         try (OracleConnection oconn = DBConnect.getConnection()) {
-            String getBRQuery = "SELECT P.*,RR.* FROM PRODUCT P JOIN RENTAL_REQUEST RR ON P.PRODUCT_ID = RR.PRODUCT_ID WHERE RR.LENDER_ID = ?";
+            String getBRQuery = "SELECT P.PRODUCT_ID,P.NAME,P.SPEC,RR.* FROM PRODUCT P JOIN RENTAL_REQUEST RR ON P.PRODUCT_ID = RR.PRODUCT_ID WHERE RR.LENDER_ID = ? AND RR.STATUS <> 'rejected'";
             try (OraclePreparedStatement ops = (OraclePreparedStatement) oconn.prepareCall(getBRQuery)) {
                 ops.setInt(1, user_id);
 
@@ -239,6 +241,7 @@ public class ProductDAO {
                         selectedProduct.setSelectedPrice(productResult.getDouble("PRODUCT_PRICE"));
                         selectedProduct.setSelectedTenure(productResult.getInt("TENURE"));
                         selectedProduct.setOfferedPrice(productResult.getDouble("OFFERED_PRICE"));
+                        selectedProduct.setStatus(productResult.getString("STATUS"));
                         selectedProduct.setMessage(productResult.getString("MESSAGE"));
                         selectedProduct.setDate(productResult.getDate("REQUEST_DATE"));
                         selectedProduct.setRequestId(productResult.getInt("REQUEST_ID"));
