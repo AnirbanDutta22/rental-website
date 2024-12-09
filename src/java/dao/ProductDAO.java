@@ -107,6 +107,7 @@ public class ProductDAO {
                         product.setDescription(rs.getString("DESCRIPTION"));
                         product.setSpec(rs.getString("SPEC"));
                         product.setPostdate(rs.getDate("POST_DATE"));
+                        product.setStatus(rs.getString("STATUS"));
 
                         //USING UTILITY METHOD FOR FETCHING PRODUCT DETAILS
                         getProductDetailsUtil(rs, product);
