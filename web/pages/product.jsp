@@ -153,9 +153,9 @@
 
                     <!--footer with owner info-->
                     <div class="flex gap-5 items-center text-xl">
-                        <span><span class="font-semibold">Owner :</span> <%=product.getLenderName()%></span>
-                        <span><span class="font-semibold">Address :</span> <%=product.getLenderAddress()%></span>
-                        <span><span class="font-semibold">Posted :</span> <%=DateFormatter.getRelativeDate(product.getPostdate())%></span>
+                        <span><span class="font-semibold"><i class="fa-solid fa-user mr-2"></i> Owner :</span> <%=product.getLenderName()%></span>
+                        <span><span class="font-semibold"><i class="fa-solid fa-address-card mr-2"></i>Address :</span> <%=product.getLenderAddress()%></span>
+                        <span><span class="font-semibold"><i class="fa-regular fa-calendar-days mr-2"></i>Posted :</span> <%=DateFormatter.getRelativeDate(product.getPostdate())%></span>
                     </div>
                 </div>
 
@@ -186,10 +186,17 @@
                             <input type="hidden" id="selectedTenure" name="tenure" value="<%= priceTenures.isEmpty() ? "" : priceTenures.get(priceTenures.size() - 1).getTenure()%>">
                             <input type="hidden" id="prevTenure" name="prevTenure" value="<%= priceTenures.isEmpty() ? "" : priceTenures.get(priceTenures.size() - 1).getTenure()%>">
 
-                            <%if (user != null && !user.getUsername().equals(product.getLenderUsername())) {%>
+                            <%if (user != null) {
+                                    if (!user.getUsername().equals(product.getLenderUsername())) {%>
                             <div class="w-full mt-4">
                                 <button type="submit" class="primary-btn">Borrow</button>
-                            </div><%}%>
+                            </div>
+                            <%}
+                            } else {%>
+                            <div class="w-full mt-4">
+                                <button type="submit" class="primary-btn">Borrow</button>
+                            </div> 
+                            <%}%>
                         </form>
                     </div>
                     <div>

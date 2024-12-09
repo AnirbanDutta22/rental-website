@@ -157,8 +157,18 @@
 
                             <!-- Action Buttons -->
                             <div class="flex gap-3">
+                                <% if (product.getStatus().equals("accepted")) {%>
+                                <!-- Request Status -->
+                                <span class="flex items-center w-1/7 text-center px-3 py-1 rounded font-semibold text-sm <%=(product.getStatus().equals("pending") ? "bg-yellow-100 text-yellow-600" : product.getStatus().equals("accepted") ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600")%>">
+                                    <%=product.getStatus().substring(0, 1).toUpperCase() + product.getStatus().substring(1)%>
+                                </span>
+                                <button type="button" class="bg-green-500 hover:bg-green-600 px-6 py-1.5 text-white rounded-full transition duration-300">
+                                    View
+                                </button>
+                                <%} else {%>
                                 <button name="accept" value="accept" class="bg-green-600 text-white px-6 py-1.5 rounded-full hover:bg-green-700 transition duration-300" onclick="openLenderReplyModal(<%=product.getRequestId()%>,<%=product.getProduct().getId()%>, this)">Accept</button>
                                 <button name="reject" value="reject" class="bg-red-500 text-white px-6 py-1.5 rounded-full hover:bg-red-600 transition duration-300" onclick="openLenderReplyModal(<%=product.getRequestId()%>,<%=product.getProduct().getId()%>, this)">Reject</button>
+                                <%}%>
                             </div>
                         </div>
                         <% }

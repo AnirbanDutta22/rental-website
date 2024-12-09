@@ -19,24 +19,24 @@
     <body>
         <section>
             <div class="flex font-lato">
-                <div class="w-[18rem] fixed top-0 left-0 bg-gray-50 h-screen px-10 py-4 text-xl font-medium shadow-md">
+                <div class="w-[20rem] fixed top-0 left-0 bg-gray-50 h-screen px-10 py-4 text-xl font-medium shadow-md">
                     <a href="/pages/index.jsp" class="flex items-center space-x-3 rtl:space-x-reverse">
                         <img src="../assets/images/logo.png" class="h-20" alt="Rentle Logo">
                     </a>
                     <ul class="my-10">
-                        <li class="pb-8"><a href="userDashboard.jsp"><i class="fa-solid fa-gauge mr-4"></i>Dashboard</a></li>
-                        <li class="pb-8"><i class="fa-solid fa-tags mr-4"></i>Products<i class="fa-solid fa-angle-down ml-6 cursor-pointer" id="downArrow" onclick="openProductDropdown()"></i>
+                        <li class="pb-8"><a href="userDashboard.jsp"><i class="fa-solid fa-gauge mr-4 text-darkColor"></i>Dashboard</a></li>
+                        <li class="pb-8"><i class="fa-solid fa-tags mr-4 text-darkColor"></i>Products<i class="fa-solid fa-angle-down ml-6 cursor-pointer" id="downArrow" onclick="openProductDropdown()"></i>
                             <ul id="productDropdown" class="hidden text-lg px-10 pt-2">
                                 <li class="mt-2"><a href="userDashboard.jsp?page=lendProduct">Add Product</a></li>
                                 <li class="mt-2"><a href="userDashboard.jsp?page=allProducts">All Products</a></li>
                             </ul>
                         </li>
-                        <li class="pb-8"><a href="userDashboard.jsp?page=rentals"><i class="fa-solid fa-wallet mr-4"></i>Transactions</a></li>
-                        <li class="pb-8"><a href="userDashboard.jsp?page=kyc"><i class="fa-solid fa-id-card mr-4"></i>KYC</a></li>
-                        <li class="pb-8"><a href="/pages/support.jsp"><i class="fa-solid fa-circle-info mr-4"></i>Help & Support</a></li>
+                        <li class="pb-8"><a href="userDashboard.jsp?page=rentals"><i class="fa-solid fa-wallet mr-4 text-darkColor"></i>Rentals</a></li>
+                        <li class="pb-8"><a href="userDashboard.jsp?page=kyc"><i class="fa-solid fa-id-card mr-4 text-darkColor"></i>Account Verification</a></li>
+                        <li class="pb-8"><a href="/pages/support.jsp"><i class="fa-solid fa-circle-info mr-4 text-darkColor"></i>Help & Support</a></li>
                     </ul>
                     <form name="Logout" action="/LogoutServlet" method="POST">
-                        <button class="" type="submit"><i class="fa-solid fa-right-from-bracket mr-4"></i>Logout</button>
+                        <button class="" type="submit"><i class="fa-solid fa-right-from-bracket mr-4 text-darkColor"></i>Logout</button>
                     </form>
                 </div>
                 <div class="flex w-full flex-col pl-[18rem]">

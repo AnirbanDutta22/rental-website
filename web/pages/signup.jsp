@@ -95,7 +95,7 @@
                             <% } %>
                             <button type="submit" class="primary-btn w-full">Continue</button>
                         </form>
-                        <p class="mt-4 text-center text-sm text-gray-600">Already have an account? <a href="login.jsp" class="text-blue-500 hover:underline">Login</a></p>
+                        <p class="mt-4 text-center text-sm text-gray-600">Already have an account? <a href="/pages/login.jsp" class="text-blue-500 hover:underline">Login</a></p>
                         <% }%>
                     </div>
                 </div>
