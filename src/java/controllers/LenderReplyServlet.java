@@ -38,7 +38,7 @@ public class LenderReplyServlet extends HttpServlet {
                     res = userDAO.acceptBorrowRequest(product_id, request_id);
 
                     if (res.isSuccess()) {
-                        response.sendRedirect("/pages/requestDashboard.jsp");
+                        response.sendRedirect("/pages/userDashboard.jsp?page=rentalDetail&rentalId="+res.getData());
                     } else {
                         request.setAttribute("errorMessage", res.getMessage());
                         RequestDispatcher rd = request.getRequestDispatcher("/pages/requestDashboard.jsp");
