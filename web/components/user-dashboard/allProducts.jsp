@@ -83,13 +83,13 @@
                     <td class="py-3 px-6 text-left"><%=product.getName()%> (<%=product.getSpec()%>)</td>
                     <td class="py-3 px-6 text-left"><%=firstPrice%>/month upto <%=firstTenure%> month</td>
                     <td class="py-3 px-6 text-left"><%=product.getCategory()%></td>
-                    <td class="py-3 px-6 text-left"><span class="text-green-700 bg-green-200 px-1.5 py-1 text-center">Added</span></td>
+                    <td class="py-3 px-6 text-left"><span class="text-green-700 bg-green-200 px-1.5 py-1 text-center"><%=product.getStatus()%></span></td>
                     <td class="py-3 px-6 text-right flex text-base items-center">
                         <button class="primary-btn px-4 py-1"><a href="/pages/product.jsp?productId=<%=product.getId()%>">
                                 <i class="fa-solid fa-eye"></i></a>
                         </button>
                         <button class="primary-btn px-4 py-1 ml-2"><a href="userDashboard.jsp?page=editProduct">Edit</a></button>
-                        <form name="RemoveProductServlet" action="/RemoveProductServlet?product_id=<%=product.getId()%>&lender_id=<%=product.getLenderUsername()%>" method="POST"><button type="submit" class="primary-btn hover:bg-primary-100 transition-all ease-in-out duration-300 px-4 py-1 ml-2">Remove</button></form>
+                        <button class="primary-btn hover:bg-primary-100 transition-all ease-in-out duration-300 px-4 py-1 ml-2" onclick="openRemoveModal(<%=product.getId()%>,'<%=product.getLenderUsername()%>',this)">Remove</button>
                     </td>
                 </tr>
                 <%
@@ -99,5 +99,36 @@
                 %>
             </tbody>
         </table>
+            <!-- Modal for Confirmation -->
+                        <div id="removeModal" class="fixed inset-0 bg-black/50 z-50 hidden flex justify-center items-center">
+                            <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
+                                <div class="text-lg text-center text-gray-800">Are you sure you want to remove this product?</div>
+                                <div class="flex justify-between mt-4">
+                                    <button onclick="closeRemoveModal()" class="bg-gray-300 text-gray-800 px-6 py-1.5 rounded-full hover:bg-gray-400">Cancel</button>
+                                    <form id="removeForm" method="POST" action="" class="flex">
+                                        <button type="submit" class="bg-red-500 text-white px-6 py-1.5 rounded-full hover:bg-red-600">Confirm</button>
+                                        <input type="hidden" name="productId" id="productId">
+                                        <input type="hidden" name="lenderUsername" id="lenderUsername">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
     </div>
 </div>
+            <script>
+                // Open the CANCEL REQUEST MODAL and set form values
+                    function openRemoveModal(productId, lenderUsername, button) {
+                    // Show the modal
+                    console.log("Opening modal for:", { productId, lenderUsername });
+                    document.getElementById("removeModal").classList.remove("hidden");
+                            // Set the action and form values dynamically
+                            document.getElementById("removeForm").action = "/RemoveProductServlet?lenderUsername=" + lenderUsername + "&product_id=" + productId;
+                            document.getElementById("productId").value = productId;
+                            document.getElementById("lenderUsername").value = lenderUsername;
+                    }
+
+                    // Close the CANCEL REQUEST MODAL
+                    function closeRemoveModal() {
+                    document.getElementById("removeModal").classList.add("hidden");
+                    }
+            </script>
