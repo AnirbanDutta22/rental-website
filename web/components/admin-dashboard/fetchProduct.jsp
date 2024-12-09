@@ -59,10 +59,10 @@
                             if (product.getStatus().equals("PENDING")) {
                         %>
                         <div class="flex gap-2 mb-2">
-                            <form name="ApproveProduct" action="/ApproveProductServlet?productId=<%= product.getId()%>" method="POST">
+                            <form name="ApproveProduct" action="/ProductApprovalServlet?productId=<%=product.getId()%>&type=approve" method="POST">
                                 <button class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600">Approve</button>
                             </form>
-                            <form name="RejectProduct" action="/RejectProductServlet?productId=<%=product.getId()%>" method="POST">
+                            <form name="RejectProduct" action="/ProductApprovalServlet?productId=<%=product.getId()%>&type=reject" method="POST">
                                 <button class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600">Reject</button>
                             </form>
                         </div>
