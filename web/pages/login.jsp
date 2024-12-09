@@ -65,7 +65,7 @@
                         </form>
                         <p class="w-full text-center my-4">OR</p>
                         <p class="w-full text-center text-primary font-semibold underline"><a href="#">Login with Phone number</a></p>
-                        <p class="mt-6 text-center text-sm text-gray-600">Don't have an account? <a href="signup.jsp" class="text-blue-500 hover:underline">Sign up</a></p>
+                        <p class="mt-6 text-center text-sm text-gray-600">Don't have an account? <a href="/pages/signup.jsp" class="text-blue-500 hover:underline">Sign up</a></p>
                     </div>
                 </div>
             </div>
