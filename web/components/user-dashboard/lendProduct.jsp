@@ -11,9 +11,8 @@
 <%@page import="dao.CategoryDAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-
     String pageId = request.getParameter("page");
-
+    
     CategoryDAO categoryDAO = new CategoryDAO();
     ResponseHandler categoryRes;
     List<Category> categoryList;
@@ -22,7 +21,6 @@
 
     if (categoryRes.isSuccess()) {
         categoryList = (List<Category>) categoryRes.getData();
-        session.setAttribute("wishlist", categoryList);
     } else {
         categoryList = new ArrayList<Category>();
     }
@@ -45,14 +43,12 @@
         }
     }
 </style>
-<form class="container mx-auto font-lato" name="AddProductServlet" action="/AddProductServlet" method="POST">
+<form class="container mx-auto font-lato" name="AddProductServlet" action="/AddProductServlet" method="POST" enctype="multipart/form-data">
     <div class="flex justify-between items-center mb-4">
-
-
         <h1 class="text-2xl font-bold">Add Product</h1>
-        <% if (request.getAttribute("errorMessage") != null) {%>
+        <% if (request.getAttribute("lendErrorMessage") != null) {%>
         <div class="my-2 font-medium text-red-500">
-            <%= request.getAttribute("errorMessage")%>
+            <%= request.getAttribute("lendErrorMessage")%>
         </div>
         <% }%>
         <div class="">   
@@ -68,24 +64,24 @@
         <div class="p-4 border rounded-lg">
             <h2 class="text-lg font-semibold mb-4">General Information</h2>
             <label class="block mb-2 text-sm font-medium text-gray-600">Product Name</label>
-            <input type="text" id="productName" name="name" class="w-full p-2 mb-4 border rounded" placeholder="Enter product name">
+            <input type="text" id="productName" name="name" class="w-full p-2 mb-4 border rounded" placeholder="Enter product name" required>
             <label class="block mb-2 text-sm font-medium text-gray-600">Description</label>
-            <textarea id="productDescription" name="description" class="w-full p-2 border rounded" rows="3" placeholder="Enter product description"></textarea>
+            <textarea id="productDescription" name="description" class="w-full p-2 border rounded" rows="3" placeholder="Enter product description" required></textarea>
         </div>
 
         <!-- Upload Images -->
         <div class="p-4 border rounded-lg">
             <label class="block mb-2 text-sm font-medium text-gray-600">Product specification</label>
-            <input type="text" id="productSpec" name="spec" class="w-full p-2 mb-4 border rounded" placeholder="Enter product specification">
+            <input type="text" id="productSpec" name="spec" class="w-full p-2 mb-4 border rounded" placeholder="Enter product specification" required>
             <div id="tags">
                 <label class="block mb-2 text-sm font-medium text-gray-600">Tags</label>
                 <div class="flex gap-2">
-                    <input type="text" id="tagInput" class="w-full p-2 mb-2 border rounded" name="tag" placeholder="tag">
+                    <input type="text" id="tagInput" class="w-full p-2 mb-2 border rounded" name="tag" placeholder="tag" required>
                     <button type="button" onclick="addTag()" class="primary-btn mb-2">Add</button>
                 </div>
             </div>
             <h2 class="text-lg font-semibold mb-4">Upload Images</h2>
-            <input type="file" id="imageUpload" name="imageUrl" multiple class="w-full p-2 mb-4 border rounded" onchange="previewImages()">
+            <input type="file" id="imageUpload" name="imageUrl" multiple class="w-full p-2 mb-4 border rounded" onchange="previewImages()" required>
             <div id="imagePreview" class="flex flex-wrap gap-2"></div>
         </div>
 
@@ -95,9 +91,9 @@
             <div id="moreDetailsContainer">
                 <div class="detail-item mb-4">
                     <label class="block mb-2 text-sm font-medium text-gray-600">Title</label>
-                    <input type="text" class="w-full p-2 mb-2 border rounded" name="title" placeholder="Detail title">
+                    <input type="text" class="w-full p-2 mb-2 border rounded" name="title" placeholder="Detail title" required>
                     <label class="block mb-2 text-sm font-medium text-gray-600">Description</label>
-                    <textarea class="w-full p-2 border rounded" name="details" rows="2" placeholder="Detail description"></textarea>
+                    <textarea class="w-full p-2 border rounded" name="details" rows="2" placeholder="Detail description" required></textarea>
                 </div>
             </div>
             <button type="button" onclick="addDetail()" class="primary-btn">Add more details</button>
@@ -107,7 +103,7 @@
         <div class="p-4 border rounded-lg">
             <h2 class="text-lg font-semibold mb-4">Category and Price</h2>
             <label class="block mb-2 text-sm font-medium text-gray-600">Category</label>
-            <select type="text" id="category" name="category" class="w-full p-2 mb-4 border rounded" placeholder="Enter category">
+            <select type="text" id="category" name="category" class="w-full p-2 mb-4 border rounded" placeholder="Enter category" required>
                 <%
                     for (Category category : categoryList) {
                 %>
@@ -119,8 +115,8 @@
             <label class="block mb-2 text-sm font-medium text-gray-600">Price</label>
             <div id="nextTenureContainer">
                 <div class="flex gap-2 mb-4">
-                    <input type="number" id="price" class="w-full p-2 border rounded" name="price" placeholder="Enter price">
-                    <select id="tenure" name="tenure" class="p-2 border rounded">
+                    <input type="number" id="price" class="w-full p-2 border rounded" name="price" placeholder="Enter price" required>
+                    <select id="tenure" name="tenure" class="p-2 border rounded" required>
                         <option value="3">3 months</option>
                         <option value="6">6 months</option>
                         <option value="12">12 Months</option>
