@@ -19,7 +19,7 @@ public class RemoveProductServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            String username = request.getParameter("lender_id");
+            String username = request.getParameter("lenderUsername");
             int product_id = Integer.parseInt(request.getParameter("product_id"));
             
             // Use userDAO to remove the product to the database
