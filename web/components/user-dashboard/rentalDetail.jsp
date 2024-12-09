@@ -17,7 +17,7 @@
 <div class="container mx-auto font-lato">
     <!-- Transaction Details Header -->
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold">Transaction Details</h1>
+        <h1 class="text-2xl font-bold">Rental Details</h1>
     </div>
     
     <!-- Transaction Details Content -->
@@ -49,12 +49,12 @@
         <div class="flex items-center justify-between mt-3">
             <div class="flex items-center w-full space-x-4">
                 <div class="flex flex-col items-center">
-                    <div class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-semibold">1</div>
+                    <div class="w-8 h-8 bg-medium text-white rounded-full flex items-center justify-center font-semibold">1</div>
                     <p class="text-xs text-center mt-1">Lending</p>
                 </div>
-                <div class="flex-1 h-1 bg-blue-300"></div>
+                <div class="flex-1 h-1 bg-medium"></div>
                 <div class="flex flex-col items-center">
-                    <div class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-semibold">2</div>
+                    <div class="w-8 h-8 bg-medium text-white rounded-full flex items-center justify-center font-semibold">2</div>
                     <p class="text-xs text-center mt-1">In Transit</p>
                 </div>
                 <div class="flex-1 h-1 bg-gray-300"></div>
@@ -72,15 +72,16 @@
     </div>
 
     <!-- Payment Transaction History Section -->
-    <div class="mt-6 bg-white p-6 rounded-lg shadow-lg">
+    <div class="mt-6 min-w-full bg-white border rounded-lg p-6">
         <h3 class="text-lg font-semibold">Rent Payment History</h3>
-        <div class="overflow-x-auto">
-            <table class="min-w-full bg-white border rounded-lg">
+        <div class="overflow-x-auto mt-3">
+            <table class="min-w-full">
                 <thead>
-                    <tr class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
+                    <tr class="w-full bg-light text-gray-600 uppercase text-sm leading-normal">
                         <th class="py-3 px-6 text-left">Date</th>
                         <th class="py-3 px-6 text-left">Amount</th>
                         <th class="py-3 px-6 text-left">Status</th>
+                        <th class="py-3 px-6 text-left">Action</th>
                     </tr>
                 </thead>
                 <tbody class="text-gray-600 text-sm font-light">
@@ -88,16 +89,19 @@
                         <td class="py-3 px-6 text-left">01/01/2023</td>
                         <td class="py-3 px-6 text-left">$120</td>
                         <td class="py-3 px-6 text-left"><span class="text-green-700 bg-green-200 px-1.5 py-1 text-center rounded">Paid</span></td>
+                        <td class="py-3 px-6 text-left"> <button class="primary-btn px-4 py-1"><a href="userDashboard.jsp?page=editProduct">View</a></button></td>
                     </tr>
                     <tr class="border-b border-gray-200">
                         <td class="py-3 px-6 text-left">01/02/2023</td>
                         <td class="py-3 px-6 text-left">$120</td>
                         <td class="py-3 px-6 text-left"><span class="text-green-700 bg-green-200 px-1.5 py-1 text-center rounded">Paid</span></td>
+                        <td class="py-3 px-6 text-left"> <button class="primary-btn px-4 py-1"><a href="userDashboard.jsp?page=editProduct">View</a></button></td>
                     </tr>
                     <tr class="border-b border-gray-200">
                         <td class="py-3 px-6 text-left">01/03/2023</td>
                         <td class="py-3 px-6 text-left">$120</td>
                         <td class="py-3 px-6 text-left"><span class="text-red-700 bg-red-200 px-1.5 py-1 text-center rounded">Pending</span></td>
+                        <td class="py-3 px-6 text-left"> <button class="primary-btn px-4 py-1"><a href="userDashboard.jsp?page=editProduct">Pay</a></button></td>
                     </tr>
                 </tbody>
             </table>
