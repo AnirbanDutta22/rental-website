@@ -64,5 +64,4 @@ public class ProductApprovalServlet extends HttpServlet {
         }
 
     }
-
 }

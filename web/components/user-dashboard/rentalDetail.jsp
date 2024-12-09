@@ -1,3 +1,11 @@
+<%@page import="models.Transaction"%>
+<%@page import="dao.TransactionDAO"%>
+<%@page import="models.User"%>
+<%@page import="dao.RentalDAO"%>
+<%@page import="responses.ResponseHandler"%>
+<%@page import="java.util.List"%>
+<%@page import="models.Rental"%>
+<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,13 +21,45 @@
         }
     }
 </style>
+<%
+    User user = (User) session.getAttribute("user");
+    // Get the current user ID (assuming it's stored in the session)
+    Integer userId = user.getId();
+    // Fetch rental details using DAO
+    int requestId = Integer.parseInt(request.getParameter("requestId"));
+    RentalDAO rentalDAO = new RentalDAO();
+//    ResponseHandler rentalRes;
+    Rental rentalProduct;
+
+    rentalProduct = rentalDAO.getRentalProduct(requestId);
+
+//    if (rentalRes.isSuccess()) {
+//        rentalProduct = (Rental) rentalRes.getData();
+//        session.setAttribute("rentalProduct", rentalProduct);
+//    } else {
+//        rentalProduct = new Rental();
+//    }
+    TransactionDAO transactionDAO = new TransactionDAO();
+    ResponseHandler transactionRes;
+    List<Transaction> transactionList;
+
+    transactionRes = transactionDAO.getTransactions(rentalProduct.getId());
+
+    if (transactionRes.isSuccess()) {
+        transactionList = (List<Transaction>) transactionRes.getData();
+        session.setAttribute("transactionList", transactionList);
+    } else {
+        transactionList = new ArrayList<Transaction>();
+        
+    }
+%>
 
 <div class="container mx-auto font-lato">
     <!-- Transaction Details Header -->
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold">Rental Details</h1>
     </div>
-    
+
     <!-- Transaction Details Content -->
     <div class="flex flex-col md:flex-row gap-6 bg-white p-6 rounded-lg shadow-lg">
 
@@ -30,16 +70,30 @@
 
         <!-- Product and Borrower Details Section -->
         <div class="md:w-2/3 space-y-4">
-            <h2 class="text-xl font-semibold">Product Name</h2>
-            <p class="text-lg">Price: $120 / month</p>
-            <p class="text-sm text-gray-500">Tenure: 6 months</p>
-            
+            <h2 class="text-xl font-semibold"><%=rentalProduct.getProductName() %></h2>
+            <p class="text-lg">Price: <%=rentalProduct.getOfferedPrice()%> / month</p>
+            <p class="text-sm text-gray-500">Tenure: <%=rentalProduct.getTenure()%> months</p>
+            <%
+                if (rentalProduct.getLenderId() == userId) {
+            %>
             <div class="border-t border-gray-300 pt-4 space-y-1">
                 <h3 class="font-semibold">Borrower Details:</h3>
-                <p>Name: John Doe</p>
-                <p>Address: 123 Main St, Springfield</p>
-                <p>Contact: (123) 456-7890</p>
+                <p>Name: <%=rentalProduct.getBorrowerName()%></p>
+                <p>Address: <%=rentalProduct.getBorrowerAddress()%>, <%=rentalProduct.getBorrowerDist()%>, <%=rentalProduct.getBorrowerState()%>, <%=rentalProduct.getBorrowerPin()%></p>
+                <p>Contact: <%=rentalProduct.getBorrowerPhone()%></p>
             </div>
+            <%
+            } else {
+            %>
+            <div class="border-t border-gray-300 pt-4 space-y-1">
+                <h3 class="font-semibold">Lender Details:</h3>
+                <p>Name: <%=rentalProduct.getLenderName()%></p>
+                <p>Address: <%=rentalProduct.getLenderAddress()%>, <%=rentalProduct.getLenderDist()%>, <%=rentalProduct.getLenderState()%>, <%=rentalProduct.getLenderPin()%></p>
+                <p>Contact: <%=rentalProduct.getLenderPhone()%></p>
+            </div>
+            <%
+                }
+            %>
         </div>
     </div>
 
@@ -85,24 +139,18 @@
                     </tr>
                 </thead>
                 <tbody class="text-gray-600 text-sm font-light">
+                    <%
+                        for (Transaction transaction : transactionList) {
+                    %>
                     <tr class="border-b border-gray-200">
-                        <td class="py-3 px-6 text-left">01/01/2023</td>
-                        <td class="py-3 px-6 text-left">$120</td>
-                        <td class="py-3 px-6 text-left"><span class="text-green-700 bg-green-200 px-1.5 py-1 text-center rounded">Paid</span></td>
-                        <td class="py-3 px-6 text-left"> <button class="primary-btn px-4 py-1"><a href="userDashboard.jsp?page=editProduct">View</a></button></td>
+                        <td class="py-3 px-6 text-left"><%=transaction.getDate() %></td>
+                        <td class="py-3 px-6 text-left">$<%=transaction.getAmount() %></td>
+                        <td class="py-3 px-6 text-left"><span class="text-green-700 bg-green-200 px-1.5 py-1 text-center rounded"><%=transaction.getStatus() %></span></td>
+                        <td class="py-3 px-6 text-left"> <button class="primary-btn px-4 py-1"><a href="#">View</a></button></td>
                     </tr>
-                    <tr class="border-b border-gray-200">
-                        <td class="py-3 px-6 text-left">01/02/2023</td>
-                        <td class="py-3 px-6 text-left">$120</td>
-                        <td class="py-3 px-6 text-left"><span class="text-green-700 bg-green-200 px-1.5 py-1 text-center rounded">Paid</span></td>
-                        <td class="py-3 px-6 text-left"> <button class="primary-btn px-4 py-1"><a href="userDashboard.jsp?page=editProduct">View</a></button></td>
-                    </tr>
-                    <tr class="border-b border-gray-200">
-                        <td class="py-3 px-6 text-left">01/03/2023</td>
-                        <td class="py-3 px-6 text-left">$120</td>
-                        <td class="py-3 px-6 text-left"><span class="text-red-700 bg-red-200 px-1.5 py-1 text-center rounded">Pending</span></td>
-                        <td class="py-3 px-6 text-left"> <button class="primary-btn px-4 py-1"><a href="userDashboard.jsp?page=editProduct">Pay</a></button></td>
-                    </tr>
+                    <%
+                        }
+                    %>
                 </tbody>
             </table>
         </div>

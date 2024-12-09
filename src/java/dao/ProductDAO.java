@@ -30,6 +30,7 @@ public class ProductDAO {
                         product.setDescription(productResult.getString("DESCRIPTION"));
                         product.setSpec(productResult.getString("SPEC"));
                         product.setPostdate(productResult.getDate("POST_DATE"));
+                        product.setStatus(productResult.getString("STATUS"));
 
                         // USING UTILITY METHOD FOR FETCHING PRODUCT PRICE,IMAGES
                         fetchPriceAndTenure(productResult, product);

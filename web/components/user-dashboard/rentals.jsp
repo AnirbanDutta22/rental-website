@@ -4,6 +4,12 @@
     Author     : HP
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="responses.ResponseHandler"%>
+<%@page import="models.User"%>
+<%@page import="models.Rental"%>
+<%@page import="java.util.List"%>
+<%@page import="dao.RentalDAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,6 +27,28 @@
         }
     }
 </style>
+
+<%
+    User user = (User) session.getAttribute("user");
+    // Get the current user ID (assuming it's stored in the session)
+    Integer userId = user.getId();
+    // Fetch rental details using DAO
+    RentalDAO rentalDAO = new RentalDAO();
+    ResponseHandler rentalRes;
+    List<Rental> rentalList;
+
+    rentalRes = rentalDAO.getRentalDetails(userId);
+
+    if (rentalRes.isSuccess()) {
+        rentalList = (List<Rental>) rentalRes.getData();
+        session.setAttribute("rentalList", rentalList);
+    } else {
+        rentalList = new ArrayList<Rental>();
+    }
+
+
+%>
+
 <div class="container mx-auto font-lato">
     <div class="flex justify-between items-center mb-4">
         <h1 class="text-2xl font-bold">Rentals</h1>
@@ -43,63 +71,62 @@
             </thead>
             <tbody class="text-gray-600 text-sm font-light">
 
+                <%                    for (Rental rental : rentalList) {
+                %>
                 <!-- Sample Row 1 -->
                 <tr class="border-b border-gray-200">
                     <td class="py-3 px-6 text-left">
                         <img src="https://via.placeholder.com/50" alt="Product Image" class="w-12 h-12 rounded">
                     </td>
-                    <td class="py-3 px-6 text-left">Product Name 1</td>
+                    <td class="py-3 px-6 text-left"><%=rental.getProductName()%><br>(<%=rental.getProductSpec()%></td>
                     <td class="py-3 px-6 text-left">
-                        <span class="text-green-700 bg-green-200 px-1.5 py-1 text-center">Completed</span>
+                        <%
+                            String status = rental.getStatus();
+                            String statusClass = "";
+                            String statusText = "";
+
+                            switch (status) {
+                                case "completed":
+                                    statusClass = "text-green-700 bg-green-200";
+                                    statusText = "Completed";
+                                    break;
+                                case "ongoing":
+                                    statusClass = "text-yellow-700 bg-yellow-200";
+                                    statusText = "Ongoing";
+                                    break;
+                                case "canceled":
+                                    statusClass = "text-red-700 bg-red-200";
+                                    statusText = "Canceled";
+                                    break;
+                                default:
+                                    break;
+                            }
+                        %>
+                        <span class="<%= statusClass%> px-1.5 py-1 text-center"><%= statusText%></span>
                     </td>
+                    <%
+                        if (rental.getBorrowerId() == userId) {
+                    %>
+                    <td class="py-3 px-6 text-left">Borrow</td>
+                    <%
+                    } else {
+                    %>
                     <td class="py-3 px-6 text-left">Lend</td>
+                    <%
+                        }
+                    %>
                     <td class="py-3 px-6 text-left">2023-10-15</td>
                     <td class="py-3 px-6 text-center">
-                        <a href="userDashboard.jsp?page=rentalDetail" class="text-xl text-primary hover:text-primary-100">
+                        <a href="userDashboard.jsp?page=rentalDetail&requestId=<%=rental.getRequestId()%>" class="text-xl text-primary hover:text-primary-100">
                             <i class="fa-solid fa-arrow-right"></i>
                         </a>
                     </td>
-                </tr>
-
-                <!-- Sample Row 2 -->
-                <tr class="border-b border-gray-200">
-                    <td class="py-3 px-6 text-left">
-                        <img src="https://via.placeholder.com/50" alt="Product Image" class="w-12 h-12 rounded">
-                    </td>
-                    <td class="py-3 px-6 text-left">Product Name 2</td>
-                    <td class="py-3 px-6 text-left">
-                        <span class="text-yellow-700 bg-yellow-200 px-1.5 py-1 text-center">Ongoing</span>
-                    </td>
-                    <td class="py-3 px-6 text-left">Borrow</td>
-                    <td class="py-3 px-6 text-left">2023-10-20</td>
-                    <td class="py-3 px-6 text-center">
-                        <a href="transactionDetail.jsp?id=1" class="text-xl text-primary hover:text-primary-100">
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </a>
-                    </td>
-                </tr>
-
-                <!-- Sample Row 3 -->
-                <tr class="border-b border-gray-200">
-                    <td class="py-3 px-6 text-left">
-                        <img src="https://via.placeholder.com/50" alt="Product Image" class="w-12 h-12 rounded">
-                    </td>
-                    <td class="py-3 px-6 text-left">Product Name 3</td>
-                    <td class="py-3 px-6 text-left">
-                        <span class="text-red-700 bg-red-200 px-1.5 py-1 text-center">Cancelled</span>
-                    </td>
-                    <td class="py-3 px-6 text-left">Lend</td>
-                    <td class="py-3 px-6 text-left">2023-09-30</td>
-                    <td class="py-3 px-6 text-center">
-                        <a href="transactionDetail?id=1" class="text-xl text-primary hover:text-primary-100">
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </a>
-                    </td>
+                    <%
+                        }
+                    %>
                 </tr>
 
             </tbody>
         </table>
     </div>
 </div>
-
-
