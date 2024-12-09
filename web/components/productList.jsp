@@ -6,11 +6,7 @@
 <%@page import="dao.ProductDAO"%>
 <%@ page import="java.util.List" %>
 <%@ page import="models.Product" %>
-<% User user = (User) session.getAttribute("user");
-    List<Product> wishlist = (List<Product>) session.getAttribute("wishlist");
-
-    UserDAO userDAO = new UserDAO();
-    ResponseHandler userRes;
+<% 
 
     ProductDAO productDAO = new ProductDAO();
     ResponseHandler productRes;
@@ -69,15 +65,21 @@
                 </a>
             </div>
 
-            <!-- Main Content with Product Name, Description, and Price -->
+            <!-- Main Content with Product Name, Description, Price -->
             <div class="flex-grow mt-2">
-                <h3 class="font-semibold text-2xl"><%= product.getName()%> <span class="text-base font-normal">(<%=product.getSpec()%>)</span></h3>
-                <p class="text-gray-600 text-lg"><%= product.getDescription()%></p>
-                <p class="text-blue-500 font-semibold text-md"><%= firstPriceTenure.getPrice()%>/month</p>
+                <h3 class="font-semibold text-2xl"><%= product.getName()%> <span class="text-base font-normal">(<%=product.getSpec().length() > 25
+                        ? product.getSpec().substring(0, 25) + "..."
+                        : product.getSpec()%>)</span></h3>
+                <p class="text-gray-600 text-sm"><%= product.getDescription().length() > 100
+                        ? product.getDescription().substring(0, 100) + "..."
+                        : product.getDescription()%></p>
             </div>
-
-            <!-- Footer with Button and Date, Stays at the Bottom -->
+            <p class="text-blue-500 font-semibold text-lg">Rs. <%= firstPriceTenure.getPrice()%>/month</p>
+            
+            <!--Lender's address-->
             <p class="text-gray-900 text-base"><%=product.getLenderAddress()%></p>
+            
+            <!-- Footer with Button and Date, Stays at the Bottom -->
             <div class="flex justify-between items-center mt-3">
                 <a href="/pages/product.jsp?productId=<%= product.getId()%>">
                     <button class="primary-btn rounded-md">Rent Now</button>
