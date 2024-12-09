@@ -5,9 +5,17 @@ import java.util.List;
 
 public class Product {
     private int id,categoryId;
-    private String name,description,spec,category,lenderName,lenderAddress,lenderUsername;
+    private String name,description,spec,category,lenderName,lenderAddress,lenderUsername,status;
     private String[] imageUrl,tags;
     private Date postdate;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     // List of price and tenure combinations
     private List<PriceTenure> priceTenures;
