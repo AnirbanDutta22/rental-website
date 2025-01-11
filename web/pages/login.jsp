@@ -5,6 +5,9 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    String msg = (String) session.getAttribute("signupSuccessMessage");
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -21,6 +24,15 @@
     </head>
     <body>
         <div class="relative">
+            <% if (msg != null) {%>
+            <div id="messagePopup" class="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
+                <div class="bg-white rounded-lg shadow-lg w-96 p-6 text-center">
+                    <p class="text-gray-600 mb-6"><%= msg%></p>
+                    <button onclick="closePopup()" class="primary-btn w-full">Close</button>
+                    <%session.removeAttribute("successMessage");%>
+                </div>
+            </div>
+            <%} %>
             <a href="/pages/index.jsp" class="h-24 fixed w-28 m-10 z-50">
                 <img src="../assets/images/logo.png" alt="logo" class="h-24"/>
             </a>
@@ -71,6 +83,15 @@
             </div>
         </div>
         <script src="../scripts/auth.js"></script>
+        <script>
+                        function closePopup() {
+                            // Hide the popup when the "Close" button is clicked
+                            const popup = document.getElementById("messagePopup");
+                            if (popup) {
+                                popup.style.display = "none";
+                            }
+                        }
+        </script>
     </body>
 </html>
 

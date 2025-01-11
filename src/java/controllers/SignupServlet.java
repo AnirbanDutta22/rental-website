@@ -12,10 +12,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import models.User;
 import oracle.jdbc.OracleConnection;
 import oracle.jdbc.OraclePreparedStatement;
 import responses.ResponseHandler;
+import java.util.Properties;
+import javax.mail.*;
+import javax.mail.internet.*;
+import javax.servlet.http.*;
 
 @WebServlet(name = "SignupServlet", urlPatterns = {"/SignupServlet"})
 public class SignupServlet extends HttpServlet {
@@ -25,6 +30,11 @@ public class SignupServlet extends HttpServlet {
     // DECLARING ORACLE OBJECTS
     OracleConnection oconn;
     OraclePreparedStatement ops;
+
+    private static final String SMTP_HOST = "smtp.gmail.com";
+    private static final String SMTP_PORT = "587";
+    private static final String EMAIL_USER = "bcaminor2025@gmail.com";
+    private static final String EMAIL_PASS = "qivhmjlxvzrjktgw";
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -61,8 +71,45 @@ public class SignupServlet extends HttpServlet {
 
             // GENERATING RESPONSE
             if (res.isSuccess()) {
-                request.getSession().setAttribute("successMessage", res.getMessage());
-                response.sendRedirect("/pages/login.jsp");
+                //generate otp
+//                String recipient = request.getParameter("email");
+                String otp = String.valueOf((int) (Math.random() * 9000) + 1000);
+
+                // Save OTP in session
+                HttpSession session = request.getSession();
+                session.setAttribute("otp", otp);
+                try {
+                    // Set SMTP properties
+                    Properties props = new Properties();
+                    props.put("mail.smtp.auth", "true");
+                    props.put("mail.smtp.starttls.enable", "true");
+                    props.put("mail.smtp.host", SMTP_HOST);
+                    props.put("mail.smtp.port", SMTP_PORT);
+
+                    Session mailSession = Session.getInstance(props, new Authenticator() {
+                        @Override
+                        protected PasswordAuthentication getPasswordAuthentication() {
+                            return new PasswordAuthentication(EMAIL_USER, EMAIL_PASS);
+                        }
+                    });
+
+                    // Compose message
+                    Message message = new MimeMessage(mailSession);
+                    message.setFrom(new InternetAddress(EMAIL_USER));
+                    message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+                    message.setSubject("Otp Verification");
+                    message.setText("Your OTP code is: " + otp);
+
+                    // Send email
+                    Transport.send(message);
+
+//                    response.sendRedirect("verifyOTP.jsp");
+                    request.getSession().setAttribute("successMessage", "OTP sent to your email !");
+                    response.sendRedirect("/pages/signup.jsp");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    response.getWriter().println("Failed to send OTP. Please try again.");
+                }
             } else {
                 request.setAttribute("errorMessage", res.getMessage());
                 RequestDispatcher rd = request.getRequestDispatcher("/pages/signup.jsp");

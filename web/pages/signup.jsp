@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     String msg = (String) session.getAttribute("successMessage");
+    String errormsg = (String) session.getAttribute("otpErrorMessage");
 %>
 <!DOCTYPE html>
 <html>
@@ -25,6 +26,15 @@
     </head>
     <body>
         <div class="relative">
+            <% if (msg != null && errormsg == null) {%>
+            <div id="messagePopup" class="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
+                <div class="bg-white rounded-lg shadow-lg w-96 p-6 text-center">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-4">Notification</h2>
+                    <p class="text-gray-600 mb-6"><%= msg%></p>
+                    <button onclick="closePopup()" class="primary-btn w-full">Close</button>
+                </div>
+            </div>
+            <%} %>
             <a href="/pages/index.jsp" class="h-24 fixed w-28 m-10 z-50">
                 <img src="../assets/images/logo.png" alt="logo" class="h-24"/>
             </a>
@@ -38,35 +48,39 @@
             </div>
 
             <div class="absolute inset-0 flex justify-center items-center">
-                <div class="flex w-3/6 h-auto shadow-2xl">
-                    <div class="w-2/4 bg-primary">
+                <div class="flex w-3/6 min-h-[35rem] shadow-2xl">
+                    <div class="w-2/4 bg-primary flex items-center justify-center">
                         <img class="h-80 w-72 my-auto m-auto transition-opacity duration-1000 opacity-100 p-6" id="signupimg" src="../assets/images/3d/tv.png">
                     </div>
-                    <div class="w-2/4 p-8 bg-white">
+                    <div class="w-2/4 p-8 bg-white flex flex-col justify-center">
                         <h2 class="text-3xl font-bold text-center mt-4 mb-8 text-gray-800 mb-">
-                            <% if ("Signup Successfull !".equals(msg)) { %>
+                            <% if ("OTP sent to your email !".equals(msg)) { %>
                             Enter OTP
                             <% } else { %>
                             Sign-up to Rentle
                             <% } %>
                         </h2>
-
-                        <% if ("Signup Successfull !!".equals(msg)) { %>
+                        <% if ("OTP sent to your email !".equals(msg)) { %>
                         <!-- OTP Input Form -->
-                        <form name="OtpForm" method="POST" action="OtpVerificationServlet" class="flex flex-col justify-center items-center">
+                        <form name="OtpForm" method="POST" action="/OTPVerificationServlet" class="flex flex-col justify-center items-center">
                             <div class="mb-6 text-center">
                                 <label for="otp" class="block text-gray-700 text-sm font-bold mb-2">Enter the OTP sent to your registered email</label>
                                 <div class="flex justify-center gap-2">
-                                    <input type="text" maxlength="1" class="w-12 h-12 border rounded text-center" required>
-                                    <input type="text" maxlength="1" class="w-12 h-12 border rounded text-center" required>
-                                    <input type="text" maxlength="1" class="w-12 h-12 border rounded text-center" required>
-                                    <input type="text" maxlength="1" class="w-12 h-12 border rounded text-center" required>
+                                    <input name="digit1" type="text" maxlength="1" class="w-12 h-12 border rounded text-center" required>
+                                    <input name="digit2" type="text" maxlength="1" class="w-12 h-12 border rounded text-center" required>
+                                    <input name="digit3" type="text" maxlength="1" class="w-12 h-12 border rounded text-center" required>
+                                    <input name="digit4" type="text" maxlength="1" class="w-12 h-12 border rounded text-center" required>
                                 </div>
                             </div>
+                            <% if (errormsg != null) {%>
+                            <div class="my-2 font-medium text-red-500">
+                                <%= errormsg%>
+                            </div>
+                            <% } %>
                             <button type="submit" class="primary-btn w-2/4 mt-6">Verify OTP</button>
                             <p class="mt-4 text-center text-sm text-gray-600">Already have an account? <a href="login.jsp" class="text-blue-500 hover:underline">Login</a></p>
                         </form>
-
+                        <%--session.removeAttribute("successMessage");--%>
                         <% } else { %>
                         <!-- Sign-up Form -->
                         <form name="Signup" method="POST" action="/SignupServlet">
@@ -103,26 +117,14 @@
         </div>
         <script src="../scripts/auth.js"></script>
         <script>
-                    // Select all OTP input fields
-                    const otpInputs = document.querySelectorAll('input[type="text"]');
-                    otpInputs.forEach((input, index) = > {
-                    input.addEventListener('input', () = > {
-                    // Move to the next input if a digit is entered
-                    if (input.value.length === 1 && index < otpInputs.length - 1) {
-                    otpInputs[index + 1].focus();
-                    }
-                    });
-                            input.addEventListener('keydown', (event) = > {
-                            // If backspace is pressed on an empty input, move to the previous input
-                            if (event.key === 'Backspace' && input.value === '' && index > 0) {
-                            otpInputs[index - 1].focus();
+                        function closePopup() {
+                            // Hide the popup when the "Close" button is clicked
+                            const popup = document.getElementById("messagePopup");
+                            if (popup) {
+                                popup.style.display = "none";
                             }
-                            });
-                            // Optional: restrict input to only digits
-                            input.addEventListener('input', (event) = > {
-                            input.value = input.value.replace(/[^0-9]/g, ''); // Allow only numeric input
-                            });
-                    });
+                        }
+
         </script>
 
     </body>
