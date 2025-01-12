@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controlers;
+package controllers;
 
 /**
  *
@@ -22,12 +22,16 @@ import javax.servlet.http.HttpSession;
 import oracle.jdbc.OracleConnection;
 import oracle.jdbc.OraclePreparedStatement;
 import responses.ResponseHandler;
+import utils.DBConnect;
 
 @WebServlet(name = "OTPVerificationServlet", urlPatterns = {"/OTPVerificationServlet"})
 public class OTPVerificationServlet extends HttpServlet {
+
     // DECLARING ORACLE OBJECTS
+
     OracleConnection oconn;
     OraclePreparedStatement ops;
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -38,14 +42,51 @@ public class OTPVerificationServlet extends HttpServlet {
         String enteredOtp = digit1 + digit2 + digit3 + digit4;
         HttpSession session = request.getSession();
         String sessionOtp = (String) session.getAttribute("otp");
+        String username = (String) session.getAttribute("username");
 
         if (sessionOtp != null && sessionOtp.equals(enteredOtp)) {
-            response.getWriter().println("OTP Verified Successfully!");
+            try {
+                oconn = DBConnect.getConnection();
+
+                String updateQuery = "UPDATE USER1 SET ISVERIFIED = 'TRUE' WHERE username = ?";
+                ops = (OraclePreparedStatement) oconn.prepareStatement(updateQuery);
+
+                // Set the username parameter
+                ops.setString(1, username);
+
+                // Execute the update
+                int rowsUpdated = ops.executeUpdate();
+
+                if (rowsUpdated > 0) {
+                    response.getWriter().println("User verification updated successfully.");
+                } else {
+                    response.getWriter().println("No matching user found for update.");
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(OTPVerificationServlet.class.getName()).log(Level.SEVERE, null, ex);
+                response.getWriter().println("An error occurred while updating user verification: " + ex.getMessage());
+            } finally {
+                try {
+                    // Close resources
+                    if (ops != null) {
+                        ops.close();
+                    }
+                    if (oconn != null) {
+                        oconn.close();
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(OTPVerificationServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            // Redirect user with a success message
             session.removeAttribute("successMessage");
-            session.setAttribute("signupSuccessMessage","Registered Successfully !");
+            session.setAttribute("signupSuccessMessage", "Registered Successfully!");
             response.sendRedirect("/pages/login.jsp");
         } else {
-            session.setAttribute("otpErrorMessage","Invalid OTP ! Please try again !");
+            // Handle OTP mismatch
+            session.setAttribute("otpErrorMessage", "Invalid OTP! Please try again!");
             response.sendRedirect("/pages/signup.jsp");
         }
     }
