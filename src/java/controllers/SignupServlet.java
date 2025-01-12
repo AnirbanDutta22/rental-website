@@ -72,11 +72,11 @@ public class SignupServlet extends HttpServlet {
             // GENERATING RESPONSE
             if (res.isSuccess()) {
                 //generate otp
-//                String recipient = request.getParameter("email");
                 String otp = String.valueOf((int) (Math.random() * 9000) + 1000);
 
                 // Save OTP in session
                 HttpSession session = request.getSession();
+                session.setAttribute("username", username);
                 session.setAttribute("otp", otp);
                 try {
                     // Set SMTP properties
@@ -103,7 +103,6 @@ public class SignupServlet extends HttpServlet {
                     // Send email
                     Transport.send(message);
 
-//                    response.sendRedirect("verifyOTP.jsp");
                     request.getSession().setAttribute("successMessage", "OTP sent to your email !");
                     response.sendRedirect("/pages/signup.jsp");
                 } catch (Exception e) {
