@@ -40,7 +40,7 @@ public class UserDAO {
 
                 int rowsInserted = ops.executeUpdate(); // executeUpdate function
                 if (rowsInserted > 0) {
-                    return new ResponseHandler(true, "Signup Successfull !");
+                    return new ResponseHandler(true, "Signup Successfull !!");
                 } else {
                     return new ResponseHandler(false, "Signup failed ! Try again !");
                 }
