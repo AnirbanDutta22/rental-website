@@ -2,7 +2,18 @@
 <%@page import="utils.FetchData"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page language="java" %>
-
+<%
+    // Check if the 'action' parameter is set to 'logout'
+    String action = request.getParameter("action");
+    if ("logout".equals(action)) {
+        session.removeAttribute("admin");
+        // Invalidate the session
+        session.invalidate();
+        // Redirect to the login page
+        response.sendRedirect("adminlogin.jsp");
+        return;
+    }
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -44,25 +55,25 @@
                     <a href="#" class="hover:bg-gray-700 block px-4 py-2 rounded" >Settings</a>
                 </li>
                 <li class="mb-4">
-                    <a href="#" class="hover:bg-gray-700 block px-4 py-2 rounded" onclick="showSection('database-overview')">Logout</a>
+                    <a href="/pages/admin.jsp?action=logout" class="hover:bg-gray-700 block px-4 py-2 rounded">Logout</a>
                 </li>
             </ul>
         </div>
         <div class="w-full">
-                <!-- Top Navbar -->
+            <!-- Top Navbar -->
             <nav class="bg-gray-800 text-white py-4 px-6 flex ">
                 <ul class="flex space-x-4 ml-auto">
-                    <li><a href="#" class="hover:text-yellow-500">Dashboard</a></li>
+                    <li><a href="admin.jsp?page=dashboard" class="hover:text-yellow-500">Dashboard</a></li>
                     <li><a href="#" class="hover:text-yellow-500">Profile</a></li>
-                    <li><a href="#" class="hover:text-yellow-500">Logout</a></li>
+                    <li><a href="/pages/admin.jsp?action=logout" class="hover:text-yellow-500">Logout</a></li>
                 </ul>
             </nav>
-        <!-- Main viewport -->
+            <!-- Main viewport -->
             <div class="flex-1 p-6">
-                <jsp:include page="${param.page == 'dashboard' ? '/components/admin-dashboard/dashboard.jsp' : param.page == 'user' ? '/components/admin-dashboard/fetchUser.jsp' : param.page == 'products' ? '/components/admin-dashboard/fetchProduct.jsp' : param.page == 'category' ? '/components/admin-dashboard/fetchCategory.jsp' : '/components/admin-dashboard/dashboard.jsp'}" />
-                    
+                <jsp:include page="${param.page == 'dashboard' ? '/components/admin-dashboard/dashboard.jsp' : param.page == 'user' ? '/components/admin-dashboard/fetchUser.jsp' : param.page == 'products' ? '/components/admin-dashboard/fetchProduct.jsp' : param.page == 'category' ? '/components/admin-dashboard/fetchCategory.jsp' : '/components/admin-dashboard/dashboard.jsp'}" />       
             </div>
         </div>
     </div>
 
 </html>
+
