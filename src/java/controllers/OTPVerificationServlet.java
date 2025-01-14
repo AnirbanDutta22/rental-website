@@ -21,7 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import oracle.jdbc.OracleConnection;
 import oracle.jdbc.OraclePreparedStatement;
-import responses.ResponseHandler;
 import utils.DBConnect;
 
 @WebServlet(name = "OTPVerificationServlet", urlPatterns = {"/OTPVerificationServlet"})

@@ -20,7 +20,6 @@ import responses.ResponseHandler;
 import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.*;
-import javax.servlet.http.*;
 
 @WebServlet(name = "SignupServlet", urlPatterns = {"/SignupServlet"})
 public class SignupServlet extends HttpServlet {
