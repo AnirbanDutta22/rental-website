@@ -66,7 +66,7 @@
                                     <input type="checkbox" id="remember" name="remember" class="mr-2">
                                     <label for="remember" class="text-sm text-gray-600">Remember Me</label>
                                 </div>
-                                <a href="#" class="text-sm text-blue-500 hover:underline">Forgot Password?</a>
+                                <a href="/pages/forgetPassword.jsp" class="text-sm text-blue-500 hover:underline">Forgot Password?</a>
                             </div>
                             <% if (request.getAttribute("errorMessage") != null) {%>
                             <div class="my-2 font-medium text-red-500">
