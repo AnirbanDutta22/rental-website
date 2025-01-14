@@ -48,7 +48,47 @@ public class UserDAO {
         }
     }
 
+    //method for user forget password
+
+    public ResponseHandler checkUserExistance(String email) throws SQLException {
+
+        try (OracleConnection oconn = DBConnect.getConnection()) {
+            // CHECKING IF USER EXISTS OR NOT
+            String checkUserQuery = "SELECT COUNT(*) FROM USER1 WHERE EMAIL = ?";
+            try (OraclePreparedStatement checkStmt = (OraclePreparedStatement) oconn.prepareStatement(checkUserQuery)) {
+                checkStmt.setString(1, email);
+                try (ResultSet rs = checkStmt.executeQuery()) {
+                    if (rs.next() && rs.getInt(1) < 1) {
+                        return new ResponseHandler(false, "User does not exists !");
+                    } else {
+                        return new ResponseHandler(true, "email exists !!");
+                    }
+                }
+            }
+        }
+    }
+
+    public ResponseHandler updatePassword(String email, String password) throws SQLException {
+
+        // UPDATING PASSWORD
+        try (OracleConnection oconn = DBConnect.getConnection()) {
+            String query = " UPDATE USER1 SET PASSWORD = ? WHERE EMAIL = ?";
+            try (OraclePreparedStatement ops = (OraclePreparedStatement) oconn.prepareCall(query)) {
+                ops.setString(1, password);
+                ops.setString(2, email);
+
+                int rowsInserted = ops.executeUpdate(); // executeUpdate function
+                if (rowsInserted > 0) {
+                    return new ResponseHandler(true, "Password updated !!");
+                } else {
+                    return new ResponseHandler(false, "Failed ! Try again !");
+                }
+            }
+        }
+    }
+
     //method for user login
+
     public ResponseHandler loginUser(String emailOrUsername, String password) throws SQLException {
         try (OracleConnection oconn = DBConnect.getConnection()) {
             // CHECKING IF USER EXISTS
@@ -284,116 +324,115 @@ public class UserDAO {
 
     //add product
     public ResponseHandler addProduct(Product product, int userId) throws SQLException {
-    try (OracleConnection oconn = DBConnect.getConnection()) {
-        // Disable auto-commit to manually control transactions
-        oconn.setAutoCommit(false);
+        try (OracleConnection oconn = DBConnect.getConnection()) {
+            // Disable auto-commit to manually control transactions
+            oconn.setAutoCommit(false);
 
-        // Get the next sequence value
-        String getNextIdQuery = "SELECT id_sequence.NEXTVAL AS PRODUCT_ID FROM DUAL";
-        try (OraclePreparedStatement seqStmt = (OraclePreparedStatement) oconn.prepareStatement(getNextIdQuery)) {
-            ResultSet seqRs = seqStmt.executeQuery();
-            int productId;
-            if (seqRs.next()) {
-                productId = seqRs.getInt("PRODUCT_ID");
-            } else {
-                return new ResponseHandler(false, "Failed to generate Product ID");
-            }
-
-            // Insert into PRODUCT table
-            String insertProductQuery = "INSERT INTO PRODUCT(PRODUCT_ID, NAME, DESCRIPTION, SPEC, CATEGORY_ID, LENDER_ID) VALUES (?,?,?,?,?,?)";
-            try (OraclePreparedStatement ops = (OraclePreparedStatement) oconn.prepareStatement(insertProductQuery)) {
-                ops.setInt(1, productId);
-                ops.setString(2, product.getName());
-                ops.setString(3, product.getDescription());
-                ops.setString(4, product.getSpec());
-                ops.setInt(5, product.getCategoryId());
-                ops.setInt(6, userId);
-
-                int rowsInserted = ops.executeUpdate();
-                if (rowsInserted <= 0) {
-                    oconn.rollback();
-                    return new ResponseHandler(false, "Failed to add Product");
+            // Get the next sequence value
+            String getNextIdQuery = "SELECT id_sequence.NEXTVAL AS PRODUCT_ID FROM DUAL";
+            try (OraclePreparedStatement seqStmt = (OraclePreparedStatement) oconn.prepareStatement(getNextIdQuery)) {
+                ResultSet seqRs = seqStmt.executeQuery();
+                int productId;
+                if (seqRs.next()) {
+                    productId = seqRs.getInt("PRODUCT_ID");
+                } else {
+                    return new ResponseHandler(false, "Failed to generate Product ID");
                 }
-            }
 
-            // Insert Images
-            for (String imageUrl : product.getImageUrl()) {
-                String insertProductImageQuery = "INSERT INTO PRODUCT_IMAGE(PRODUCT_IMAGE_ID, PRODUCT_ID, IMAGE) VALUES (id_sequence.NEXTVAL, ?, ?)";
-                try (OraclePreparedStatement insertImageOPS = (OraclePreparedStatement) oconn.prepareStatement(insertProductImageQuery)) {
-                    insertImageOPS.setInt(1, productId);
-                    insertImageOPS.setString(2, imageUrl);
+                // Insert into PRODUCT table
+                String insertProductQuery = "INSERT INTO PRODUCT(PRODUCT_ID, NAME, DESCRIPTION, SPEC, CATEGORY_ID, LENDER_ID) VALUES (?,?,?,?,?,?)";
+                try (OraclePreparedStatement ops = (OraclePreparedStatement) oconn.prepareStatement(insertProductQuery)) {
+                    ops.setInt(1, productId);
+                    ops.setString(2, product.getName());
+                    ops.setString(3, product.getDescription());
+                    ops.setString(4, product.getSpec());
+                    ops.setInt(5, product.getCategoryId());
+                    ops.setInt(6, userId);
 
-                    int imageRows = insertImageOPS.executeUpdate();
-                    if (imageRows <= 0) {
+                    int rowsInserted = ops.executeUpdate();
+                    if (rowsInserted <= 0) {
                         oconn.rollback();
-                        return new ResponseHandler(false, "Failed to add Image. Insertion terminated");
+                        return new ResponseHandler(false, "Failed to add Product");
                     }
                 }
-            }
 
-            // Insert Tags
-            for (String tag : product.getTags()) {
-                String insertProductTagQuery = "INSERT INTO PRODUCT_TAGS(PRODUCT_TAG_ID, PRODUCT_ID, TAG) VALUES (id_sequence.NEXTVAL, ?, ?)";
-                try (OraclePreparedStatement insertTagOPS = (OraclePreparedStatement) oconn.prepareStatement(insertProductTagQuery)) {
-                    insertTagOPS.setInt(1, productId);
-                    insertTagOPS.setString(2, tag);
+                // Insert Images
+                for (String imageUrl : product.getImageUrl()) {
+                    String insertProductImageQuery = "INSERT INTO PRODUCT_IMAGE(PRODUCT_IMAGE_ID, PRODUCT_ID, IMAGE) VALUES (id_sequence.NEXTVAL, ?, ?)";
+                    try (OraclePreparedStatement insertImageOPS = (OraclePreparedStatement) oconn.prepareStatement(insertProductImageQuery)) {
+                        insertImageOPS.setInt(1, productId);
+                        insertImageOPS.setString(2, imageUrl);
 
-                    int tagRows = insertTagOPS.executeUpdate();
-                    if (tagRows <= 0) {
-                        oconn.rollback();
-                        return new ResponseHandler(false, "Failed to add Tags. Insertion terminated");
+                        int imageRows = insertImageOPS.executeUpdate();
+                        if (imageRows <= 0) {
+                            oconn.rollback();
+                            return new ResponseHandler(false, "Failed to add Image. Insertion terminated");
+                        }
                     }
                 }
-            }
 
-            // Insert Price and Tenure
-            for (PriceTenure priceTenure : product.getPriceTenures()) {
-                String insertProductPriceQuery = "INSERT INTO PRODUCT_PRICE(PRODUCT_PRICE_ID, PRODUCT_ID, PRICE, TENURE) VALUES (id_sequence.NEXTVAL, ?, ?, ?)";
-                try (OraclePreparedStatement insertPriceOPS = (OraclePreparedStatement) oconn.prepareStatement(insertProductPriceQuery)) {
-                    insertPriceOPS.setInt(1, productId);
-                    insertPriceOPS.setDouble(2, priceTenure.getPrice());
-                    insertPriceOPS.setInt(3, priceTenure.getTenure());
+                // Insert Tags
+                for (String tag : product.getTags()) {
+                    String insertProductTagQuery = "INSERT INTO PRODUCT_TAGS(PRODUCT_TAG_ID, PRODUCT_ID, TAG) VALUES (id_sequence.NEXTVAL, ?, ?)";
+                    try (OraclePreparedStatement insertTagOPS = (OraclePreparedStatement) oconn.prepareStatement(insertProductTagQuery)) {
+                        insertTagOPS.setInt(1, productId);
+                        insertTagOPS.setString(2, tag);
 
-                    int priceRows = insertPriceOPS.executeUpdate();
-                    if (priceRows <= 0) {
-                        oconn.rollback();
-                        return new ResponseHandler(false, "Failed to add Price and Tenure. Insertion terminated");
+                        int tagRows = insertTagOPS.executeUpdate();
+                        if (tagRows <= 0) {
+                            oconn.rollback();
+                            return new ResponseHandler(false, "Failed to add Tags. Insertion terminated");
+                        }
                     }
                 }
-            }
 
-            // Insert Title and Details
-            for (Details details : product.getDetails()) {
-                String insertProductDetailsQuery = "INSERT INTO PRODUCT_DETAILS(PRODUCT_DETAILS_ID, PRODUCT_ID, TITLE, DETAILS) VALUES (id_sequence.NEXTVAL, ?, ?, ?)";
-                try (OraclePreparedStatement insertDetailsOPS = (OraclePreparedStatement) oconn.prepareStatement(insertProductDetailsQuery)) {
-                    insertDetailsOPS.setInt(1, productId);
-                    insertDetailsOPS.setString(2, details.getTitle());
-                    insertDetailsOPS.setString(3, details.getDetails());
+                // Insert Price and Tenure
+                for (PriceTenure priceTenure : product.getPriceTenures()) {
+                    String insertProductPriceQuery = "INSERT INTO PRODUCT_PRICE(PRODUCT_PRICE_ID, PRODUCT_ID, PRICE, TENURE) VALUES (id_sequence.NEXTVAL, ?, ?, ?)";
+                    try (OraclePreparedStatement insertPriceOPS = (OraclePreparedStatement) oconn.prepareStatement(insertProductPriceQuery)) {
+                        insertPriceOPS.setInt(1, productId);
+                        insertPriceOPS.setDouble(2, priceTenure.getPrice());
+                        insertPriceOPS.setInt(3, priceTenure.getTenure());
 
-                    int detailsRows = insertDetailsOPS.executeUpdate();
-                    if (detailsRows <= 0) {
-                        oconn.rollback();
-                        return new ResponseHandler(false, "Failed to add Title and Details. Insertion terminated");
+                        int priceRows = insertPriceOPS.executeUpdate();
+                        if (priceRows <= 0) {
+                            oconn.rollback();
+                            return new ResponseHandler(false, "Failed to add Price and Tenure. Insertion terminated");
+                        }
                     }
                 }
+
+                // Insert Title and Details
+                for (Details details : product.getDetails()) {
+                    String insertProductDetailsQuery = "INSERT INTO PRODUCT_DETAILS(PRODUCT_DETAILS_ID, PRODUCT_ID, TITLE, DETAILS) VALUES (id_sequence.NEXTVAL, ?, ?, ?)";
+                    try (OraclePreparedStatement insertDetailsOPS = (OraclePreparedStatement) oconn.prepareStatement(insertProductDetailsQuery)) {
+                        insertDetailsOPS.setInt(1, productId);
+                        insertDetailsOPS.setString(2, details.getTitle());
+                        insertDetailsOPS.setString(3, details.getDetails());
+
+                        int detailsRows = insertDetailsOPS.executeUpdate();
+                        if (detailsRows <= 0) {
+                            oconn.rollback();
+                            return new ResponseHandler(false, "Failed to add Title and Details. Insertion terminated");
+                        }
+                    }
+                }
+
+                // Commit the transaction
+                oconn.commit();
+                return new ResponseHandler(true, "Product successfully added");
+
+            } catch (SQLException e) {
+                // Rollback the transaction in case of an exception
+                oconn.rollback();
+                e.printStackTrace();
+                return new ResponseHandler(false, "Database Error: " + e.getMessage());
+            } finally {
+                // Restore auto-commit mode
+                oconn.setAutoCommit(true);
             }
-
-            // Commit the transaction
-            oconn.commit();
-            return new ResponseHandler(true, "Product successfully added");
-
-        } catch (SQLException e) {
-            // Rollback the transaction in case of an exception
-            oconn.rollback();
-            e.printStackTrace();
-            return new ResponseHandler(false, "Database Error: " + e.getMessage());
-        } finally {
-            // Restore auto-commit mode
-            oconn.setAutoCommit(true);
         }
     }
-}
-
 
     //remove product
     public ResponseHandler removeProduct(int productId, String username) throws SQLException {
