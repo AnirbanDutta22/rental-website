@@ -11,6 +11,10 @@ import oracle.jdbc.OracleConnection;
 import oracle.jdbc.OraclePreparedStatement;
 import responses.ResponseHandler;
 import utils.DBConnect;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 public class UserDAO {
 
@@ -49,7 +53,6 @@ public class UserDAO {
     }
 
     //method for user forget password
-
     public ResponseHandler checkUserExistance(String email) throws SQLException {
 
         try (OracleConnection oconn = DBConnect.getConnection()) {
@@ -88,7 +91,6 @@ public class UserDAO {
     }
 
     //method for user login
-
     public ResponseHandler loginUser(String emailOrUsername, String password) throws SQLException {
         try (OracleConnection oconn = DBConnect.getConnection()) {
             // CHECKING IF USER EXISTS
@@ -307,15 +309,27 @@ public class UserDAO {
                 return new ResponseHandler(false, "Failed to generate Rental ID");
             }
 
-            String addRentalQuery = "INSERT INTO RENTAL (RENTAL_ID,REQUEST_ID,STATUS) VALUES (?,?,?)";
-            OraclePreparedStatement addRentalOPS = (OraclePreparedStatement) oconn.prepareStatement(addRentalQuery);
-            addRentalOPS.setInt(1, rentalId);
-            addRentalOPS.setInt(2, request_id);
-            addRentalOPS.setString(3, "pending");
+            //rental start date and end date
+            LocalDateTime currentDateTime = LocalDateTime.now(ZoneId.systemDefault()); // Current date and time
+            LocalDateTime threeMonthsLaterDateTime = currentDateTime.plusMonths(3);   // Add 3 months
 
-            int rowsInserted = ops.executeUpdate();
-            if (rowsInserted <= 0) {
-                return new ResponseHandler(false, "Insertion at Rental failed !");
+            // Convert to java.sql.Timestamp
+            Timestamp sqlCurrentTimestamp = Timestamp.valueOf(currentDateTime);
+            Timestamp sqlThreeMonthsLaterTimestamp = Timestamp.valueOf(threeMonthsLaterDateTime);
+
+            String addRentalQuery = "INSERT INTO RENTAL (RENTAL_ID,REQUEST_ID,STATUS) VALUES (?,?,'pending')";
+            try (OraclePreparedStatement addRentalOPS = (OraclePreparedStatement) oconn.prepareStatement(addRentalQuery)) {
+                addRentalOPS.setInt(1, rentalId);
+                System.out.println("Rental ID : " + rentalId);
+                addRentalOPS.setInt(2, request_id);
+                System.out.println("Req ID : " + request_id);
+//            addRentalOPS.setTimestamp(4, sqlCurrentTimestamp);
+//            addRentalOPS.setTimestamp(5, sqlThreeMonthsLaterTimestamp);
+
+                int rowsInserted = addRentalOPS.executeUpdate();
+                if (rowsInserted <= 0) {
+                    return new ResponseHandler(false, "Insertion at Rental failed !");
+                }
             }
 
             return new ResponseHandler(true, "Request accepted successfully !", rentalId);
@@ -449,6 +463,17 @@ public class UserDAO {
             if (productFound.next()) {
                 int userId = productFound.getInt("LENDER_ID");
                 int rowsDeleted;
+
+                //check if the product exists in rental table
+                String checkExistenceInRental = "SELECT * FROM RENTAL WHERE REQUEST_ID = (SELECT REQUEST_ID FROM RENTAL_REQUEST WHERE PRODUCT_ID=?)";
+                OraclePreparedStatement checkProduct = (OraclePreparedStatement) oconn.prepareStatement(checkExistenceInRental);
+                checkProduct.setInt(1, productId);
+
+                ResultSet productFoundInRental = checkProduct.executeQuery();
+                if (productFoundInRental.next()) {
+                    return new ResponseHandler(false, "Product remove failed! Exist on Rental!");
+                }
+
                 //remove record from product details table
                 String removeProductDetailsQuery = "DELETE FROM PRODUCT_DETAILS WHERE PRODUCT_ID=?";
                 OraclePreparedStatement deleteProductDetails = (OraclePreparedStatement) oconn.prepareStatement(removeProductDetailsQuery);
@@ -487,6 +512,17 @@ public class UserDAO {
                 rowsDeleted = deleteProductTags.executeUpdate();
                 if (rowsDeleted <= 0) {
                     return new ResponseHandler(false, "Product prices remove failed !");
+                }
+
+                //remove record from request table
+                String removeProductFromRequestQuery = "DELETE FROM RENTAL_REQUEST WHERE PRODUCT_ID=? AND LENDER_ID=?";
+                OraclePreparedStatement deleteProductFromRequest = (OraclePreparedStatement) oconn.prepareStatement(removeProductFromRequestQuery);
+                deleteProductFromRequest.setInt(1, productId);
+                deleteProductFromRequest.setInt(2, userId);
+
+                rowsDeleted = deleteProductFromRequest.executeUpdate();
+                if (rowsDeleted <= 0) {
+                    return new ResponseHandler(false, "Product remove from request failed !");
                 }
 
                 //remove record from product table

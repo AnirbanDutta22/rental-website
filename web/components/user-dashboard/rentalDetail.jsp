@@ -23,8 +23,8 @@
 </style>
 <%
     User user = (User) session.getAttribute("user");
-    // Get the current user ID (assuming it's stored in the session)
     Integer userId = user.getId();
+    
     // Fetch rental details using DAO
     int requestId = Integer.parseInt(request.getParameter("requestId"));
     RentalDAO rentalDAO = new RentalDAO();

@@ -3,15 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/ratna/OneDrive/Documents/Desktop/rental-website/web/components/admin-dashboard/fetchProduct.jsp</file>
-            <file>file:/C:/Users/ratna/OneDrive/Documents/Desktop/rental-website/src/java/controllers/ProductApprovalServlet.java</file>
-            <file>file:/C:/Users/ratna/OneDrive/Documents/Desktop/rental-website/src/java/controllers/EditProfileServlet.java</file>
-            <file>file:/C:/Users/ratna/OneDrive/Documents/Desktop/rental-website/src/java/utils/FetchData.java</file>
+            <file>file:/C:/Users/ratna/OneDrive/Documents/Desktop/rental-website/src/java/dao/RentalDAO.java</file>
+            <file>file:/C:/Users/ratna/OneDrive/Documents/Desktop/rental-website/src/java/dao/UserDAO.java</file>
+            <file>file:/C:/Users/ratna/OneDrive/Documents/Desktop/rental-website/web/pages/requestDashboard.jsp</file>
+            <file>file:/C:/Users/ratna/OneDrive/Documents/Desktop/rental-website/src/java/controllers/SignupServlet.java</file>
             <file>file:/C:/Users/ratna/OneDrive/Documents/Desktop/rental-website/web/components/user-dashboard/rentals.jsp</file>
-            <file>file:/C:/Users/ratna/OneDrive/Documents/Desktop/rental-website/web/components/admin-dashboard/fetchCategory.jsp</file>
             <file>file:/C:/Users/ratna/OneDrive/Documents/Desktop/rental-website/web/components/user-dashboard/rentalDetail.jsp</file>
-            <file>file:/C:/Users/ratna/OneDrive/Documents/Desktop/rental-website/src/java/controllers/CategoryServlet.java</file>
-            <file>file:/C:/Users/ratna/OneDrive/Documents/Desktop/rental-website/web/pages/about.html</file>
+            <file>file:/C:/Users/ratna/OneDrive/Documents/Desktop/rental-website/src/java/dao/TransactionDAO.java</file>
         </group>
     </open-files>
 </project-private>

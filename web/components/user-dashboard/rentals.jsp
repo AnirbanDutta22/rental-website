@@ -90,7 +90,7 @@
                                     statusClass = "text-green-700 bg-green-200";
                                     statusText = "Completed";
                                     break;
-                                case "ongoing":
+                                case "pending":
                                     statusClass = "text-yellow-700 bg-yellow-200";
                                     statusText = "Ongoing";
                                     break;
