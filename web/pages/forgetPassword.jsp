@@ -82,10 +82,17 @@
                         %>
                         <!-- Password Reset Section -->
                         <form name="ResetPasswordForm" method="POST" action="/ResetPasswordServlet">
-                            <div class="mb-6">
-                                <label for="password" class="block text-gray-700 text-sm font-bold mb-2">New Password</label>
-                                <input type="password" id="password" name="password" placeholder="Enter new password" required 
-                                       class="w-full px-3 py-2 placeholder-gray-400 border rounded-lg focus:outline-none transition duration-200">
+                            <div class="mb-6 relative">
+                                <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                                <div class="relative">
+                                    <input type="password" id="password" name="password" placeholder="Enter your password" required 
+                                           class="w-full px-3 py-2 placeholder-gray-400 border rounded-lg focus:outline-none transition duration-200 pr-10" 
+                                           required aria-required="true">
+                                    <!-- Eye Icon Button -->
+                                    <button type="button" id="togglePassword" class="absolute right-3 top-3 text-gray-600 border-none" >
+                                        👁️
+                                    </button>
+                                </div>
                             </div>
                             <div class="mb-6">
                                 <label for="confirmPassword" class="block text-gray-700 text-sm font-bold mb-2">Confirm Password</label>
@@ -159,6 +166,21 @@
                                 popup.remove(); // Remove the specific popup from the DOM
                             }
                         }
+                        document.getElementById("togglePassword").addEventListener("click", function () {
+                            var passwordField = document.getElementById("password");
+                            var confirmPasswordField = document.getElementById("confirmPassword");
+                            var toggleButton = this;
+
+                            if (passwordField.type === "password") {
+                                passwordField.type = "text"; // Show password
+                                confirmPasswordField.type = "text"; // Show password
+                                toggleButton.textContent = "🙈"; // Change icon to closed-eye
+                            } else {
+                                passwordField.type = "password"; // Hide password
+                                confirmPasswordField.type = "password"; // Hide password
+                                toggleButton.textContent = "👁️"; // Change icon to open-eye
+                            }
+                        });
         </script>
     </body>
 </html>
