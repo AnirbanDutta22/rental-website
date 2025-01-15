@@ -51,7 +51,7 @@
                         <img class="h-80 w-72 mt-28 m-auto transition-opacity duration-1000" id="loginimg" src="../assets/images/3d/tv.png">
                     </div>
                     <div class="w-2/4  p-8 bg-white">
-                        <h2 class="text-3xl font-bold text-center mt-4 text-gray-800 mb-8">Login to Rental</h2>
+                        <h2 class="text-3xl font-bold text-center mt-4 text-gray-800 mb-8">Login to Rentle</h2>
                         <form name="Login" method="POST" action="/LoginServlet">
                             <div class="mb-6">
                                 <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Username/Email</label>
