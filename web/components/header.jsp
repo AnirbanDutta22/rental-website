@@ -82,7 +82,6 @@
                         <div class="relative">
                             <i class="absolute fa fa-search text-gray-400 top-2.5 left-4"></i>
                             <input type="text" class="bg-white text-darkColor text-base h-10 w-full px-12 rounded-lg border outline-none" name="" placeholder="Search products...">
-                                <span class="absolute top-2 right-5 border-l pl-4"><i class="fa fa-microphone text-gray-500 hover:text-green-500 hover:cursor-pointer"></i></span>
                         </div> 
                     </div>
                 </div>
@@ -106,7 +105,7 @@
             },
             {
                 navItem: "About",
-                link: "/pages/about.html"
+                link: "/pages/about.jsp"
             },
             {
                 navItem: "Support",
@@ -117,7 +116,7 @@
         var navbar = document.getElementById("navbar");
         var subNavbar = document.getElementById("subNav");
 
-        if (window.location.pathname.includes("/pages/userDashboard.jsp") || window.location.pathname.includes("/pages/wishlist.jsp") || window.location.pathname.includes("/pages/support.jsp")) {
+        if (window.location.pathname.includes("/pages/userDashboard.jsp") || window.location.pathname.includes("/pages/wishlist.jsp") || window.location.pathname.includes("/pages/support.jsp") || window.location.pathname.includes("/pages/about.jsp")) {
             subNavbar.classList.add("hidden");
         } else {
             //navbar on scroll behaviour
