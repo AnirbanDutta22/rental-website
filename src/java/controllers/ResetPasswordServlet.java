@@ -53,8 +53,8 @@ public class ResetPasswordServlet extends HttpServlet {
             if (res.isSuccess()) {
                 session.invalidate();
                 session = request.getSession(true);
-                session.setAttribute("successMessage", "Password updated successfully!");
-                response.sendRedirect("/pages/login.jsp");
+                session.setAttribute("successResetMessage", "Password changed successfully!");
+                response.sendRedirect("/pages/forgetPassword.jsp");
             } else {
                 session.setAttribute("errorMessage", res.getMessage());
                 response.sendRedirect("/pages/forgetPassword.jsp");

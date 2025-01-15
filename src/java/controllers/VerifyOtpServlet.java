@@ -41,6 +41,7 @@ public class VerifyOtpServlet extends HttpServlet {
 
         if (sessionOtp != null && sessionOtp.equals(enteredOtp)) {
             session.setAttribute("otpVerified", true);
+            session.removeAttribute("successMessage");
             session.setAttribute("successOTPMessage", "OTP verified successfully!");
             response.sendRedirect("/pages/forgetPassword.jsp");
         } else {
