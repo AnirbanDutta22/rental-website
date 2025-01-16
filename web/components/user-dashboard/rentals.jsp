@@ -32,6 +32,7 @@
     User user = (User) session.getAttribute("user");
     // Get the current user ID (assuming it's stored in the session)
     Integer userId = user.getId();
+    System.out.println(userId);
     // Fetch rental details using DAO
     RentalDAO rentalDAO = new RentalDAO();
     ResponseHandler rentalRes;
@@ -41,6 +42,10 @@
 
     if (rentalRes.isSuccess()) {
         rentalList = (List<Rental>) rentalRes.getData();
+        System.out.println(rentalList);
+        for (Rental rent : rentalList) {
+            System.out.println(rent.getProductName());
+        }
         session.setAttribute("rentalList", rentalList);
     } else {
         rentalList = new ArrayList<Rental>();
@@ -78,12 +83,17 @@
                     <td class="py-3 px-6 text-left">
                         <img src="https://via.placeholder.com/50" alt="Product Image" class="w-12 h-12 rounded">
                     </td>
-                    <td class="py-3 px-6 text-left"><%=rental.getProductName()%><br>(<%=rental.getProductSpec()%></td>
+                    <td class="py-3 px-6 text-left"><%=rental.getProductName()%><br>(<%=rental.getProductSpec()%>)</td>
                     <td class="py-3 px-6 text-left">
                         <%
-                            String status = rental.getStatus();
+                            String status;
                             String statusClass = "";
                             String statusText = "";
+                            if (rental.getStatus() == null) {
+                                status = "canceled";
+                            } else {
+                                status = rental.getStatus();
+                            }
 
                             switch (status) {
                                 case "completed":

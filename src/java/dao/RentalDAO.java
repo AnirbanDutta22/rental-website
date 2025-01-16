@@ -27,7 +27,7 @@ public class RentalDAO {
         try (OracleConnection oconn = DBConnect.getConnection()) {
 
             //QUERY FOR FETCHING ALL PRODUCTS
-            String query = "SELECT * FROM RENTAL_REQUEST WHERE STATUS='ACCEPTED' AND REQUEST_ID=?";
+            String query = "SELECT * FROM RENTAL_REQUEST WHERE STATUS='accepted' AND REQUEST_ID=?";
             try (OraclePreparedStatement checkStmt = (OraclePreparedStatement) oconn.prepareStatement(query)) {
                 checkStmt.setInt(1, requestId);
                 try (ResultSet rentalResult = checkStmt.executeQuery()) {
@@ -64,7 +64,7 @@ public class RentalDAO {
         try (OracleConnection oconn = DBConnect.getConnection()) {
 
             //QUERY FOR FETCHING ALL PRODUCTS
-            String query = "SELECT * FROM RENTAL_REQUEST WHERE STATUS='ACCEPTED' AND (BORROWER_ID=? OR LENDER_ID=?)";
+            String query = "SELECT * FROM RENTAL_REQUEST WHERE STATUS='accepted' AND (BORROWER_ID=? OR LENDER_ID=?)";
             try (OraclePreparedStatement checkStmt = (OraclePreparedStatement) oconn.prepareStatement(query)) {
                 checkStmt.setInt(1, userId);
                 checkStmt.setInt(2, userId);
@@ -86,6 +86,9 @@ public class RentalDAO {
         }
         //checking if productList is empty
         if (!rentalList.isEmpty()) {
+            System.out.print(rentalList);
+            rentalList.stream().forEach((rental1) -> {
+            });
             return new ResponseHandler(true, "Rental details fetched successfully!", rentalList);
         } else {
             return new ResponseHandler(false, "No details found!");
