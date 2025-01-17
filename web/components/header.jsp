@@ -18,48 +18,48 @@
             <%
                 if (user != null) {
             %>
-            <i class="fa-regular fa-bell text-2xl mr-7"></i>
-            <img src="<%= user.getAvatar_image()!= null ? "../" + user.getAvatar_image(): "../assets/images/profile.jpg" %>" id="avatarButton" type="button" onclick="openProfileDropdown()" class="p-1 w-12 h-12 rounded-full cursor-pointer ring-2 ring-primary dark:ring-gray-500" alt="User dropdown">
-                <%
-                } else {
-                %>
-                <a href="/pages/login.jsp"><button type="button" class="text-white bg-primary hover:bg-primary-100 transition-all ease-in-out duration-300 font-medium rounded-full text-base px-8 whitespace-nowrap py-2 text-center dark:bg-light dark:text-darkColor">Login</button></a>
-                <%
+            <i onclick="launch()" class="fa-regular fa-bell text-2xl mr-7"></i>
+            <img src="<%= user.getAvatar_image() != null ? "../" + user.getAvatar_image() : "../assets/images/profile.jpg"%>" id="avatarButton" type="button" onclick="openProfileDropdown()" class="p-1 w-12 h-12 rounded-full cursor-pointer ring-2 ring-primary dark:ring-gray-500" alt="User dropdown">
+            <%
+            } else {
+            %>
+            <a href="/pages/login.jsp"><button type="button" class="text-white bg-primary hover:bg-primary-100 transition-all ease-in-out duration-300 font-medium rounded-full text-base px-8 whitespace-nowrap py-2 text-center dark:bg-light dark:text-darkColor">Login</button></a>
+            <%
                     }%>
 
-                <!-- Profile Dropdown menu -->
-                <div id="profileDropdown" class="absolute top-14 -right-0 z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                    <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
-                        <div><% if (user != null) {%><%= user.getName()%><% } %></div>
-                        <div class="font-medium truncate"><% if (user != null) {%><%= user.getEmail()%><% }%></div>
-                    </div>
-
-                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
-                        <li>
-                            <a href="/pages/userDashboard.jsp" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
-                        </li>
-                        <li>
-                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
-                        </li>
-                        <li>
-                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex justify-start items-center">Mode <jsp:include page="./theme-toggle.jsp"/></a>
-                        </li>
-                        <li>
-                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
-                        </li>
-                    </ul>
-                    <div class="py-1">
-                        <form name="Logout" action="/LogoutServlet" method="POST">
-                            <button type="submit" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</button>
-                        </form>
-                    </div>
+            <!-- Profile Dropdown menu -->
+            <div id="profileDropdown" class="absolute top-14 -right-0 z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
+                    <div><% if (user != null) {%><%= user.getName()%><% } %></div>
+                    <div class="font-medium truncate"><% if (user != null) {%><%= user.getEmail()%><% }%></div>
                 </div>
-                <button type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
-                    <span class="sr-only">Open main menu</span>
-                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
-                    </svg>
-                </button>
+
+                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
+                    <li>
+                        <a href="/pages/userDashboard.jsp" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
+                    </li>
+                    <li>
+                        <button onclick="launch()" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex justify-start items-center">Mode</a>
+                    </li>
+                    <li>
+                        <button onclick="launch()" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</button>
+                    </li>
+                </ul>
+                <div class="py-1">
+                    <form name="Logout" action="/LogoutServlet" method="POST">
+                        <button type="submit" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</button>
+                    </form>
+                </div>
+            </div>
+            <button type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+                <span class="sr-only">Open main menu</span>
+                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+                </svg>
+            </button>
         </div>
         <div class="md:items-center md:justify-between hidden w-full md:flex md:w-auto" id="navbar-sticky">
             <ul id="navbar" class="flex flex-col p-4 md:p-0 mt-2 font-medium border md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
@@ -82,7 +82,7 @@
                         <div class="relative">
                             <i class="absolute fa fa-search text-gray-400 top-2.5 left-4"></i>
                             <input type="text" class="bg-white text-darkColor text-base h-10 w-full px-12 rounded-lg border outline-none" name="" placeholder="Search products...">
-                                <span class="absolute top-2 right-5 border-l pl-4"><i class="fa fa-microphone text-gray-500 hover:text-green-500 hover:cursor-pointer"></i></span>
+                            <span class="absolute top-2 right-5 border-l pl-4"><i class="fa fa-microphone text-gray-500 hover:text-green-500 hover:cursor-pointer"></i></span>
                         </div> 
                     </div>
                 </div>
@@ -95,7 +95,28 @@
         </div>
     </div>
 </nav>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
 
+        function launch() {
+            event.preventDefault();
+            Swal.fire({
+                title: "Coming Soon!",
+                text: "This feature will be launched soon. Stay tuned!",
+                icon: "info",
+                confirmButtonText: "OK",
+                confirmButtonColor: "#C80036",
+                background: "#f9f9f9",
+                backdrop: `rgba(0, 0, 0, 0.4)`,
+                        showClass: {
+                            popup: "animate__animated animate__fadeInDown"
+                        },
+                hideClass: {
+                    popup: "animate__animated animate__fadeOutUp"
+                }
+            });
+        }
+</script>
 <script>
     // load nav items
     window.addEventListener("load", function () {
