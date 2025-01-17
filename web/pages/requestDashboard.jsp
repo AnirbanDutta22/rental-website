@@ -78,7 +78,7 @@
                         <form name="BorrowerActionServlet" action="/BorrowerActionServlet?type=<%=status%>&product_id=<%=product.getProduct().getId()%>&request_id=<%=product.getRequestId()%>" method="POST" class="flex items-center gap-x-6 p-3 bg-white shadow-md rounded-lg transition duration-200 hover:shadow-lg">
                             <!-- Product Image -->
                             <div class="w-24 h-24 rounded-lg overflow-hidden">
-                                <img src="../"<%=product.getProduct().getImageUrl()[0]%>" alt="Product Image" class="w-full h-full object-cover"/>
+                                <img src="../<%=product.getProduct().getImageUrl()[0]%>" alt="Product Image" class="w-full h-full object-cover"/>
                             </div>
 
                             <!-- Product Details -->
