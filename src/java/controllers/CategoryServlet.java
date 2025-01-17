@@ -30,7 +30,7 @@ public class CategoryServlet extends HttpServlet {
         switch (request.getParameter("type")) {
             case "add":
                 try {
-                    int categoryId = Integer.parseInt(request.getParameter("categoryId"));
+                    int categoryId = Integer.parseInt(request.getParameter("category_id"));
                     String name = request.getParameter("category_name");
                     Category category = new Category(categoryId, name);
                     CategoryDAO CategoryDAO = new CategoryDAO();
