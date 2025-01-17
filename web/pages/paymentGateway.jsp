@@ -4,7 +4,18 @@
     Author     : Srikanta
 --%>
 
+<%@page import="models.Transaction"%>
+<%@page import="dao.TransactionDAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    TransactionDAO tranDao = new TransactionDAO();
+    Transaction transaction;
+    
+    int rentalId = Integer.parseInt(request.getParameter("rentalId"));
+    int transactionId = Integer.parseInt(request.getParameter("transactionId"));
+    
+    transaction = tranDao.getTransaction(rentalId,transactionId);
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,7 +41,7 @@
                     <img src="/assets/images/logo.png">
                 </div>
             </div>
-            <div class="text-2xl font-bold">PAY ₹799</div>
+            <div class="text-2xl font-bold">PAY ₹ <%=transaction.getAmount()%></div>
         </div>
         <div class="bg-white p-4 rounded-lg mb-4 flex justify-between items-center">
             <div class="flex items-center gap-2">
@@ -50,7 +61,7 @@
                     </div>
                 </div>
                 <div class="w-3/4 pl-6" id="payment-form">
-                    <form action="/PaymentServlet" method="post">
+                    <form action="/PaymentServlet?rentalId=<%=rentalId%>&transactionId=<%=transactionId%>" method="post">
                         <div class="mb-4">
                             <input type="text" class="w-full p-2 border rounded" name="cardNumber" placeholder="Card Number" pattern="\d{16}" required />
                         </div>
@@ -70,7 +81,7 @@
     <script>
         document.getElementById('cards-option').addEventListener('click', function() {
             document.getElementById('payment-form').innerHTML = `
-                <form action="/PaymentServlet" method="post">
+                <form action="/PaymentServlet?rentalId=<%=rentalId%>&transactionId=<%=transactionId%>" method="post">
                     <div class="mb-4">
                         <input type="text" class="w-full p-2 border rounded" name="cardNumber" placeholder="Card Number" pattern="\\d{16}" required />
                     </div>
@@ -87,7 +98,7 @@
         
         document.getElementById('upi-option').addEventListener('click', function() {
             document.getElementById('payment-form').innerHTML = `
-                <form action="/PaymentServlet" method="post">
+                <form action="/PaymentServlet?rentalId=<%=rentalId%>&transactionId=<%=transactionId%>" method="post">
                     <div class="mb-4">
                         <input type="text" class="w-full p-2 border rounded" name="upiId" placeholder="Enter UPI ID" pattern="^[a-zA-Z0-9.]+@[a-zA-Z]+$" required />
                     </div>
