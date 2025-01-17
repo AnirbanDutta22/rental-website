@@ -314,7 +314,7 @@ public class UserDAO {
                 int tenure = detailsRs.getInt("TENURE");
 
                 // Calculate the installment amount
-                double installmentAmount = productPrice / tenure;
+                double installmentAmount = productPrice;
 
                 // Get the next sequence value for Rental ID
                 String getNextIdQuery = "SELECT id_sequence.NEXTVAL AS RENTAL_ID FROM DUAL";
