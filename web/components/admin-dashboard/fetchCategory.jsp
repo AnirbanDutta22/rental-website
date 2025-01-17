@@ -31,8 +31,12 @@
     <h2 class="text-2xl font-semibold mb-6">Manage Category</h2>
     <form action="/CategoryServlet?type=add" method="post" id="add-category" class="mb-4 flex " style="display: flex;">
         <div class="ml-7">
+            <label for="category_id" class="block text-sm font-medium text-gray-800 mb-2">Name</label>
+            <input type="text" id="category_id" name="category_id" class="w-48 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Enter Category Name" required/>
+        </div>
+        <div class="ml-7">
             <label for="category_name" class="block text-sm font-medium text-gray-800 mb-2">Name</label>
-            <input type="text" id="category_id" name="category_name" class="w-48 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Enter Category Name" required/>
+            <input type="text" id="category_name" name="category_name" class="w-48 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Enter Category Name" required/>
         </div>
         <button type="submit"  class="px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 mt-8 mb-1 ml-7">Add</button>
     </form>
