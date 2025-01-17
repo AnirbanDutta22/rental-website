@@ -52,7 +52,7 @@
         </div>
         <% }%>
         <div class="">   
-            <button class="secondary-btn mr-5"><i class="fa-solid fa-floppy-disk mr-2 text-primary"></i>Save as draft</button>
+            <button class="secondary-btn mr-5 relative" onclick="launch()"><i class="fa-solid fa-floppy-disk mr-2 text-primary"></i>Save as draft <span class="absolute text-xs font-bold bg-green-100 -top-2 text-green-500">BETA</span></button>
             <button type="submit" class="primary-btn"><i class="fa-solid fa-check mr-2 text-white"></i>
                 Add Product
             </button>
@@ -128,4 +128,28 @@
         </div>
     </div>
 </form>
+            <!-- Include SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    function launch() {
+        event.preventDefault();
+        Swal.fire({
+            title: "Coming Soon!",
+            text: "This feature will be launched soon. Stay tuned!",
+            icon: "info",
+            confirmButtonText: "OK",
+            confirmButtonColor: "#C80036",
+            background: "#f9f9f9",
+            backdrop: `rgba(0, 0, 0, 0.4)`,
+            showClass: {
+                popup: "animate__animated animate__fadeInDown"
+            },
+            hideClass: {
+                popup: "animate__animated animate__fadeOutUp"
+            }
+        });
+    }
+</script>
+
 <script src="../../scripts/lend.js"></script>
