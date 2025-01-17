@@ -153,7 +153,7 @@
 
                     <!--footer with owner info-->
                     <div class="flex gap-5 items-center text-xl">
-                        <span><span class="font-semibold"><i class="fa-solid fa-user mr-2"></i> Owner :</span> <%=product.getLenderName()%></span>
+                        <a href="/pages/lenderDetails.jsp?lenderId=<%=product.getLenderUsername()%>"><span class="font-semibold"><i class="fa-solid fa-user mr-2"></i> Owner :</span> <%=product.getLenderName()%></a>
                         <span><span class="font-semibold"><i class="fa-solid fa-address-card mr-2"></i>Address :</span> <%=product.getLenderAddress()%></span>
                         <span><span class="font-semibold"><i class="fa-regular fa-calendar-days mr-2"></i>Posted :</span> <%=DateFormatter.getRelativeDate(product.getPostdate())%></span>
                     </div>

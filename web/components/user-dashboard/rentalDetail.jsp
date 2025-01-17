@@ -27,18 +27,12 @@
     
     // Fetch rental details using DAO
     int requestId = Integer.parseInt(request.getParameter("requestId"));
+    
     RentalDAO rentalDAO = new RentalDAO();
-//    ResponseHandler rentalRes;
     Rental rentalProduct;
 
     rentalProduct = rentalDAO.getRentalProduct(requestId);
 
-//    if (rentalRes.isSuccess()) {
-//        rentalProduct = (Rental) rentalRes.getData();
-//        session.setAttribute("rentalProduct", rentalProduct);
-//    } else {
-//        rentalProduct = new Rental();
-//    }
     TransactionDAO transactionDAO = new TransactionDAO();
     ResponseHandler transactionRes;
     List<Transaction> transactionList;
@@ -65,7 +59,7 @@
 
         <!-- Product Image Section -->
         <div class="md:w-1/3">
-            <img src="https://via.placeholder.com/150" alt="Product Image" class="w-full h-full object-cover rounded-lg shadow-md">
+            <img src="../uploads/bijunovel1.jpg" alt="Product Image" class="w-full h-80 object-contain bg-gray-300 backdrop-blur-2xl rounded-lg shadow-md">
         </div>
 
         <!-- Product and Borrower Details Section -->
@@ -145,8 +139,8 @@
                     <tr class="border-b border-gray-200">
                         <td class="py-3 px-6 text-left"><%=transaction.getDate() %></td>
                         <td class="py-3 px-6 text-left">$<%=transaction.getAmount() %></td>
-                        <td class="py-3 px-6 text-left"><span class="text-green-700 bg-green-200 px-1.5 py-1 text-center rounded"><%=transaction.getStatus() %></span></td>
-                        <td class="py-3 px-6 text-left"> <button class="primary-btn px-4 py-1"><a href="#">View</a></button></td>
+                        <td class="py-3 px-6 text-left"><span class="text-yellow-700 bg-yellow-200 px-1.5 py-1 text-center rounded"><%=transaction.getStatus() %></span></td>
+                        <td class="py-3 px-6 text-left"> <button class="primary-btn px-4 py-1"><a href="#">Pay</a></button></td>
                     </tr>
                     <%
                         }

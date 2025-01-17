@@ -7,6 +7,7 @@ import models.Product.Details;
 import models.Product.PriceTenure;
 import models.SelectedProduct;
 import models.User;
+import models.OtherProfile;
 import oracle.jdbc.OracleConnection;
 import oracle.jdbc.OraclePreparedStatement;
 import responses.ResponseHandler;
@@ -15,6 +16,8 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAO {
 
@@ -293,46 +296,92 @@ public class UserDAO {
 
             int rowsUpdated = ops.executeUpdate();
             if (rowsUpdated <= 0) {
-                return new ResponseHandler(false, "Request accept failed !");
+                return new ResponseHandler(false, "Request accept failed!");
             }
 
-            // add data to rental table
-            // Get the next sequence value
-            String getNextIdQuery = "SELECT id_sequence.NEXTVAL AS RENTAL_ID FROM DUAL";
-            OraclePreparedStatement seqStmt = (OraclePreparedStatement) oconn.prepareStatement(getNextIdQuery);
-            ResultSet seqRs = seqStmt.executeQuery();
+            // Fetch product_price and tenure
+            String fetchDetailsQuery = "SELECT PRODUCT_PRICE, TENURE FROM RENTAL_REQUEST WHERE REQUEST_ID = ? AND PRODUCT_ID = ?";
+            try (OraclePreparedStatement fetchDetailsStmt = (OraclePreparedStatement) oconn.prepareStatement(fetchDetailsQuery)) {
+                fetchDetailsStmt.setInt(1, request_id);
+                fetchDetailsStmt.setInt(2, product_id);
 
-            int rentalId = 1;
-            if (seqRs.next()) {
-                rentalId = seqRs.getInt("RENTAL_ID");
-            } else {
-                return new ResponseHandler(false, "Failed to generate Rental ID");
-            }
-
-            //rental start date and end date
-            LocalDateTime currentDateTime = LocalDateTime.now(ZoneId.systemDefault()); // Current date and time
-            LocalDateTime threeMonthsLaterDateTime = currentDateTime.plusMonths(3);   // Add 3 months
-
-            // Convert to java.sql.Timestamp
-            Timestamp sqlCurrentTimestamp = Timestamp.valueOf(currentDateTime);
-            Timestamp sqlThreeMonthsLaterTimestamp = Timestamp.valueOf(threeMonthsLaterDateTime);
-
-            String addRentalQuery = "INSERT INTO RENTAL (RENTAL_ID,REQUEST_ID,STATUS) VALUES (?,?,'pending')";
-            try (OraclePreparedStatement addRentalOPS = (OraclePreparedStatement) oconn.prepareStatement(addRentalQuery)) {
-                addRentalOPS.setInt(1, rentalId);
-                System.out.println("Rental ID : " + rentalId);
-                addRentalOPS.setInt(2, request_id);
-                System.out.println("Req ID : " + request_id);
-//            addRentalOPS.setTimestamp(4, sqlCurrentTimestamp);
-//            addRentalOPS.setTimestamp(5, sqlThreeMonthsLaterTimestamp);
-
-                int rowsInserted = addRentalOPS.executeUpdate();
-                if (rowsInserted <= 0) {
-                    return new ResponseHandler(false, "Insertion at Rental failed !");
+                ResultSet detailsRs = fetchDetailsStmt.executeQuery();
+                if (!detailsRs.next()) {
+                    return new ResponseHandler(false, "Product price or tenure not found!");
                 }
-            }
 
-            return new ResponseHandler(true, "Request accepted successfully !", rentalId);
+                double productPrice = detailsRs.getDouble("PRODUCT_PRICE");
+                int tenure = detailsRs.getInt("TENURE");
+
+                // Calculate the installment amount
+                double installmentAmount = productPrice / tenure;
+
+                // Get the next sequence value for Rental ID
+                String getNextIdQuery = "SELECT id_sequence.NEXTVAL AS RENTAL_ID FROM DUAL";
+                OraclePreparedStatement seqStmt = (OraclePreparedStatement) oconn.prepareStatement(getNextIdQuery);
+                ResultSet seqRs = seqStmt.executeQuery();
+
+                int rentalId = 1;
+                if (seqRs.next()) {
+                    rentalId = seqRs.getInt("RENTAL_ID");
+                } else {
+                    return new ResponseHandler(false, "Failed to generate Rental ID");
+                }
+
+                // Rental start date and end date based on tenure
+                LocalDateTime currentDateTime = LocalDateTime.now(ZoneId.systemDefault());
+                LocalDateTime tenureEndDateTime = currentDateTime.plusMonths(tenure);
+
+                Timestamp sqlCurrentTimestamp = Timestamp.valueOf(currentDateTime);
+                Timestamp sqlTenureEndTimestamp = Timestamp.valueOf(tenureEndDateTime);
+
+                String addRentalQuery = "INSERT INTO RENTAL (RENTAL_ID, REQUEST_ID, STATUS, START_DATE, END_DATE) VALUES (?, ?, 'pending', ?, ?)";
+                try (OraclePreparedStatement addRentalOPS = (OraclePreparedStatement) oconn.prepareStatement(addRentalQuery)) {
+                    addRentalOPS.setInt(1, rentalId);
+                    addRentalOPS.setInt(2, request_id);
+                    addRentalOPS.setTimestamp(3, sqlCurrentTimestamp);
+                    addRentalOPS.setTimestamp(4, sqlTenureEndTimestamp);
+
+                    int rowsInserted = addRentalOPS.executeUpdate();
+                    if (rowsInserted <= 0) {
+                        return new ResponseHandler(false, "Insertion at Rental failed!");
+                    }
+                }
+
+                // Insert transaction data for each installment
+                for (int i = 1; i <= tenure; i++) {
+                    // Get the next sequence value for Transaction ID
+                    String getNextTransactionIdQuery = "SELECT id_sequence.NEXTVAL AS TRANSACTION_ID FROM DUAL";
+                    seqStmt = (OraclePreparedStatement) oconn.prepareStatement(getNextTransactionIdQuery);
+                    ResultSet seqTransaction = seqStmt.executeQuery();
+
+                    int transactionId = 1;
+                    if (seqTransaction.next()) {
+                        transactionId = seqTransaction.getInt("TRANSACTION_ID");
+                    } else {
+                        return new ResponseHandler(false, "Failed to generate Transaction ID");
+                    }
+
+                    // Calculate the transaction date for the installment
+                    LocalDateTime transactionDateTime = currentDateTime.plusMonths(i);
+                    Timestamp sqlTransactionTimestamp = Timestamp.valueOf(transactionDateTime);
+
+                    String addTransactionQuery = "INSERT INTO TRANSACTION (TRANSACTION_ID, RENTAL_ID, AMOUNT, TRANSACTION_DATE, STATUS) VALUES (?, ?, ?, ?, 'pending')";
+                    try (OraclePreparedStatement addTransactionOPS = (OraclePreparedStatement) oconn.prepareStatement(addTransactionQuery)) {
+                        addTransactionOPS.setInt(1, transactionId);
+                        addTransactionOPS.setInt(2, rentalId);
+                        addTransactionOPS.setDouble(3, installmentAmount);
+                        addTransactionOPS.setTimestamp(4, sqlTransactionTimestamp);
+
+                        int rowsInserted = addTransactionOPS.executeUpdate();
+                        if (rowsInserted <= 0) {
+                            return new ResponseHandler(false, "Insertion at Transaction failed!");
+                        }
+                    }
+                }
+
+                return new ResponseHandler(true, "Request accepted successfully!", rentalId);
+            }
         }
     }
 
@@ -545,5 +594,49 @@ public class UserDAO {
             return new ResponseHandler(false, "Database Error: " + e.getMessage());
         }
 
+    }
+
+    //get lender details and products
+    public OtherProfile getLenderDetails(String lenderId) throws SQLException {
+        OtherProfile otherProfile = null;
+        try (OracleConnection oconn = DBConnect.getConnection()) {
+            // CHECKING IF USER EXISTS
+            String checkUserQuery = "SELECT U.*, P.PRODUCT_ID, P.NAME AS PRODUCT_NAME, P.SPEC, P.STATUS AS PRODUCT_STATUS, P.POST_DATE FROM USER1 U LEFT JOIN PRODUCT P ON U.USER_ID = P.LENDER_ID WHERE U.USERNAME = ?;";
+            try (OraclePreparedStatement checkStmt = (OraclePreparedStatement) oconn.prepareStatement(checkUserQuery)) {
+                checkStmt.setString(1, lenderId);
+                try (ResultSet rs = checkStmt.executeQuery()) {
+                    List<Product> products = new ArrayList<>(); // List to store product details
+                    boolean userDetailsSet = false;
+
+                    while (rs.next()) {
+                        if (!userDetailsSet) { // Set user details only once
+                            otherProfile.setName(rs.getString("NAME"));
+                            otherProfile.setUsername(rs.getString("USERNAME"));
+                            otherProfile.setAddress(rs.getString("ADDRESS"));
+                            otherProfile.setDistrict(rs.getString("DISTRICT"));
+                            otherProfile.setState(rs.getString("STATE"));
+                            otherProfile.setAvatar_image(rs.getString("AVATAR_IMAGE"));
+                            otherProfile.setCover_image(rs.getString("COVER_IMAGE"));
+                            userDetailsSet = true; // Ensure user details are not set repeatedly
+                        }
+
+                        // Create and populate a Product object for each product
+                        Product product = new Product();
+                        product.setId(rs.getInt("PRODUCT_ID"));
+                        product.setName(rs.getString("PRODUCT_NAME"));
+                        product.setSpec(rs.getString("SPEC"));
+                        product.setPostdate(rs.getDate("POST_DATE"));
+
+                        // Add the product to the list
+                        products.add(product);
+                    }
+
+                    // Attach the product list to the otherProfile or handle as needed
+                    otherProfile.setProductList(products);
+                }
+            }
+
+        }
+        return otherProfile;
     }
 }
