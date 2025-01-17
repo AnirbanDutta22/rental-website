@@ -13,6 +13,7 @@
     
     int rentalId = Integer.parseInt(request.getParameter("rentalId"));
     int transactionId = Integer.parseInt(request.getParameter("transactionId"));
+    int requestId = Integer.parseInt(request.getParameter("requestId"));
     
     transaction = tranDao.getTransaction(rentalId,transactionId);
 %>
@@ -61,7 +62,7 @@
                     </div>
                 </div>
                 <div class="w-3/4 pl-6" id="payment-form">
-                    <form action="/PaymentServlet?rentalId=<%=rentalId%>&transactionId=<%=transactionId%>" method="post">
+                    <form action="/PaymentServlet?requestId=<%=requestId%>&rentalId=<%=rentalId%>&transactionId=<%=transactionId%>" method="post">
                         <div class="mb-4">
                             <input type="text" class="w-full p-2 border rounded" name="cardNumber" placeholder="Card Number" pattern="\d{16}" required />
                         </div>
@@ -81,7 +82,7 @@
     <script>
         document.getElementById('cards-option').addEventListener('click', function() {
             document.getElementById('payment-form').innerHTML = `
-                <form action="/PaymentServlet?rentalId=<%=rentalId%>&transactionId=<%=transactionId%>" method="post">
+                <form action="/PaymentServlet?requestId=<%=requestId%>&rentalId=<%=rentalId%>&transactionId=<%=transactionId%>" method="post">
                     <div class="mb-4">
                         <input type="text" class="w-full p-2 border rounded" name="cardNumber" placeholder="Card Number" pattern="\\d{16}" required />
                     </div>
@@ -98,7 +99,7 @@
         
         document.getElementById('upi-option').addEventListener('click', function() {
             document.getElementById('payment-form').innerHTML = `
-                <form action="/PaymentServlet?rentalId=<%=rentalId%>&transactionId=<%=transactionId%>" method="post">
+                <form action="/PaymentServlet?requestId=<%=requestId%>&rentalId=<%=rentalId%>&transactionId=<%=transactionId%>" method="post">
                     <div class="mb-4">
                         <input type="text" class="w-full p-2 border rounded" name="upiId" placeholder="Enter UPI ID" pattern="^[a-zA-Z0-9.]+@[a-zA-Z]+$" required />
                     </div>

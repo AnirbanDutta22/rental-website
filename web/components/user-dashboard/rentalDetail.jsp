@@ -177,7 +177,7 @@
                             <%
                             } else {
                             %>
-                            <button><a href="/pages/paymentGateway.jsp?rentalId=<%=rentalProduct.getId()%>&transactionId=<%=transaction.getId()%>" 
+                            <button><a href="/pages/paymentGateway.jsp?requestId=<%=requestId%>&rentalId=<%=rentalProduct.getId()%>&transactionId=<%=transaction.getId()%>" 
                                        class="primary-btn px-4 py-1">
                                     Pay
                                 </a></button>

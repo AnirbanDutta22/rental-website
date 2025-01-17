@@ -12,8 +12,16 @@ package models;
 public class Rental {
     
     private int id, requestId, productId, BorrowerId, lenderId, offeredPrice, tenure, borrowerPin, lenderPin;
-    private String productName, productSpec, status, lenderName, borrowerName, borrowerAddress, borrowerDist, borrowerState, lenderAddress, lenderDist, lenderState;
+    private String productName, productImage, productSpec, status, lenderName, borrowerName, borrowerAddress, borrowerDist, borrowerState, lenderAddress, lenderDist, lenderState;
     private long borrowerPhone, lenderPhone;
+
+    public String getProductImage() {
+        return productImage;
+    }
+
+    public void setProductImage(String productImage) {
+        this.productImage = productImage;
+    }
 
     public long getBorrowerPhone() {
         return borrowerPhone;

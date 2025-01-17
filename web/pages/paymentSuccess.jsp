@@ -1,4 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%
+    System.out.println(request.getAttribute("requestId"));
+int requestId = (Integer) request.getAttribute("requestId");
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +18,7 @@
         <p class="text-gray-600 mb-4">Your payment has been processed successfully.</p>
         <p class="font-semibold">Transaction ID: <span class="text-blue-500"><%= request.getAttribute("transactionId") %></span></p>
         <p class="font-semibold">Payment Method: <span class="text-blue-500"><%= request.getAttribute("paymentMethod") %></span></p>
-        <a href="/pages/paymentGateway.jsp" class="mt-6 inline-block bg-green-600 text-white py-2 px-6 rounded-lg hover:bg-green-700">Return to Home</a>
+        <a href="pages/userDashboard.jsp?page=rentalDetail&requestId=<%=requestId%>" class="mt-6 inline-block bg-green-600 text-white py-2 px-6 rounded-lg hover:bg-green-700">Return to Home</a>
     </div>
 </body>
 </html>

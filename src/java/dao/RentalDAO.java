@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import models.Rental;
-import models.Transaction;
 import oracle.jdbc.OracleConnection;
 import oracle.jdbc.OraclePreparedStatement;
 import responses.ResponseHandler;
@@ -50,12 +49,6 @@ public class RentalDAO {
                 }
             }
         }
-        //checking if productList is empty
-//        if (rental.isEmpty()) {
-//            return new ResponseHandler(true, "All Users fetched successfully!", rental);
-//        } else {
-//            return new ResponseHandler(false, "No User found!");
-//        }
         return rental;
     }
 
@@ -113,6 +106,24 @@ public class RentalDAO {
             }
         }
     }
+    
+//    public void getProduct(int productId, Rental rental) throws SQLException {
+//
+//        try (OracleConnection oconn = DBConnect.getConnection()) {
+//
+//            //QUERY FOR FETCHING ALL PRODUCTS
+//            String fetchCategoryName = "SELECT NAME, SPEC FROM PRODUCT WHERE PRODUCT_ID=?";
+//            try (OraclePreparedStatement ops = (OraclePreparedStatement) oconn.prepareStatement(fetchCategoryName)) {
+//                ops.setInt(1, productId);
+//                try (ResultSet rs = ops.executeQuery()) {
+//                    while (rs.next()) {
+//                        rental.setProductName(rs.getString("NAME"));
+//                        rental.setProductSpec(rs.getString("SPEC"));
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     public void getRental(int requestId, Rental rental) throws SQLException {
 
