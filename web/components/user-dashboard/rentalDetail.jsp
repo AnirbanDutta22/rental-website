@@ -24,10 +24,10 @@
 <%
     User user = (User) session.getAttribute("user");
     Integer userId = user.getId();
-    
+
     // Fetch rental details using DAO
     int requestId = Integer.parseInt(request.getParameter("requestId"));
-    
+
     RentalDAO rentalDAO = new RentalDAO();
     Rental rentalProduct;
 
@@ -44,7 +44,7 @@
         session.setAttribute("transactionList", transactionList);
     } else {
         transactionList = new ArrayList<Transaction>();
-        
+
     }
 %>
 
@@ -64,7 +64,7 @@
 
         <!-- Product and Borrower Details Section -->
         <div class="md:w-2/3 space-y-4">
-            <h2 class="text-xl font-semibold"><%=rentalProduct.getProductName() %></h2>
+            <h2 class="text-xl font-semibold"><%=rentalProduct.getProductName()%></h2>
             <p class="text-lg">Price: <%=rentalProduct.getOfferedPrice()%> / month</p>
             <p class="text-sm text-gray-500">Tenure: <%=rentalProduct.getTenure()%> months</p>
             <%
@@ -105,9 +105,9 @@
                     <div class="w-8 h-8 bg-medium text-white rounded-full flex items-center justify-center font-semibold">2</div>
                     <p class="text-xs text-center mt-1">In Transit</p>
                 </div>
-                <div class="flex-1 h-1 bg-gray-300"></div>
+                <div class="flex-1 h-1 bg-medium"></div>
                 <div class="flex flex-col items-center">
-                    <div class="w-8 h-8 bg-gray-300 text-gray-500 rounded-full flex items-center justify-center font-semibold">3</div>
+                    <div class="w-8 h-8 bg-medium text-white rounded-full flex items-center justify-center font-semibold">3</div>
                     <p class="text-xs text-center mt-1">Delivered</p>
                 </div>
                 <div class="flex-1 h-1 bg-gray-300"></div>
@@ -137,10 +137,58 @@
                         for (Transaction transaction : transactionList) {
                     %>
                     <tr class="border-b border-gray-200">
-                        <td class="py-3 px-6 text-left"><%=transaction.getDate() %></td>
-                        <td class="py-3 px-6 text-left">$<%=transaction.getAmount() %></td>
-                        <td class="py-3 px-6 text-left"><span class="text-yellow-700 bg-yellow-200 px-1.5 py-1 text-center rounded"><%=transaction.getStatus() %></span></td>
-                        <td class="py-3 px-6 text-left"> <button class="primary-btn px-4 py-1"><a href="#">Pay</a></button></td>
+                        <td class="py-3 px-6 text-left"><%=transaction.getDate()%></td>
+                        <td class="py-3 px-6 text-left">₹ <%=transaction.getAmount()%></td>
+                        <td class="py-3 px-6 text-left">
+                            <%
+                                String status = transaction.getStatus();
+                                String bgColor = "";
+                                String textColor = "";
+                                String displayText = status;
+
+                                if ("completed".equals(status)) {
+                                    bgColor = "bg-green-200";
+                                    textColor = "text-green-700";
+                                } else if ("pending".equals(status)) {
+                                    bgColor = "bg-yellow-200";
+                                    textColor = "text-yellow-700";
+                                } else if ("failed".equals(status)) {
+                                    bgColor = "bg-red-200";
+                                    textColor = "text-red-700";
+                                } else {
+                                    bgColor = "bg-gray-200";
+                                    textColor = "text-gray-700";
+                                }
+                            %>
+                            <span class="<%= bgColor%> <%= textColor%> px-1.5 py-1 text-center rounded">
+                                <%= displayText%>
+                            </span>
+                        </td>
+                        <td class="py-3 px-6 text-left">
+                            <%
+                                if (rentalProduct.getLenderId() == userId) {
+                            %>
+                            <button class="primary-btn px-4 py-1"><a href="#" class="primary-btn px-4 py-1">View</a></button>
+                            <%
+                            } else {
+                                if ("completed".equals(transaction.getStatus())) {
+                            %>
+                            <button class="bg-green-500 text-white font-medium px-4 py-1 rounded-lg">Paid</button>
+                            <%
+                            } else {
+                            %>
+                            <button><a href="/pages/paymentGateway.jsp?rentalId=<%=rentalProduct.getId()%>&transactionId=<%=transaction.getId()%>" 
+                                       class="primary-btn px-4 py-1">
+                                    Pay
+                                </a></button>
+                                <%
+                                        }
+                                    }
+                                %>
+
+                            </button>
+                        </td>
+
                     </tr>
                     <%
                         }
