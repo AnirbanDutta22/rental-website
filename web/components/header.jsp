@@ -69,11 +69,14 @@
     <div class="sub-nav h-[3rem] max-w-screen-2xl mx-auto text-darkColor bg-white/70 flex justify-center items-center gap-x-10" id="subNav">
         <div class="basis-[25%] w-full flex justify-start items-center gap-x-2">   
             <label for="location" class="block"><i class="fa-solid fa-location-dot"></i></label>
-            <select id="location" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block p-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <option value="kol">Kolkata</option>
-                <option value="del">Delhi</option>
-                <option value="asm">Assam</option>
-            </select>
+            
+    <select id="location" onclick="launch()" name="location">
+        <option value="West Bengal">kolkata</option>
+        <option value="Assam">Assam</option>
+        <option value="Delhi">Delhi</option>
+    </select>
+   
+
         </div>
         <div class="searchbar px-2 py-2 basis-[50%]">
             <div class="max-w-md mx-auto rounded-lg overflow-hidden md:max-w-xl">
@@ -81,7 +84,7 @@
                     <div class="w-full">
                         <div class="relative">
                             <i class="absolute fa fa-search text-gray-400 top-2.5 left-4"></i>
-                            <input type="text" class="bg-white text-darkColor text-base h-10 w-full px-12 rounded-lg border outline-none" name="" placeholder="Search products...">
+                            <input onclick="launch()" type="text" class="bg-white text-darkColor text-base h-10 w-full px-12 rounded-lg border outline-none" name="" placeholder="Search products...">
                         </div> 
                     </div>
                 </div>
