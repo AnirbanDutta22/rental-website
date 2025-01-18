@@ -81,7 +81,7 @@
                 <!-- Sample Row 1 -->
                 <tr class="border-b border-gray-200">
                     <td class="py-3 px-6 text-left">
-                        <img src="../uploads/bijunovel1.jpg" alt="Product Image" class="w-12 h-12 rounded">
+                        <img src="/assets/images/logo.png" alt="Product Image" class="w-12 h-12 rounded">
                     </td>
                     <td class="py-3 px-6 text-left"><%=rental.getProductName()%><br>(<%=rental.getProductSpec()%>)</td>
                     <td class="py-3 px-6 text-left">

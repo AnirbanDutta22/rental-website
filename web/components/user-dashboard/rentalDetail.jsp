@@ -59,7 +59,7 @@
 
         <!-- Product Image Section -->
         <div class="md:w-1/3">
-            <img src="../uploads/bijunovel1.jpg" alt="Product Image" class="w-full h-80 object-contain bg-gray-300 backdrop-blur-2xl rounded-lg shadow-md">
+            <img src="/assets/images/logo.png" alt="Product Image" class="w-full h-80 object-contain bg-gray-300 backdrop-blur-2xl rounded-lg shadow-md">
         </div>
 
         <!-- Product and Borrower Details Section -->
